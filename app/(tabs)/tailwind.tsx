@@ -16,7 +16,7 @@ import {
 } from "react-native-gesture-handler";
 import SetUpFonts from "../fonts";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 export default function Tailwind() {
   SetUpFonts();
   return (
