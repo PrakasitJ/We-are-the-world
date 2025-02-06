@@ -43,8 +43,20 @@ export default function HomeScreen() {
             <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
           ))}
         </View>
+        <View className="flex flex-col px-6 pt-8 gap-3">
+          <View className="flex flex-row items-center h-auto gap-2">
+            <Text className="text-xl font-bold underline">ส่งที่ฉัน</Text>
+            <IconSymbol name='arrow.right' size={26} color="black" />
+          </View>
+          <View className="border h-[120px] bg-[#253D2C] rounded-xl">
+            <View className="flex flex-row items-center gap-2 p-4">
+              <IconSymbol name='house.fill' size={26} color="white" />
+              <Text className="text-white">ที่อยู่จัดส่ง</Text>
+            </View>
+          </View>
+        </View>
       </View>
-    </ThemedView>
+    </ThemedView >
   );
 }
 
@@ -52,7 +64,7 @@ const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: I
   return (
     <View className="gap-2">
       <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
-        <IconSymbol name={iconName} size={28} color="white" />
+        <IconSymbol name={iconName} size={32} color="white" />
       </TouchableOpacity>
       <Text className="text-[#92bb9e] text-center">{title}</Text>
     </View>
