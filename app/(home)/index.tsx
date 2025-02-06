@@ -1,40 +1,60 @@
-import { StyleSheet, Platform, View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
+import { useRouter } from "expo-router";
+
+interface IIconPage {
+  title: string,
+  iconName: IconSymbolName,
+  onPress: () => void
+}
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+
+  const ICONPAGE: IIconPage[] = [
+    {
+      title: 'charity',
+      iconName: 'building.fill',
+      onPress: () => router.push('/')
+    },
+    {
+      title: 'rider',
+      iconName: 'truck.box.fill',
+      onPress: () => router.push('/')
+    },
+    {
+      title: 'shop',
+      iconName: 'cart.fill',
+      onPress: () => router.push('/')
+    }
+  ];
   return (
-    <ThemedView style={{ paddingTop: insets.top }}>
-      <View className="flex flex-column justify-end pb-6 pl-6 bg-[#253D2C] h-[250]"><Text className = "text-4xl font-extrabold text-white " >Hello, Phunyisa</Text></View>
-      <View className="flex flex-column">
-       <View></View>
-       <View><Text>ส่งที่ฉัน</Text><View></View></View>
-       <View></View>
-       <View></View>
+    <ThemedView style={{ paddingTop: insets.top, height: '100%' }}>
+      <View className="flex flex-col justify-end pb-6 pl-6 bg-[#253D2C] h-[220]">
+        <Text className="text-4xl font-extrabold text-white" >Hello, Phunyisa</Text>
+      </View>
+      <View className="flex flex-col h-screen">
+        <View className="flex flex-row justify-around items-center h-auto pt-8">
+          {ICONPAGE.map((item, index) => (
+            <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
+          ))}
+        </View>
       </View>
     </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});
+const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: IconSymbolName, onPress: () => void }) => {
+  return (
+    <View className="gap-2">
+      <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
+        <IconSymbol name={iconName} size={28} color="white" />
+      </TouchableOpacity>
+      <Text className="text-[#92bb9e] text-center">{title}</Text>
+    </View>
+  );
+};
