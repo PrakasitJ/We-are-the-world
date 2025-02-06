@@ -35,11 +35,11 @@ export default function HomeScreen() {
   ];
   return (
     <ThemedView style={{ paddingTop: insets.top, height: 'auto' }}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
         <View className="flex flex-col justify-end pb-6 pl-6 bg-[#253D2C] h-[150]">
           <Text className="text-4xl font-extrabold text-white" >Hello, Phunyisa</Text>
         </View>
-        <View className="flex flex-col h-screen">
+        <View className="flex flex-col flex-1">
           <View className="flex flex-row justify-around items-center h-auto pt-8">
             {ICONPAGE.map((item, index) => (
               <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
@@ -82,11 +82,11 @@ export default function HomeScreen() {
                 <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
               </View>
             </View>
-
+            
           </View>
         </View>
       </ScrollView>
-    </ThemedView >
+    </ThemedView>
   );
 }
 
