@@ -3,12 +3,14 @@ import { StyleSheet, Platform } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   return (
-    <ThemedView style={styles.paddingHeader}>
+    <ThemedView style={{ paddingTop: insets.top }}>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Welcome!Status Bar Height: {insets.top}px</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -65,9 +67,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: "absolute",
-  },
-  paddingHeader: {
-    paddingTop: 40,
-    paddingHorizontal: 16,
   },
 });
