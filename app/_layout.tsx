@@ -8,7 +8,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { Slot } from "expo-router";
 import "./tailwind.css";
 import "react-native-reanimated";
 
@@ -40,10 +39,12 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(welcome)" options={{headerShown: false}}/>
           <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <StatusBar style="auto" />
+          <Stack.Screen name="(home)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+        <StatusBar style="auto" />
+        </Stack>
         {/* <Slot /> */}
       </ThemeProvider>
     </GestureHandlerRootView>
