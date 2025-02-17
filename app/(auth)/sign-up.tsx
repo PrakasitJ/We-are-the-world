@@ -3,9 +3,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { View, Text, TextInput } from "react-native";
 import { useState } from "react";
 import CustomTextInput from "@/components/ui/CustomTextInput";
+import BacktoWelcomeButton from "@/components/ui/BacktoWelcomeButton";
 
 
-function LoginButton() {
+function SingUpButton() {
 	return (
 	  <View className="w-[100px] h-[50px] justify-center items-center bg-green-500 rounded-[10px] mb-[10px]">
 		<Text className="text-[16px] text-white">ยืนยัน</Text>
@@ -33,8 +34,9 @@ export default function SingUp() {
 		  <CustomTextInput title="Name" placeholder="ชื่อ" onChange={setName}/>
 		  <CustomTextInput title="Surname" placeholder="นามสกุล" onChange={setSurname}/>
 		  <CustomTextInput title="Tel" placeholder="เบอร์โทร" onChange={setPhone}/>
-		  <View className="w-full justify-center items-end">
-		  <LoginButton/>
+		  <View className="flex-row w-full justify-between items-center py-[10px]">
+		<BacktoWelcomeButton/>
+		  <SingUpButton/>
 		  </View>
 		  </View>
 	  </ScrollView>
