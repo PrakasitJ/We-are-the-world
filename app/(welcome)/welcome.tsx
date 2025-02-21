@@ -26,7 +26,7 @@ export default function HomeScreen() {
 		  <LoginButton/>
 		  </Link>
 		  <View className="w-full justify-center items-end">
-			<Link href="/(auth)/sign-up" className="italic underline text-[19px] mb-[70px]">สมัครสมาชิก</Link>
+			<Link href="/(auth)/sign-up" className="underline text-[19px] mb-[70px]">สมัครสมาชิก</Link>
 		  </View>
 		  </View>
 	  </ScrollView>

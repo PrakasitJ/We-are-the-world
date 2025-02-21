@@ -18,8 +18,8 @@ export default function CustomTextInput({ title ,placeholder, onChange }: { titl
 				secureTextEntry={title === "Password" ? !showPassword : false}
 			/>
 			{title === "Password" && (
-				<TouchableOpacity className="justify-center" onPress={() => setShowPassword(!showPassword)}>
-					<Feather name={showPassword ? "eye" : "eye-off"} size={10} color="black" />
+				<TouchableOpacity className="justify-center w-[10%]" onPress={() => setShowPassword(!showPassword)}>
+					<Feather name={showPassword ? "eye" : "eye-off"} size={20} color="black" />
 				</TouchableOpacity>
 			)}
 		</View>
