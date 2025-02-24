@@ -39,7 +39,9 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
         <View className="flex flex-row justify-between  p-10 bg-[#253D2C] h-[150px] items-end ">
           <Text className="text-4xl font-extrabold text-white" >Hello, Phunyisa</Text>
-          <IconSymbol name='person.fill' size={25} color="white" />
+          <TouchableOpacity onPress={() => router.push('/(home)/profile')}>
+            <IconSymbol name='person.fill' size={25} color="white" />
+          </TouchableOpacity>
         </View>
         <View className="flex flex-col flex-1">
           <View className="flex flex-row justify-around items-center h-auto pt-5">
