@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import "./tailwind.css";
 import "react-native-reanimated";
 
+
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -37,11 +38,15 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
-          {/* Main Tabs */}
+          <Stack.Screen name="(welcome)" options={{headerShown: false}}/>
+          <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+        <StatusBar style="auto" />
+          <Stack.Screen name="(home)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-          {/* Order History Page */}
-          <Stack.Screen
+        <Stack.Screen name="+not-found" />
+        <StatusBar style="auto" />
+        {/* Order History Page */}
+        <Stack.Screen
             name="order-history/index"
             options={{
               //rpresentation: "modal", แสดงเป็นหน้าต่างขึึ้นมา
@@ -66,6 +71,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        {/* <Slot /> */}
         <StatusBar style="auto" />
       </ThemeProvider>
     </GestureHandlerRootView>

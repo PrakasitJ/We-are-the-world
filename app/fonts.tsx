@@ -6,6 +6,7 @@ export default function SetUpFonts() {
     "Playfair": require("../assets/fonts/PlayfairDisplay-Regular.ttf"),
     "SpaceMono": require("../assets/fonts/SpaceMono-Regular.ttf"),
     "Poppins": require("../assets/fonts/Poppins-Regular.ttf"),
+    "Sarabun": require("../assets/fonts/Sarabun/Sarabun-Regular.ttf"),
   });
   return loaded;
 }

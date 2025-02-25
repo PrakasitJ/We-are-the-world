@@ -57,8 +57,11 @@ const OrderHistory = () => {
 
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
+      <View className="flex flex-row justify-around items-center h-auto pt-8">
+      </View>
         {orders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
+            
             {/* Image placeholder */}
             <View style={styles.imagePlaceholder}>
               <Text style={styles.placeholderText}>รูปภาพ</Text>
