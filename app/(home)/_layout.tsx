@@ -6,17 +6,40 @@ export default function TabLayout() {
   // const colorScheme = useColorScheme();
 
   return (
+
     <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
+    screenOptions={{
+      headerStyle: {
+      backgroundColor: "#253D2C",
+      },
+      headerTintColor: "#fff", 
+      headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 18,
+      },
+      headerShown: false,
+
+    }}
     >
+
       <Stack.Screen
-        name="index"
-        options={{
-          title: "Home",
-        }}
-      />      
+      name="index"
+      options={{
+        title: "หน้าหลัก",
+      }}
+      />
+
+      <Stack.Screen
+      name="profile"
+      options={{
+        title: "บัญชีผู้ใช้",
+        headerShown: true
+      }}
+      />
+
+
     </Stack>
+
+
   );
 }
