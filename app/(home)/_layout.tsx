@@ -12,11 +12,12 @@ export default function TabLayout() {
       }}
     >
       <Stack.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
         }}
       />      
+      
     </Stack>
   );
 }
