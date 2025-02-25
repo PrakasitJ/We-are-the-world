@@ -38,6 +38,14 @@ export default function TabLayout() {
           headerShown: true
         }}
       />
+
+      <Stack.Screen
+        name="add-address"
+        options={{
+          title: "แผนที่",
+          headerShown: true
+        }}
+      />
     </Stack>
   );
 }
