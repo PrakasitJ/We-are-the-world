@@ -37,10 +37,10 @@ export default function HomeScreen() {
   return (
     <ThemedView style={{ paddingTop: insets.top, height: 'auto' }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
-        <View className="flex flex-row justify-between  p-10 bg-[#253D2C] h-[150px] items-end ">
-          <Text className="text-4xl font-extrabold text-white" >Hello, Phunyisa</Text>
+        <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
+          <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, Phunyisa</Text>
           <TouchableOpacity onPress={() => router.push('/(home)/profile')}>
-            <IconSymbol name='person.fill' size={25} color="white" />
+            <IconSymbol name='person.fill' size={45} color="white" />
           </TouchableOpacity>
         </View>
         <View className="flex flex-col flex-1">
@@ -59,7 +59,7 @@ export default function HomeScreen() {
               <View className="border h-[120px] bg-[#253D2C] rounded-xl">
                 <View className="flex flex-row items-center gap-2 p-4">
                   <IconSymbol name='house.fill' size={26} color="white" />
-                  <Text className="text-white">ที่อยู่จัดส่ง</Text>
+                  <Text className="text-white font-regular">ที่อยู่จัดส่ง</Text>
                 </View>
               </View>
             </View>
@@ -104,7 +104,7 @@ const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: I
       <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
         <IconSymbol name={iconName} size={32} color="white" />
       </TouchableOpacity>
-      <Text className="text-[#517B5D] text-center">{title}</Text>
+      <Text className="text-[#517B5D] font-regular text-center">{title}</Text>
     </View>
   );
 };

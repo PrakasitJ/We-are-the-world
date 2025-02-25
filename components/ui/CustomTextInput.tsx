@@ -12,7 +12,7 @@ export default function CustomTextInput({ title ,placeholder, onChange }: { titl
 	return (
 		<View className="flex-row justify-between w-full h-[50px] bg-gray-200 rounded-[5px] mb-[10px] px-3">
 			<TextInput
-				className="text-[16px] text-black w-[90%]"
+				className="text-[16px] text-black w-[90%] font-regular"
 				placeholder={placeholder}
 				onChangeText={handleChange}
 				secureTextEntry={title === "Password" ? !showPassword : false}

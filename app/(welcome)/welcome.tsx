@@ -11,7 +11,7 @@ import { Link, Redirect } from "expo-router";
 function LoginButton() {
   return (
 	<View className="w-full h-[50px] justify-center items-center bg-green-500 rounded-[10px] mb-[10px]">
-	  <Text className="text-[16px] text-white">Login</Text>
+	  <Text className="text-[16px] text-white font-regular">Login</Text>
 	</View>
   );
 }
@@ -26,7 +26,7 @@ export default function HomeScreen() {
 		  <LoginButton/>
 		  </Link>
 		  <View className="w-full justify-center items-end">
-			<Link href="/(auth)/sign-up" className="underline text-[19px] mb-[70px]">สมัครสมาชิก</Link>
+			<Link href="/(auth)/sign-up" className="underline text-[19px] mb-[70px] font-regular">สมัครสมาชิก</Link>
 		  </View>
 		  </View>
 	  </ScrollView>
