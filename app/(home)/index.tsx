@@ -6,6 +6,8 @@ import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import SearchBar from "@/components/ui/SearchBar";
+import React from "react";
+import SearchButton from "@/components/ui/SearchButton";
 
 interface IIconPage {
   title: string,
@@ -49,8 +51,8 @@ export default function HomeScreen() {
               <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
             ))}
           </View>
-          <View className="gap-2 pt-7 px-10">
-            <SearchBar />
+          <View className="gap-2 pt-7 px-10 ">
+              <SearchButton />
             <View className="flex flex-col gap-3 pt-1 ">
               <View className="flex flex-row items-center h-auto gap-2 pt-1">
                 <Text className="text-xl font-regular underline">ส่งที่ฉัน</Text>
@@ -64,9 +66,9 @@ export default function HomeScreen() {
               </View>
             </View>
             <View className="flex flex-row items-center h-auto gap-2 pt-2 ">
-                <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
-                <IconSymbol name='arrow.right' size={26} color="black" />
-              </View>
+              <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
+              <IconSymbol name='arrow.right' size={26} color="black" />
+            </View>
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
                 <Text className="text-xl font-regular underline">ประวัติการซื้อ</Text>
