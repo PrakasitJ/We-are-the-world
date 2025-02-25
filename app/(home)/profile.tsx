@@ -15,17 +15,17 @@ export default function profile() {
                     className="w-[150px] h-[150px] rounded-full shadow-slate-600"
                 />
                 <View className="flex-row items-center mt-1 gap-2">
-                    <Text className="text-xl text-black font-medium ">{name}</Text>
+                    <Text className="text-xl text-black font-medium font-regular">{name}</Text>
                     <TouchableOpacity onPress={() => setShowEditName(true)}>
                         <IconSymbol name="pencil" size={20} color="black" />
                     </TouchableOpacity>
 
                 </View>
-                <Text className="text-xl text-black font-medium mt-3 justify-center items-center ">เบอร์โทรศัพท์</Text>
+                <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">เบอร์โทรศัพท์</Text>
             </View>
             <View className="flex-1 justify-end items-center pb-[100px]">
                 <TouchableOpacity className="">
-                    <Text className="text-base text-white bg-[#517B5D] py-[16px] px-[120px] rounded-full font-semibold">ออกจากระบบ</Text>
+                    <Text className="text-base text-white bg-[#517B5D] py-[16px] px-[120px] rounded-full font-semibold font-regular">ออกจากระบบ</Text>
                 </TouchableOpacity>
             </View>
             {showEditNames && <ModalProfile setShowEditName={setShowEditName} setName={setName} />}

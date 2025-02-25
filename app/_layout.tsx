@@ -37,7 +37,24 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#253D2C",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+              fontSize: 18,
+              fontFamily: "notoSansThai",
+            },
+            headerBackTitleStyle: {
+              fontFamily: "notoSansThai",
+            },
+            headerShown: false,
+
+          }}
+        >
           <Stack.Screen name="(welcome)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <StatusBar style="auto" />

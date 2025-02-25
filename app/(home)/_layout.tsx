@@ -15,6 +15,10 @@ export default function TabLayout() {
         headerTitleStyle: {
           fontWeight: "bold",
           fontSize: 18,
+          fontFamily: "notoSansThai",
+        },
+        headerBackTitleStyle: {
+          fontFamily: "notoSansThai",
         },
         headerShown: false,
 
