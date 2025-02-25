@@ -8,15 +8,36 @@ export default function TabLayout() {
   return (
     <Stack
       screenOptions={{
+        headerStyle: {
+          backgroundColor: "#253D2C",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 18,
+          fontFamily: "notoSansThai",
+        },
+        headerBackTitleStyle: {
+          fontFamily: "notoSansThai",
+        },
         headerShown: false,
+
       }}
     >
       <Stack.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "หน้าหลัก",
         }}
-      />      
+      />
+
+      <Stack.Screen
+        name="profile"
+        options={{
+          title: "บัญชีผู้ใช้",
+          headerShown: true
+        }}
+      />
     </Stack>
   );
 }

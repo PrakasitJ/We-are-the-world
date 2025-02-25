@@ -21,7 +21,8 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    notoSansThai: require("../assets/fonts/Noto_Sans_Thai/NotoSansThai-Regular.ttf"),
+    notoSansThaiBold: require("../assets/fonts/Noto_Sans_Thai/NotoSansThai-Bold.ttf"),
   });
 
   useEffect(() => {
@@ -37,39 +38,32 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(welcome)" options={{headerShown: false}}/>
-          <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-        <StatusBar style="auto" />
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#253D2C",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+              fontSize: 18,
+              fontFamily: "notoSansThai",
+            },
+            headerBackTitleStyle: {
+              fontFamily: "notoSansThai",
+            },
+            headerShown: false,
+
+          }}
+        >
+          <Stack.Screen name="(welcome)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <StatusBar style="auto" />
           <Stack.Screen name="(home)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <StatusBar style="auto" />
-        {/* Order History Page */}
-        <Stack.Screen
-            name="order-history/index"
-            options={{
-              //rpresentation: "modal", แสดงเป็นหน้าต่างขึึ้นมา
-              title: "ประวัติการสั่งซื้อ",
-              headerStyle: {
-                backgroundColor: "#2d4134",
-              },
-              headerTintColor: "#fff",
-            }}
-          />
-
-          {/* Order Receiving Page */}
-          <Stack.Screen
-            name="order-receiving/index"
-            options={{
-              //rpresentation: "modal",
-              title: "คำสั่งซื้อที่กำลังจะได้รับ",
-              headerStyle: {
-                backgroundColor: "#2d4134",
-              },
-              headerTintColor: "#fff",
-            }}
-          />
+        
         </Stack>
         {/* <Slot /> */}
         <StatusBar style="auto" />

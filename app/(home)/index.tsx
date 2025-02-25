@@ -9,6 +9,7 @@ import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 
 
+import SearchBar from "@/components/ui/SearchBar";
 
 interface IIconPage {
   title: string,
@@ -22,17 +23,17 @@ export default function HomeScreen() {
 
   const ICONPAGE: IIconPage[] = [
     {
-      title: 'charity',
+      title: 'มูลนิธิ',
       iconName: 'building.fill',
       onPress: () => router.push('/')
     },
     {
-      title: 'rider',
+      title: 'ไรเดอร์',
       iconName: 'truck.box.fill',
       onPress: () => router.push('/')
     },
     {
-      title: 'shop',
+      title: 'ร้านค้า',
       iconName: 'cart.fill',
       onPress: () => router.push('/')
     }
@@ -40,25 +41,29 @@ export default function HomeScreen() {
   return (
     <ThemedView style={{ paddingTop: insets.top, height: 'auto' }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
-        <View className="flex flex-col justify-end pb-6 pl-6 bg-[#253D2C] h-[150]">
-          <Text className="text-4xl font-extrabold text-white" >Hello, Phunyisa</Text>
+        <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
+          <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, Phunyisa</Text>
+          <TouchableOpacity onPress={() => router.push('/(home)/profile')}>
+            <IconSymbol name='person.fill' size={45} color="white" />
+          </TouchableOpacity>
         </View>
         <View className="flex flex-col flex-1">
-          <View className="flex flex-row justify-around items-center h-auto pt-8">
+          <View className="flex flex-row justify-around items-center h-auto pt-5">
             {ICONPAGE.map((item, index) => (
               <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
             ))}
           </View>
-          <View className="gap-3 pt-3">
-            <View className="flex flex-col px-6 gap-3">
-              <View className="flex flex-row items-center h-auto gap-2">
-                <Text className="text-2xl font-bold underline">ส่งที่ฉัน</Text>
+          <View className="gap-2 pt-7 px-10">
+            <SearchBar />
+            <View className="flex flex-col gap-3 pt-1 ">
+              <View className="flex flex-row items-center h-auto gap-2 pt-1">
+                <Text className="text-xl font-regular underline">ส่งที่ฉัน</Text>
                 <IconSymbol name='arrow.right' size={26} color="black" />
               </View>
               <View className="border h-[120px] bg-[#253D2C] rounded-xl">
                 <View className="flex flex-row items-center gap-2 p-4">
                   <IconSymbol name='house.fill' size={26} color="white" />
-                  <Text className="text-white">ที่อยู่จัดส่ง</Text>
+                  <Text className="text-white font-regular">ที่อยู่จัดส่ง</Text>
                 </View>
               </View>
             </View>
@@ -93,9 +98,9 @@ export default function HomeScreen() {
       </View>
     </TouchableOpacity>
 
-            <View className="flex flex-col px-6 gap-3">
-              <View className="flex flex-row items-center h-auto gap-2">
-                <Text className="text-2xl font-bold underline">บริจาคให้มูลนิธิ</Text>
+            <View className="flex flex-col gap-1">
+              <View className="flex flex-row items-center h-auto gap-2 ">
+                <Text className="text-xl font-regular underline">บริจาคให้มูลนิธิ</Text>
                 <IconSymbol name='arrow.right' size={26} color="black" />
               </View>
               <View className="flex flex-row justify-around items-center h-auto pt-2">
@@ -104,7 +109,7 @@ export default function HomeScreen() {
                 <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
               </View>
             </View>
-            
+
           </View>
         </View>
       </ScrollView>
@@ -126,7 +131,7 @@ const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: I
       <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
         <IconSymbol name={iconName} size={32} color="white" />
       </TouchableOpacity>
-      <Text className="text-[#517B5D] text-center">{title}</Text>
+      <Text className="text-[#517B5D] font-regular text-center">{title}</Text>
     </View>
   );
 };
