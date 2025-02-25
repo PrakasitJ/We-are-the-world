@@ -1,9 +1,12 @@
-import { Image, StyleSheet, Platform, Text } from "react-native";
+import { Image, StyleSheet, Platform, Text, TouchableOpacity } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Link, router } from "expo-router"; // สำหรับการนำทางไปยัง "/order-history"
+import { Ionicons } from "@expo/vector-icons"; // ไอคอนใบเสร็จ
+
 
 export default function HomeScreen() {
   return (
@@ -15,7 +18,9 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }
+
     >
+
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
         <HelloWave />
@@ -54,6 +59,32 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+      {/* ปุ่มลิงก์ไปยังหน้าประวัติคำสั่งซื้อ */}
+      <ThemedView style={styles.stepContainer}>
+        <Link href="/order-history" asChild>
+          <TouchableOpacity style={styles.orderHistoryButton}
+            onPress={() => router.push("/order-history")}
+          >
+            <Ionicons name="receipt-outline" size={24} color="#2d4134" />
+
+            <Text style={styles.buttonText}>ประวัติคำสั่งซื้อ</Text>
+          </TouchableOpacity>
+        </Link>
+      </ThemedView>
+      
+      {/* ปุ่มลิงก์ไปยังหน้าประวัติคำสั่งซื้อ */}
+      <ThemedView style={styles.stepContainer}>
+        <Link href="/order-receiving" asChild>
+          <TouchableOpacity style={styles.orderHistoryButton}
+            onPress={() => router.push("/order-receiving")}
+          >
+            <Ionicons name="receipt-outline" size={24} color="#2d4134" />
+
+            <Text style={styles.buttonText}>คำสั่งซื้อที่กำลังจะได้รับ</Text>
+          </TouchableOpacity>
+        </Link>
+      </ThemedView>
+
     </ParallaxScrollView>
   );
 }
@@ -75,4 +106,37 @@ const styles = StyleSheet.create({
     left: 0,
     position: "absolute",
   },
+
+  orderHistoryButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2, 
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#2d4134",
+  },
+  orderReceivingButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2, 
+  },
+
 });
