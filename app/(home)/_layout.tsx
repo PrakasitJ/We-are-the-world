@@ -21,7 +21,6 @@ export default function TabLayout() {
           fontFamily: "notoSansThai",
         },
         headerShown: false,
-
       }}
     >
       <Stack.Screen
@@ -54,6 +53,15 @@ export default function TabLayout() {
           headerShown: true
         }}
       />
+
+      <Stack.Screen
+        name="add-address"
+        options={{
+          title: "แผนที่",
+          headerShown: true
+        }}
+      />
+
     </Stack>
   );
 }
