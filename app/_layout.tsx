@@ -61,9 +61,8 @@ export default function RootLayout() {
           <StatusBar style="auto" />
           <Stack.Screen name="(home)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <StatusBar style="auto" />
-        
+          <Stack.Screen name="+not-found" />
+          <StatusBar style="auto" />
         </Stack>
         {/* <Slot /> */}
         <StatusBar style="auto" />

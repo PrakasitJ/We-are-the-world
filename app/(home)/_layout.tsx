@@ -38,6 +38,22 @@ export default function TabLayout() {
           headerShown: true
         }}
       />
+
+      <Stack.Screen
+        name="order-history"
+        options={{
+          title: "ประวัติการสั่งซื้อ",
+          headerShown: true
+        }}
+      />
+
+      <Stack.Screen
+        name="order-receiving"
+        options={{
+          title: "คำสั่งซื้อที่กำลังจะได้รับ",
+          headerShown: true
+        }}
+      />
     </Stack>
   );
 }

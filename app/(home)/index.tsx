@@ -5,10 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
-import { Link, router } from "expo-router";
-import { useNavigation } from "@react-navigation/native";
-
-
 import SearchBar from "@/components/ui/SearchBar";
 
 interface IIconPage {
@@ -67,36 +63,25 @@ export default function HomeScreen() {
                 </View>
               </View>
             </View>
-            <TouchableOpacity
-      onPress={navigateToOrderReceiving}
-      activeOpacity={0.7} // ลดความทึบเมื่อกด
-    >
-      <View className="flex flex-col px-6 gap-3">
-        <View className="flex flex-row items-center h-auto gap-2">
-          <Text className="text-2xl font-bold underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
-          <IconSymbol name="arrow.right" size={26} color="black" />
-        </View>
-        <View className="flex flex-row justify-around items-center h-auto pt-2">
-        </View>
-      </View>
-    </TouchableOpacity>
-
-            <TouchableOpacity
-      onPress={navigateToOrderHistory}
-      activeOpacity={0.7} // ลดความทึบเมื่อกด
-    >
-      <View className="flex flex-col px-6 gap-3">
-        <View className="flex flex-row items-center h-auto gap-2">
-          <Text className="text-2xl font-bold underline">ประวัติการซื้อ</Text>
-          <IconSymbol name="arrow.right" size={26} color="black" />
-        </View>
-        <View className="flex flex-row justify-around items-center h-auto pt-2">
-          <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
-          <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
-          <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
-        </View>
-      </View>
-    </TouchableOpacity>
+            <View className="flex flex-row items-center h-auto gap-2 pt-2 ">
+              <TouchableOpacity onPress={() => router.push('/(home)/order-receiving')}>
+                <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
+              </TouchableOpacity>
+              <IconSymbol name='arrow.right' size={26} color="black" />
+            </View>
+            <View className="flex flex-col gap-1">
+              <View className="flex flex-row items-center h-auto gap-2 ">
+                <TouchableOpacity onPress={() => router.push('/(home)/order-history')} className="text-xl font-regular underline">
+                  <Text className="text-xl font-regular underline">ประวัติการซื้อ</Text>
+                </TouchableOpacity>
+                <IconSymbol name='arrow.right' size={26} color="black" />
+              </View>
+              <View className="flex flex-row justify-around items-center h-auto pt-2">
+                <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
+                <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
+                <View className="flex flex-row h-[100px] w-[100px] bg-[#D9D9D9]" />
+              </View>
+            </View>
 
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
@@ -116,14 +101,6 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-
-const navigateToOrderHistory = () => {
-  router.push("/order-history"); 
-};
-const navigateToOrderReceiving = () => {
-  router.push("/order-receiving"); 
-};
 
 const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: IconSymbolName, onPress: () => void }) => {
   return (

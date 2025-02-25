@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar, 
+  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -43,7 +43,7 @@ const OrderHistory = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#2d4134" barStyle="light-content" />
-      
+
       {/* Header */}
       {/* <View style={styles.header}>
         <TouchableOpacity 
@@ -57,16 +57,16 @@ const OrderHistory = () => {
 
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
-      <View className="flex flex-row justify-around items-center h-auto pt-8">
-      </View>
+        <View className="flex flex-row justify-around items-center h-auto pt-8">
+        </View>
         {orders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
-            
+
             {/* Image placeholder */}
             <View style={styles.imagePlaceholder}>
               <Text style={styles.placeholderText}>รูปภาพ</Text>
             </View>
-            
+
             {/* Order details */}
             <View style={styles.orderDetails}>
               <OrderDetail label="ชื่อร้านค้า" value={order.shopName} />
