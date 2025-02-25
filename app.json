@@ -33,6 +33,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "This app requires location access to track your position.",
+          "locationAlwaysPermission": "We need your location for background tracking.",
+          "locationWhenInUsePermission": "We need your location while the app is in use."
+        }
       ]
     ],
     "experiments": {

@@ -78,9 +78,13 @@ export default function AddAddressScreen() {
                         description={selectedLocation.description}
                     >
                         <Callout>
-                            <View style={styles.callout}>
-                                <Text style={styles.calloutTitle}>{selectedLocation.title}</Text>
-                                <Text>{selectedLocation.description}</Text>
+                            <View className="flex flex-col overflow-auto w-[200px] gap-3">
+                                <Text className="flex text-xl">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
+                                <TouchableOpacity
+                                    className="flex mx-auto end-0 bg-[#68BA7F] px-3 py-1 rounded-full"
+                                    onPress={() => setSelectedLocation(undefined)}>
+                                    <Text className="font-bold text-lg text-white">ยืนยัน</Text>
+                                </TouchableOpacity>
                             </View>
                         </Callout>
                     </Marker>
@@ -97,14 +101,6 @@ const styles = StyleSheet.create({
     map: {
         width: "100%",
         height: "100%",
-    },
-    callout: {
-        padding: 10,
-        maxWidth: 200,
-    },
-    calloutTitle: {
-        fontWeight: "bold",
-        marginBottom: 5,
     },
     selectedLocationInfo: {
         position: "absolute",
