@@ -9,7 +9,7 @@ import BacktoWelcomeButton from "@/components/ui/BacktoWelcomeButton";
 function SingUpButton() {
 	return (
 	  <View className="w-[100px] h-[50px] justify-center items-center bg-green-500 rounded-[10px] mb-[10px]">
-		<Text className="text-[16px] text-white">ยืนยัน</Text>
+		<Text className="text-[16px] text-white font-regular">ยืนยัน</Text>
 	  </View>
 	);
 }
@@ -26,8 +26,8 @@ export default function SingUp() {
   return (
 	<SafeAreaView className="bg-primary h-full">
 	  <ScrollView contentContainerStyle={{ height: '100%' }}>
-		<View className="flex flex-col justify-center h-full  w-full px-10">
-		  <Text className="font-extrabold text-3xl mb-[15px]">Register</Text>
+		<View className="flex flex-col justify-center h-full w-full px-10">
+		  <Text className="font-extrabold text-3xl mb-[15px] font-regular">Register</Text>
 		  <CustomTextInput title="Email" placeholder="Email" onChange={setEmail}/>
 		  <CustomTextInput title="Password" placeholder="Password" onChange={setPassword}/>
 		  <CustomTextInput title="Password" placeholder="Confirm Password" onChange={setConfirmPassword}/>
