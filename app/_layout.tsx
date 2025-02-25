@@ -11,10 +11,11 @@ import { useEffect } from "react";
 import "./tailwind.css";
 import "react-native-reanimated";
 
+
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// ป้องกันไม่ให้ Splash Screen หายก่อนโหลดเสร็จ
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -35,7 +36,7 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack
           screenOptions={{
@@ -64,6 +65,7 @@ export default function RootLayout() {
           <StatusBar style="auto" />
         </Stack>
         {/* <Slot /> */}
+        <StatusBar style="auto" />
       </ThemeProvider>
     </GestureHandlerRootView>
   );
