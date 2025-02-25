@@ -23,7 +23,7 @@ export default function ShopListScreen() {
         keyboardShouldPersistTaps="handled"
       >
         
-          <View className=""> 
+          <View className=" mt-6"> 
           <ShopCardCardList />
           </View>
       </ScrollView>
