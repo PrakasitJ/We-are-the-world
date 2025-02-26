@@ -7,6 +7,7 @@ import { router } from "expo-router";
 
 export default function ShopListScreen() {
   const insets = useSafeAreaInsets();
+  
 
   return (
     <View className="flex items-center bg-[#354138] w-full h-full">
