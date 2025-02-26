@@ -58,14 +58,14 @@ export default function RootLayout() {
         >
           <Stack.Screen name="(welcome)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <StatusBar style="auto" />
           <Stack.Screen name="(home)" options={{ headerShown: false }} />
+          <Stack.Screen name="(order)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
           <StatusBar style="auto" />
         </Stack>
         {/* <Slot /> */}
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </ThemeProvider>
     </GestureHandlerRootView>
   );

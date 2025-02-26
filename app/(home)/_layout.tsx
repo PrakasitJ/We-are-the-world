@@ -34,7 +34,17 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "บัญชีผู้ใช้",
-          headerShown: true
+          headerShown: true,
+        }}
+
+      />
+
+      <Stack.Screen
+        name="order-list"
+        options={{
+          title: "ร้านค้า",
+          headerShown: true,
+          contentStyle: { backgroundColor: "#354138" }
         }}
       />
 

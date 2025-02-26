@@ -6,6 +6,8 @@ import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import SearchBar from "@/components/ui/SearchBar";
+import React from "react";
+import SearchButton from "@/components/ui/SearchButton";
 
 interface IIconPage {
   title: string,
@@ -39,7 +41,7 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
         <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
           <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, Phunyisa</Text>
-          <TouchableOpacity onPress={() => router.push('/(home)/profile')}>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
             <IconSymbol name='person.fill' size={45} color="white" />
           </TouchableOpacity>
         </View>
@@ -49,8 +51,8 @@ export default function HomeScreen() {
               <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
             ))}
           </View>
-          <View className="gap-2 pt-7 px-10">
-            <SearchBar />
+          <View className="gap-2 pt-7 px-10 ">
+              <SearchButton />
             <View className="flex flex-col gap-3 pt-1 ">
               <View className="flex flex-row items-center h-auto gap-2 pt-1">
                 <TouchableOpacity onPress={() => router.push('/(home)/add-address')}>
@@ -66,14 +68,14 @@ export default function HomeScreen() {
               </View>
             </View>
             <View className="flex flex-row items-center h-auto gap-2 pt-2 ">
-              <TouchableOpacity onPress={() => router.push('/(home)/order-receiving')}>
+              <TouchableOpacity onPress={() => router.push('/order-receiving')}>
                 <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
               </TouchableOpacity>
               <IconSymbol name='arrow.right' size={26} color="black" />
             </View>
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
-                <TouchableOpacity onPress={() => router.push('/(home)/order-history')} className="text-xl font-regular underline">
+                <TouchableOpacity onPress={() => router.push('/order-history')} className="text-xl font-regular underline">
                   <Text className="text-xl font-regular underline">ประวัติการซื้อ</Text>
                 </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
