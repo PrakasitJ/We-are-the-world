@@ -40,7 +40,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="shop-list"
+        name="order-list"
         options={{
           title: "ร้านค้า",
           headerShown: true,

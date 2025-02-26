@@ -6,7 +6,7 @@ import { router } from "expo-router";
 export default function SearchButton() {
   return (
     <View className="relative w-full justify-center ">
-      <TouchableOpacity onPress={() => router.push('/(home)/shop-list')}>
+      <TouchableOpacity onPress={() => router.push('/(home)/order-list')}>
         <Text className="flex w-full h-[40px] rounded-[50px] bg-[#D9D9D9]  pl-[40px] font-regular justify-center pt-[10px] text-#354138 opacity-50">
           ค้นหาร้านค้า
         </Text>
