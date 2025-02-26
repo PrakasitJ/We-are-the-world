@@ -4,16 +4,19 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import CustomTextInput from "@/components/ui/CustomTextInput";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import BacktoWelcomeButton from "@/components/ui/BacktoWelcomeButton";
 
 function SignInButton() {
 	return (
-		<Link href={"/(home)"}>
+		<TouchableOpacity onPress={() => {
+			router.dismissAll();
+			router.replace('/(home)')
+		}}>
 			<View className="w-[100px] h-[50px] justify-center items-center bg-green-500 rounded-[10px] mb-[10px]">
 				<Text className="text-[16px] text-white font-regular">login</Text>
 			</View>
-		</Link>
+		</TouchableOpacity>
 	);
 }
 

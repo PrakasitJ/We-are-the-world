@@ -1,4 +1,5 @@
 import { FieldTextInput } from "@/components/FieldTextInput";
+import { router } from "expo-router";
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
@@ -14,8 +15,11 @@ export default function ConfirmAddressScreen() {
             <View className="bg-white w-[90%] border h-[90%] rounded-2xl p-6 gap-8">
                 <Text className="font-regular font-semibold text-2xl">ข้อมูลที่อยู่</Text>
                 <Text className="font-regular text-lg">{infomationLocation}</Text>
-                <FieldTextInput SetTextCallBack={setAddrerssInformation} placeholder="คำอธิบายตำแหน่งที่อยู่เพิ่มเติม" maxLength={100}/>
-                <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5">
+                <FieldTextInput SetTextCallBack={setAddrerssInformation} placeholder="คำอธิบายตำแหน่งที่อยู่เพิ่มเติม" maxLength={100} />
+                <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5" onPress={() => {
+                    router.dismissAll();
+                    router.replace('/(home)')
+                }}>
                     <Text className="font-regular text-white">ยืนยัน</Text>
                 </TouchableOpacity>
             </View>
