@@ -1,5 +1,5 @@
 import { IMarker } from "@/interfaces/IMarker";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, Dimensions, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import MapView, { Callout, Marker } from "react-native-maps";
@@ -19,6 +19,7 @@ interface IMapEvent {
 
 export default function AddAddressScreen() {
     const [selectedLocation, setSelectedLocation] = useState<IMarker>();
+    const [initialLocation, setInitialLocation] = useState<IMarker>();
     const [errorMsg, setErrorMsg] = useState<string>("");
 
     useEffect(() => {
@@ -39,9 +40,10 @@ export default function AddAddressScreen() {
                 description: `Lat: ${currentLocation.coords.latitude.toFixed(4)}, Long: ${currentLocation.coords.longitude.toFixed(4)}`,
             }
             setSelectedLocation(newMarker);
-            console.log(newMarker);
+            setInitialLocation(newMarker);
         })();
     }, [])
+
 
     const handleMapPress = (event: IMapEvent) => {
         console.log(event.nativeEvent);
@@ -54,7 +56,7 @@ export default function AddAddressScreen() {
 
         setSelectedLocation(newMarker);
     }
-
+    if (!initialLocation) return null;
     return (
         <View className="flex-1">
             {errorMsg && <View className="absolute z-[10] w-full bg-red-500 p-4 items-center animate-pulse">
@@ -65,31 +67,67 @@ export default function AddAddressScreen() {
                 onPress={handleMapPress}
                 showsUserLocation={true}
                 initialRegion={{
-                    latitude: 13.8457336,
-                    longitude: 100.571257,
+                    latitude: initialLocation!.coordinate.latitude,
+                    longitude: initialLocation!.coordinate.longitude,
                     latitudeDelta: 0.001,
                     longitudeDelta: 0.001,
                 }}
+                showsMyLocationButton={true}
             >
                 {selectedLocation && (
                     <Marker
                         coordinate={selectedLocation.coordinate}
-                        title={selectedLocation.title}
-                        description={selectedLocation.description}
+                    // title={selectedLocation.title}
+                    // description={selectedLocation.description}
                     >
-                        <Callout>
-                            <View className="flex flex-col overflow-auto w-[200px] gap-3">
-                                <Text className="flex text-xl">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
-                                <TouchableOpacity
-                                    className="flex mx-auto end-0 bg-[#68BA7F] px-3 py-1 rounded-full"
-                                    onPress={() => setSelectedLocation(undefined)}>
-                                    <Text className="font-bold text-lg text-white">ยืนยัน</Text>
-                                </TouchableOpacity>
+                        <Image
+                            source={require("../../assets/images/profile.png")}
+                            className="w-9 h-9 border rounded-full border-green-500"
+                            resizeMode="contain"
+                        />
+                        {/* <Callout tooltip>
+                            <View
+                                className="flex flex-col overflow-auto w-[250px] gap-3 bg-[#1E1E1E] p-4 rounded-xl"
+                            >
+                                <Text className="flex text-xl text-white">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
+                                <View className="flex flex-row justify-between items-end">
+                                    <TouchableOpacity
+                                        className="flex bg-[#A90E0E] px-3 py-1 rounded-full"
+                                        onPress={() => setSelectedLocation(undefined)}
+                                    >
+                                        <Text className="font-bold text-lg text-white">ยกเลิก</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        className="flex bg-[#68BA7F] px-3 py-1 rounded-full"
+                                        onPress={() => console.log('test')}
+                                    >
+                                        <Text className="font-bold text-lg text-white">ยืนยัน</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </Callout>
+                        </Callout> */}
                     </Marker>
                 )}
             </MapView>
+            {selectedLocation && <View
+                className="absolute flex flex-col overflow-auto w-[250px] gap-3 bg-[#1E1E1E] p-4 rounded-xl self-center bottom-16"
+            >
+                <Text className="flex text-xl text-white">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
+                <View className="flex flex-row justify-between items-end">
+                    <TouchableOpacity
+                        className="flex bg-[#A90E0E] px-3 py-1 rounded-full"
+                        onPress={() => setSelectedLocation(undefined)}
+                    >
+                        <Text className="font-bold text-lg text-white">ยกเลิก</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        className="flex bg-[#68BA7F] px-3 py-1 rounded-full"
+                        onPress={() => console.log('test')}
+                    >
+                        <Text className="font-bold text-lg text-white">ยืนยัน</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>}
         </View>
     )
 }
@@ -101,29 +139,5 @@ const styles = StyleSheet.create({
     map: {
         width: "100%",
         height: "100%",
-    },
-    selectedLocationInfo: {
-        position: "absolute",
-        width: width - 40,
-        height: height / 3,
-        bottom: 20,
-        left: 20,
-        right: 20,
-        backgroundColor: "white",
-        padding: 15,
-        borderRadius: 10,
-        elevation: 5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    selectedLocationTitle: {
-        fontSize: 16,
-        fontWeight: "bold",
-        marginBottom: 5,
     },
 });
