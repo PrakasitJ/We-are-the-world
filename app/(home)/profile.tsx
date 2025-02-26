@@ -2,7 +2,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 
-export default function profile() {
+export default function Profile() {
     const [showEditNames, setShowEditName] = useState<boolean>(false);
     const [name, setName] = useState<string>("ชื่อผู้ใช้");
 
