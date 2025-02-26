@@ -1,3 +1,5 @@
+import { useNavigation } from "expo-router";
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
@@ -9,6 +11,10 @@ interface ShopCardProps {
 }
 
 export default function ShopCard({ name, price, description }: ShopCardProps) {
+    const addToCart = () => {
+        
+            };
+
     return (
         <View className="flex flex-row rounded-[10px] bg-white w-[364px] h-[125px] p-[10px]">
             <View className=" bg-[#D9D9D9] rounded-md p-4 w-2/6">
@@ -31,7 +37,7 @@ export default function ShopCard({ name, price, description }: ShopCardProps) {
                     <Text className="font-bold">รายละเอียด</Text>: {description}
                     </Text>
                 </View>
-                <TouchableOpacity className="mt-3 items-end pl-3">
+                <TouchableOpacity className="mt-3 items-end pl-3" onPress={() => addToCart()}>
                     <Text className="text-base p-[5px] text-white bg-[#68Ba7f] text-center rounded-full font-semibol font-regular shadow">
                         เพิ่มลงรถเข็น
                     </Text>

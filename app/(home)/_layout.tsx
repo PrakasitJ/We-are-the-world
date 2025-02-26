@@ -49,6 +49,15 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
+        name="order-summary"
+        options={{
+          title: "รายการสินค้า",
+          headerShown: true,
+          contentStyle: { backgroundColor: "#354138" }
+        }}
+      />
+
+      <Stack.Screen
         name="order-history"
         options={{
           title: "ประวัติการสั่งซื้อ",
