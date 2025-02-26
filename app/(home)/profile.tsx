@@ -1,4 +1,5 @@
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 
@@ -6,28 +7,27 @@ export default function Profile() {
     const [showEditNames, setShowEditName] = useState<boolean>(false);
     const [name, setName] = useState<string>("ชื่อผู้ใช้");
 
+    const router = useRouter();
+
     return (
         <View className="flex-1">
             <View className="flex flex-col items-center mt-[100px]">
                 <Image
-                    src="../assets/images/profile.png"
+                    source={require("@/assets/images/profile.png")}
                     alt="Profile"
                     className="w-[150px] h-[150px] rounded-full shadow-slate-600"
                 />
-                <View className="flex-row items-center mt-1 gap-2">
+                <View className="flex-row items-center mt-6 gap-2">
                     <Text className="text-xl text-black font-medium font-regular">{name}</Text>
                     <TouchableOpacity onPress={() => setShowEditName(true)}>
                         <IconSymbol name="pencil" size={20} color="black" />
                     </TouchableOpacity>
-
                 </View>
                 <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">เบอร์โทรศัพท์</Text>
             </View>
-            <View className="flex-1 justify-end items-center pb-[100px]">
-                <TouchableOpacity className="">
-                    <Text className="text-base text-white bg-[#517B5D] py-[16px] px-[120px] rounded-full font-semibold font-regular">ออกจากระบบ</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity className="flex-1 justify-end items-center pb-[100px]" onPress={() => router.push("/(welcome)/welcome")}>
+                <Text className="text-base text-white bg-[#517B5D] py-[16px] px-[120px] rounded-full font-semibold font-regular">ออกจากระบบ</Text>
+            </TouchableOpacity>
             {showEditNames && <ModalProfile setShowEditName={setShowEditName} setName={setName} />}
         </View>
     );
