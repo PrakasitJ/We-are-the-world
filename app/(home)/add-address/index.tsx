@@ -5,6 +5,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import MapView, { Callout, Marker } from "react-native-maps";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import * as Location from "expo-location";
+import { router } from "expo-router";
 
 const { height, width } = Dimensions.get("window");
 
@@ -81,7 +82,7 @@ export default function AddAddressScreen() {
                     // description={selectedLocation.description}
                     >
                         <Image
-                            source={require("../../assets/images/profile.png")}
+                            source={require("@/assets/images/profile.png")}
                             className="w-9 h-9 border rounded-full border-green-500"
                             resizeMode="contain"
                         />
@@ -112,7 +113,7 @@ export default function AddAddressScreen() {
             {selectedLocation && <View
                 className="absolute flex flex-col overflow-auto w-[250px] gap-3 bg-[#1E1E1E] p-4 rounded-xl self-center bottom-16"
             >
-                <Text className="flex text-xl text-white">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
+                <Text className="flex text-xl text-white font-regular">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
                 <View className="flex flex-row justify-between items-end">
                     <TouchableOpacity
                         className="flex bg-[#A90E0E] px-3 py-1 rounded-full"
@@ -122,7 +123,7 @@ export default function AddAddressScreen() {
                     </TouchableOpacity>
                     <TouchableOpacity
                         className="flex bg-[#68BA7F] px-3 py-1 rounded-full"
-                        onPress={() => console.log('test')}
+                        onPress={() => router.push('/add-address/confirm-address')}
                     >
                         <Text className="font-bold text-lg text-white">ยืนยัน</Text>
                     </TouchableOpacity>

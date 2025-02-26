@@ -5,6 +5,10 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      backgroundColor: {
+        backgroud: '#354138',
+        success: '#68BA7F',
+      },
       fontFamily: {
         bold: ["notoSansThai-Bold", "sans-serif"],
         regular: ["notoSansThai-Regular", "sans-serif"],
