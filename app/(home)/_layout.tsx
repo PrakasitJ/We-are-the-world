@@ -72,6 +72,23 @@ export default function TabLayout() {
           headerShown: true
         }}
       />
+
+      <Stack.Screen
+        name="add-address/index"
+        options={{
+          title: "แผนที่",
+          headerShown: true
+        }}
+      />
+
+      <Stack.Screen
+        name="add-address/confirm-address"
+        options={{
+          title: "ที่อยู่",
+          headerShown: true
+        }}
+      />
+
     </Stack>
   );
 }

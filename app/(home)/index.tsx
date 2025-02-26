@@ -55,7 +55,9 @@ export default function HomeScreen() {
               <SearchButton />
             <View className="flex flex-col gap-3 pt-1 ">
               <View className="flex flex-row items-center h-auto gap-2 pt-1">
-                <Text className="text-xl font-regular underline">ส่งที่ฉัน</Text>
+                <TouchableOpacity onPress={() => router.push('/(home)/add-address')}>
+                  <Text className="text-xl font-regular underline">ส่งที่ฉัน</Text>
+                </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
               </View>
               <View className="border h-[120px] bg-[#253D2C] rounded-xl">
