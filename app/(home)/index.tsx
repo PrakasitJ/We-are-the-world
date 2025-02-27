@@ -68,14 +68,14 @@ export default function HomeScreen() {
               </View>
             </View>
             <View className="flex flex-row items-center h-auto gap-2 pt-2 ">
-              <TouchableOpacity onPress={() => router.push('/order-receiving')}>
+              <TouchableOpacity onPress={() => router.push('/order/order-receiving')}>
                 <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
               </TouchableOpacity>
               <IconSymbol name='arrow.right' size={26} color="black" />
             </View>
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
-                <TouchableOpacity onPress={() => router.push('/order-history')} className="text-xl font-regular underline">
+                <TouchableOpacity onPress={() => router.push('/order/order-history')} className="text-xl font-regular underline">
                   <Text className="text-xl font-regular underline">ประวัติการซื้อ</Text>
                 </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />

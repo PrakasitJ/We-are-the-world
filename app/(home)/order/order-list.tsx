@@ -13,7 +13,7 @@ export default function ShopListScreen() {
     <View className="flex items-center bg-[#354138] w-full h-full">
           <View className="flex flex-row bg-[#517B5D] h-[50px] w-full items-center px-5 justify-between">
             <Text className="text-base font-regular text-white">ร้านจรรยา</Text>
-            <TouchableOpacity onPress={() => router.push('/order-summary')}>
+            <TouchableOpacity onPress={() => router.push('/order/order-summary')}>
               <IconSymbol name="cart.fill" size={20} color="#FFFF" />
             </TouchableOpacity>
           </View>

@@ -40,7 +40,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="order-list"
+        name="order/order-list"
         options={{
           title: "ร้านค้า",
           headerShown: true,
@@ -49,7 +49,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="order-summary"
+        name="order/order-summary"
         options={{
           title: "รายการสินค้า",
           headerShown: true,
@@ -58,7 +58,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="order-history"
+        name="order/order-history"
         options={{
           title: "ประวัติการสั่งซื้อ",
           headerShown: true
@@ -66,7 +66,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="order-receiving"
+        name="order/order-receiving"
         options={{
           title: "คำสั่งซื้อที่กำลังจะได้รับ",
           headerShown: true
