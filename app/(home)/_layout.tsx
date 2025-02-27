@@ -74,6 +74,14 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
+        name="foundation-map"
+        options={{
+          title: "แผนที่มูลนิธิ",
+          headerShown: true
+        }}
+      />
+
+      <Stack.Screen
         name="add-address/index"
         options={{
           title: "แผนที่",
