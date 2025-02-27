@@ -37,8 +37,8 @@ export default function HomeScreen() {
     }
   ];
   return (
-    <ThemedView style={{ paddingTop: insets.top, height: 'auto' }}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
+    <ThemedView style={{ paddingTop: insets.top }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom }} keyboardShouldPersistTaps="handled">
         <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
           <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, Phunyisa</Text>
           <TouchableOpacity onPress={() => router.push('/profile')}>
