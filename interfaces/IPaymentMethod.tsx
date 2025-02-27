@@ -9,7 +9,7 @@ export interface IPaymentMethod {
         width: number,
         height: number
     }
-    path?: Href;
+    path: Href ;
     isActive: boolean;
     item?: IBankItem[];
 }
@@ -22,6 +22,6 @@ export interface IBankItem {
         width: number,
         height: number
     }
-    path?: Href;
+    path: Href | any;
     isActive: boolean;
 }

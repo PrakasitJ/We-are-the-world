@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Image, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
 import { FieldTextInput } from "@/components/FieldTextInput";
-import { IPaymentMethod } from "@/interfaces/IPaymentMethod";
-import { ThemedView } from "@/components/ThemedView";
+import { IBankItem, IPaymentMethod } from "@/interfaces/IPaymentMethod";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Href, router } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 
 
 const paymentMethod: IPaymentMethod[] = [
@@ -24,13 +25,14 @@ const paymentMethod: IPaymentMethod[] = [
         name: "โมบายแบงค์กิ้ง",
         image: require("@/assets/images/mobile.png"),
         imageSize: { width: 30, height: 30 },
-        isActive: true,
+        path: "/",
+        isActive: false,
         item: [
             {
                 id: 0,
                 name: "SCB Easy",
                 image: require("@/assets/images/banks/SCB.png"),
-                imageSize: { width: 50, height: 50 },
+                imageSize: { width: 18, height: 18 },
                 path: "/",
                 isActive: true
             },
@@ -38,7 +40,7 @@ const paymentMethod: IPaymentMethod[] = [
                 id: 1,
                 name: "K Plus",
                 image: require("@/assets/images/banks/KPLUS.png"),
-                imageSize: { width: 50, height: 50 },
+                imageSize: { width: 18, height: 18 },
                 path: "/",
                 isActive: true
             },
@@ -46,7 +48,7 @@ const paymentMethod: IPaymentMethod[] = [
                 id: 2,
                 name: "KMA Krungsri app",
                 image: require("@/assets/images/banks/KMA.png"),
-                imageSize: { width: 50, height: 50 },
+                imageSize: { width: 18, height: 18 },
                 path: "/",
                 isActive: true
             },
@@ -151,17 +153,46 @@ export default function OrderSummaryScreen() {
 }
 
 const PaymentMethodCard = (paymentMethod: IPaymentMethod) => {
+    const [isShowItem, setIsShowItem] = useState(false);
+
+    const onPressButton = () => {
+        if (paymentMethod.item) setIsShowItem(!isShowItem);
+        else router.push(paymentMethod.path);
+    }
+
+    const onPressButtonItem = (path: Href | any) => {
+        router.push(path);
+    }
     return (
-        <>
-        <TouchableOpacity key={paymentMethod.id} className="flex flex-row items-center bg-[#D0DCCF] rounded-[10px] p-5 gap-4">
-            <View className="flex relative" style={{ width: paymentMethod.imageSize.width, height: paymentMethod.imageSize.height }}>
-                <Image
-                    source={paymentMethod.image}
-                    className="w-full h-full object-fill"
-                />
-            </View>
-            <Text className="font-regular">{paymentMethod.name}</Text>
-        </TouchableOpacity>
-        </>
+        <View className="flex flex-col bg-[#D0DCCF] rounded-[10px]">
+            {!paymentMethod.isActive && <View className="border absolute w-full h-full bg-black opacity-80 z-20 flex items-center justify-center">
+                <Text className="font-regular text-red-500">ไม่พร้อมให้บริการ</Text>
+            </View>}
+            <TouchableOpacity key={paymentMethod.id} onPress={() => onPressButton()} disabled={!paymentMethod.isActive} className="flex flex-row items-center p-5 gap-4 ">
+                <View className="flex relative" style={{ width: paymentMethod.imageSize.width, height: paymentMethod.imageSize.height }}>
+                    <Image
+                        source={paymentMethod.image}
+                        className="w-full h-full object-fill"
+                    />
+                </View>
+                <Text className="font-regular">{paymentMethod.name}</Text>
+                {paymentMethod.item && <View className="flex-1 items-end">
+                    <FontAwesome name={isShowItem ? "angle-up" : "angle-down"} size={20} color="black" />
+                </View>}
+            </TouchableOpacity>
+            {isShowItem && <View key={paymentMethod.id+'item'} className="flex flex-col">
+                {paymentMethod.item && paymentMethod.item.map((item: IBankItem, _) => (
+                    <TouchableOpacity key={item.id} onPress={() => onPressButtonItem(item.path)} className="flex flex-row items-center p-3 gap-4 ml-16 border-t border-[#3541384D]">
+                        <View className="flex relative" style={{ width: item.imageSize.width, height: item.imageSize.height }}>
+                            <Image
+                                source={item.image}
+                                className="w-full h-full object-fill"
+                            />
+                        </View>
+                        <Text className="font-regular">{item.name}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>}
+        </View>
     );
 }
