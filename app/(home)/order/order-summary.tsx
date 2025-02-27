@@ -17,7 +17,7 @@ const paymentMethod: IPaymentMethod[] = [
         name: "QR พร้อมเพย์",
         image: require("@/assets/images/prompt-pay.png"),
         imageSize: { width: 25, height: 25 },
-        path: "/",
+        path: "/order/order-payment",
         isActive: true
     },
     {
@@ -25,15 +25,15 @@ const paymentMethod: IPaymentMethod[] = [
         name: "โมบายแบงค์กิ้ง",
         image: require("@/assets/images/mobile.png"),
         imageSize: { width: 30, height: 30 },
-        path: "/",
-        isActive: false,
+        path: "/order/order-payment",
+        isActive: true,
         item: [
             {
                 id: 0,
                 name: "SCB Easy",
                 image: require("@/assets/images/banks/SCB.png"),
                 imageSize: { width: 18, height: 18 },
-                path: "/",
+                path: "/order/order-payment",
                 isActive: true
             },
             {
@@ -41,7 +41,7 @@ const paymentMethod: IPaymentMethod[] = [
                 name: "K Plus",
                 image: require("@/assets/images/banks/KPLUS.png"),
                 imageSize: { width: 18, height: 18 },
-                path: "/",
+                path: "/order/order-payment",
                 isActive: true
             },
             {
@@ -49,7 +49,7 @@ const paymentMethod: IPaymentMethod[] = [
                 name: "KMA Krungsri app",
                 image: require("@/assets/images/banks/KMA.png"),
                 imageSize: { width: 18, height: 18 },
-                path: "/",
+                path: "/order/order-payment",
                 isActive: true
             },
         ]
@@ -59,7 +59,7 @@ const paymentMethod: IPaymentMethod[] = [
         name: "เงินสด",
         image: require("@/assets/images/wallet.png"),
         imageSize: { width: 25, height: 25 },
-        path: "/",
+        path: "/order/order-payment",
         isActive: true
     },
 
@@ -141,7 +141,7 @@ export default function OrderSummaryScreen() {
                             <Text className="font-regular font-medium text-2xl text-black">ช่องทางการชำระเงิน</Text>
                             <View className="flex flex-col gap-3">
                                 {paymentMethod.map((paymentMethod: IPaymentMethod, _) => {
-                                    return PaymentMethodCard(paymentMethod);
+                                    return <PaymentMethodCard paymentMethod={paymentMethod} />;
                                 })}
                             </View>
                         </View>
@@ -152,7 +152,7 @@ export default function OrderSummaryScreen() {
     );
 }
 
-const PaymentMethodCard = (paymentMethod: IPaymentMethod) => {
+const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: IPaymentMethod }) => {
     const [isShowItem, setIsShowItem] = useState(false);
 
     const onPressButton = () => {
@@ -164,11 +164,11 @@ const PaymentMethodCard = (paymentMethod: IPaymentMethod) => {
         router.push(path);
     }
     return (
-        <View className="flex flex-col bg-[#D0DCCF] rounded-[10px]">
+        <View key={paymentMethod.id} className="flex flex-col bg-[#D0DCCF] rounded-[10px]">
             {!paymentMethod.isActive && <View className="border absolute w-full h-full bg-black opacity-80 z-20 flex items-center justify-center">
                 <Text className="font-regular text-red-500">ไม่พร้อมให้บริการ</Text>
             </View>}
-            <TouchableOpacity key={paymentMethod.id} onPress={() => onPressButton()} disabled={!paymentMethod.isActive} className="flex flex-row items-center p-5 gap-4 ">
+            <TouchableOpacity onPress={() => onPressButton()} disabled={!paymentMethod.isActive} className="flex flex-row items-center p-5 gap-4 ">
                 <View className="flex relative" style={{ width: paymentMethod.imageSize.width, height: paymentMethod.imageSize.height }}>
                     <Image
                         source={paymentMethod.image}
@@ -180,7 +180,7 @@ const PaymentMethodCard = (paymentMethod: IPaymentMethod) => {
                     <FontAwesome name={isShowItem ? "angle-up" : "angle-down"} size={20} color="black" />
                 </View>}
             </TouchableOpacity>
-            {isShowItem && <View key={paymentMethod.id+'item'} className="flex flex-col">
+            {isShowItem && <View className="flex flex-col">
                 {paymentMethod.item && paymentMethod.item.map((item: IBankItem, _) => (
                     <TouchableOpacity key={item.id} onPress={() => onPressButtonItem(item.path)} className="flex flex-row items-center p-3 gap-4 ml-16 border-t border-[#3541384D]">
                         <View className="flex relative" style={{ width: item.imageSize.width, height: item.imageSize.height }}>
