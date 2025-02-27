@@ -83,6 +83,14 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
+        name="order/order-status"
+        options={{
+          title: "รายละเอียดคำสั่งซื้อ",
+          headerShown: true
+        }}
+      />
+
+      <Stack.Screen
         name="foundation-map"
         options={{
           title: "แผนที่มูลนิธิ",
