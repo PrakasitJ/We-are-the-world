@@ -141,7 +141,7 @@ export default function OrderSummaryScreen() {
                             <Text className="font-regular font-medium text-2xl text-black">ช่องทางการชำระเงิน</Text>
                             <View className="flex flex-col gap-3">
                                 {paymentMethod.map((paymentMethod: IPaymentMethod, _) => {
-                                    return <PaymentMethodCard paymentMethod={paymentMethod} />;
+                                    return <PaymentMethodCard key={paymentMethod.id} paymentMethod={paymentMethod} />;
                                 })}
                             </View>
                         </View>
@@ -164,7 +164,7 @@ const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: IPaymentMethod })
         router.push(path);
     }
     return (
-        <View key={paymentMethod.id} className="flex flex-col bg-[#D0DCCF] rounded-[10px]">
+        <View className="flex flex-col bg-[#D0DCCF] rounded-[10px]">
             {!paymentMethod.isActive && <View className="border absolute w-full h-full bg-black opacity-80 z-20 flex items-center justify-center">
                 <Text className="font-regular text-red-500">ไม่พร้อมให้บริการ</Text>
             </View>}
