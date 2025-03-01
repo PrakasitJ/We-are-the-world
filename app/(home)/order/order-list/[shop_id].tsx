@@ -6,7 +6,6 @@ import ShopCardList from "@/components/ui/ShopCardList";
 import { router } from "expo-router";
 import { ThemedView } from "@/components/ThemedView";
 import { useRoute } from "@react-navigation/native";
-import { IProduct } from "@/interfaces/IProduct";
 import axios from "axios";
 import Loading from "@/components/Loading";
 import { IShopDetail } from "@/interfaces/IShopDetail";
