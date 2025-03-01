@@ -107,7 +107,7 @@ export default function TabLayout() {
       />
 
       <Stack.Screen
-        name="add-address/confirm-address"
+        name="add-address/confirm-address/[detail]"
         options={{
           title: "ที่อยู่",
           headerShown: true

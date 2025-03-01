@@ -6,6 +6,8 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import * as Location from "expo-location";
 import { router } from "expo-router";
+import axios from "axios";
+import { IAddressDetail } from "@/interfaces/IAddressDetail";
 
 const { height, width } = Dimensions.get("window");
 
@@ -20,8 +22,20 @@ interface IMapEvent {
 
 export default function AddAddressScreen() {
     const [selectedLocation, setSelectedLocation] = useState<IMarker>();
+    const [addressDetail, setAddressDetail] = useState<IAddressDetail>();
     const [initialLocation, setInitialLocation] = useState<IMarker>();
     const [errorMsg, setErrorMsg] = useState<string>("");
+
+    const fetchAddressDetail = async (coordinate?: { latitude: number, longitude: number }) => {
+        if (!coordinate) return;
+        const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${coordinate.latitude}&lon=${coordinate.longitude}&format=json`);
+        if (res.status === 200) setAddressDetail(res.data);
+    }
+
+    useEffect(() => {
+        if (!selectedLocation) return;
+        fetchAddressDetail(selectedLocation?.coordinate);
+    }, [selectedLocation])
 
     useEffect(() => {
         (async () => {
@@ -113,7 +127,7 @@ export default function AddAddressScreen() {
             {selectedLocation && <View
                 className="absolute flex flex-col overflow-auto w-[250px] gap-3 bg-[#1E1E1E] p-4 rounded-xl self-center bottom-16"
             >
-                <Text className="flex text-xl text-white font-regular">โรงพยาบาลสัตว์ มหาวิทยาลัยเกษตรศาสตร์</Text>
+                <Text className="flex text-xl text-white font-regular">{addressDetail?.display_name}</Text>
                 <View className="flex flex-row justify-between items-end">
                     <TouchableOpacity
                         className="flex bg-[#A90E0E] px-3 py-1 rounded-full"
@@ -123,7 +137,7 @@ export default function AddAddressScreen() {
                     </TouchableOpacity>
                     <TouchableOpacity
                         className="flex bg-[#68BA7F] px-3 py-1 rounded-full"
-                        onPress={() => router.push('/add-address/confirm-address')}
+                        onPress={() => router.push(`/add-address/confirm-address/${addressDetail?.display_name + "|" + selectedLocation.coordinate.latitude + "|" + selectedLocation.coordinate.longitude}`)}
                     >
                         <Text className="font-bold text-lg text-white">ยืนยัน</Text>
                     </TouchableOpacity>
