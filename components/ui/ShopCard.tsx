@@ -1,9 +1,18 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { IProduct } from "@/interfaces/IProduct";
+import { useCart } from "@/contexts/CartContext";
+import { ICart } from "@/interfaces/ICart";
 
 export default function ShopCard({ product }: { product: IProduct }) {
-    const addToCart = () => {};
+    const { addToCart, cartItems } = useCart();
+
+    const onButtonPress = (product: IProduct) => {
+        addToCart({
+            product_id: product.id,
+            quantity: 1,
+        });
+    }
 
     return (
         <View className="flex flex-row rounded-[10px] bg-white w-[364px] h-[125px] p-[10px]">
@@ -27,7 +36,8 @@ export default function ShopCard({ product }: { product: IProduct }) {
                     <Text className="font-bold">รายละเอียด</Text>: {product.description}
                     </Text>
                 </View>
-                <TouchableOpacity className="mt-3 items-end pl-3" onPress={() => addToCart()}>
+
+                <TouchableOpacity className="mt-3 items-end pl-3" onPress={() => onButtonPress(product)}>
                     <Text className="text-base p-[5px] px-4 text-white bg-[#68Ba7f] text-center rounded-full font-semibol font-regular shadow">
                         เพิ่มลงรถเข็น
                     </Text>

@@ -1,36 +1,32 @@
-import { createContext, ReactNode, useState } from "react";
+import { ICart, ICartRequest } from "@/interfaces/ICart";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 const CartContext = createContext<{
-    cartItems: ICart[];
-    addToCart: (item: ICart) => void;
+    cartItems: ICartRequest[];
+    addToCart: (item: ICartRequest) => void;
     removeFromCart: (id: number) => void;
+    clearCart: () => void;
 }>({
     cartItems: [],
     addToCart: () => {},
     removeFromCart: () => {},
+    clearCart: () => {},
 });
 
-interface ICart {
-    id: 1,
-    shop_id: 1,
-    product_category_id: 1,
-    amount: number;
-    name: string;
-    image_url: string;
-}
+export const useCart = () => useContext(CartContext);
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-    const [cartItems, setCartItems] = useState<ICart[]>([]);
+    const [cartItems, setCartItems] = useState<ICartRequest[]>([]);
 
-    const addToCart = (item: ICart) => {
+    const addToCart = (item: ICartRequest) => {
         console.log("Adding to cart", item);
 
-        if (cartItems.some((cartItem) => cartItem.id === item.id)) {
+        if (cartItems.some((cartItem) => cartItem.product_id === item.product_id)) {
             const newCartItems = cartItems.map((cartItem) => {
-                if (cartItem.id === item.id) {
+                if (cartItem.product_id === item.product_id) {
                     return {
                         ...cartItem,
-                        amount: cartItem.amount + item.amount,
+                        quantity: cartItem.quantity + item.quantity,
                     };
                 }
                 return cartItem;
@@ -42,12 +38,16 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    const removeFromCart = (id: number) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
+    const clearCart = () => {
+        setCartItems([]);
+    }
+
+    const removeFromCart = (product_id: number) => {
+        setCartItems(cartItems.filter((item) => item.product_id !== product_id));
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );
