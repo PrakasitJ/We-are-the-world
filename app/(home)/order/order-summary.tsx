@@ -9,6 +9,10 @@ import { IBankItem, IPaymentMethod } from "@/interfaces/IPaymentMethod";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Href, router } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import { useCart } from "@/contexts/CartContext";
+import { ICart, ICartRequest } from "@/interfaces/ICart";
+import { IProduct } from "@/interfaces/IProduct";
+import axios from "axios";
 
 
 const paymentMethod: IPaymentMethod[] = [
@@ -68,29 +72,28 @@ const paymentMethod: IPaymentMethod[] = [
 export default function OrderSummaryScreen() {
     const insets = useSafeAreaInsets();
     const route = useRoute();
-    const [riderMessage, setRiderMessage] = useState('');
 
-    interface CardItem {
-        name: string;
-        price: Double;
-        amount: number;
-    }
-    const CardItems = [
-        { name: "น้ำพริกปลาทู", price: 30, amount: 1 },
-        { name: "ลาบเปรี้ยวๆ", price: 30, amount: 2 },
-        { name: "ข้าวเหนียว", price: 30, amount: 1 },
-        { name: "ตำไทยใส่พริก", price: 30, amount: 3 },
-    ];
-    const [cartItems, setCartItems] = useState<CardItem[]>(CardItems);
+    const { cartItems, removeFromCart } = useCart();
+    const [riderMessage, setRiderMessage] = useState('');
     const [totalPrice, setTotalPrice] = useState(0);
-    useEffect(() => {
-        setTotalPrice(cartItems.reduce((sum, item) => sum + item.price, 0));
-    }, [cartItems]);
-    const removeItem = (index: number) => {
-        const newCartItems = [...cartItems];
-        newCartItems.splice(index, 1);
-        setCartItems(newCartItems);
+    const [products, setProducts] = useState<IProduct[]>([]);
+
+    const fetchProductByProductID = async (id: number) => {
+        const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/product/get/${id}`);
+        if (res.status === 200) setProducts((prevProducts) => [...(prevProducts || []), res.data]);
     }
+
+    
+    useEffect(() => {
+        setProducts([]);
+        cartItems.map((item: ICartRequest) => fetchProductByProductID(item.product_id));
+        console.log(products)
+    }, [cartItems]);
+    // const removeItem = (index: number) => {
+    //     const newCartItems = [...cartItems];
+    //     newCartItems.splice(index, 1);
+    //     setCartItems(newCartItems);
+    // }
 
     return (
         <View className="flex items-center bg-[#354138] w-full h-full">
@@ -113,13 +116,13 @@ export default function OrderSummaryScreen() {
                         <View className="bg-white w-[364px] rounded-[10px] flex flex-col py-5 px-5">
                             <Text className="font-regular font-medium text-2xl text-black">รายการของฉัน</Text>
                             <View className="bg-[#517B5D] rounded-[10px] flex-col mt-4 p-5  ">
-                                {cartItems.length > 0 ? (
-                                    cartItems.map((item: CardItem, index: number) => (
+                                {products.length > 0 ? (
+                                    products.map((item: IProduct, index: number) => (
                                         <View key={index} className="flex flex-row  justify-between pr-5">
                                             <Text className="font-regular text-lg text-white  w-3/6"> {item.name}</Text>
                                             <Text className="font-regular text-lg text-white w-2/6 pl-8"> {item.price} บาท</Text>
-                                            <Text className="font-regular text-lg text-white w-1/6 pl-3"> {item.amount}</Text>
-                                            <TouchableOpacity onPress={() => removeItem(index)}>
+                                            <Text className="font-regular text-lg text-white w-1/6 pl-3"> {cartItems.find((cartItem) => cartItem.product_id === item.id)?.quantity || 0}</Text>
+                                            <TouchableOpacity onPress={() => removeFromCart(item.id)}>
                                                 <IconSymbol name='bin.xmark.fill' size={20} color="white" />
                                             </TouchableOpacity>
                                         </View>
@@ -131,7 +134,10 @@ export default function OrderSummaryScreen() {
                             <View className="flex flex-row items-end justify-end w-full mt-4 mb-4">
                                 <Text className="font-regular text-xl text-[#517B5D] mr-2">รวมทั้งหมด</Text>
                                 <Text className="font-regular text-lg text-black">
-                                    {cartItems.reduce((sum, item) => sum + item.price, 0)} บาท
+                                    {cartItems.reduce((sum, item) => {
+                                        const product = products.find((product) => product.id === item.product_id);
+                                        return sum + (product ? item.quantity * product.price : 0);
+                                    }, 0)} บาท
                                 </Text>
                             </View>
                             <FieldTextInput SetTextCallBack={setRiderMessage} placeholder="คำอธิบายตำแหน่งที่อยู่เพิ่มเติม" maxLength={100} />
