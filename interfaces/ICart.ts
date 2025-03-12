@@ -10,4 +10,6 @@ export interface ICart {
 export interface ICartRequest {
     product_id: number;
     quantity: number;
+    price: number;
+    name: string;
 }

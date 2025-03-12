@@ -11,6 +11,8 @@ export default function ShopCard({ product }: { product: IProduct }) {
         addToCart({
             product_id: product.id,
             quantity: 1,
+            price: product.price,
+            name: product.name,
         });
     }
 

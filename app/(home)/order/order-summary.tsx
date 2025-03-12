@@ -136,8 +136,7 @@ export default function OrderSummaryScreen() {
                                 <Text className="font-regular text-xl text-[#517B5D] mr-2">รวมทั้งหมด</Text>
                                 <Text className="font-regular text-lg text-black">
                                     {cartItems.reduce((sum, item) => {
-                                        const product = products.find((product) => product.id === item.product_id);
-                                        return sum + (product ? item.quantity * product.price : 0);
+                                        return sum + item.price * item.quantity
                                     }, 0)} บาท
                                 </Text>
                             </View>
