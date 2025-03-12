@@ -3,9 +3,11 @@ import { Text, TouchableOpacity, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import generatePayload from "promptpay-qr";
 import { router } from "expo-router";
+import { useCart } from "@/contexts/CartContext";
 
 export default function OrderPaymentScreen() {
     const [qrCodeValue, setQrCodeValue] = useState<string | null>(null);
+    const { createOrderAndProductList } = useCart();
 
     useEffect(() => {
         const promptPayQR = generatePayload("0914298877", { amount: 100 });
@@ -24,10 +26,7 @@ export default function OrderPaymentScreen() {
                         />
                     )}
                     <View className="border-t w-full pt-4 border-[#3541384D]">
-                        <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5" onPress={() => {
-                            router.dismissTo('/');
-                            router.push('/order/order-status');
-                        }}>
+                        <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5" onPress={() => createOrderAndProductList()}>
                             <Text className="font-regular text-white">บันทึก</Text>
                         </TouchableOpacity>
                     </View>
