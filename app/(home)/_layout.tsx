@@ -82,7 +82,7 @@ export default function TabLayout() {
         />
 
         <Stack.Screen
-          name="order/order-status"
+          name="order/order-status/[order_id]"
           options={{
             title: "รายละเอียดคำสั่งซื้อ",
             headerShown: true

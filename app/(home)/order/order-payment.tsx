@@ -7,7 +7,7 @@ import { useCart } from "@/contexts/CartContext";
 import Loading from "@/components/Loading";
 
 export default function OrderPaymentScreen() {
-    const { cartItems, clearCart } = useCart();
+    const { cartItems, createOrderAndProductList } = useCart();
     const [elementQRCode, setElementQRCode] = useState<React.ReactNode>(null);
 
     const initPage = async () => {
@@ -32,11 +32,7 @@ export default function OrderPaymentScreen() {
                         elementQRCode
                     ) : <Loading color="white" />}
                     <View className="border-t w-full pt-4 border-[#3541384D]">
-                        <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5" onPress={() => {
-                            clearCart();
-                            router.dismissTo('/');
-                            router.push('/order/order-status');
-                        }}>
+                        <TouchableOpacity className="bg-success py-4 px-8 mx-auto rounded-full shadow-md mb-5" onPress={() => createOrderAndProductList()}>
                             <Text className="font-regular text-white">บันทึก</Text>
                         </TouchableOpacity>
                     </View>
