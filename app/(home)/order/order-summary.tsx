@@ -3,17 +3,15 @@ import { View, Text, TouchableOpacity, ScrollView, Image, Platform } from "react
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
 import { IconSymbol } from "@/components/ui/IconSymbol";
-import { Double } from "react-native/Libraries/Types/CodegenTypes";
 import { FieldTextInput } from "@/components/FieldTextInput";
 import { IBankItem, IPaymentMethod } from "@/interfaces/IPaymentMethod";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Href, router } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import { useCart } from "@/contexts/CartContext";
-import { ICart, ICartRequest } from "@/interfaces/ICart";
+import { ICartRequest } from "@/interfaces/ICart";
 import { IProduct } from "@/interfaces/IProduct";
 import axios from "axios";
-
 
 const paymentMethod: IPaymentMethod[] = [
     {
