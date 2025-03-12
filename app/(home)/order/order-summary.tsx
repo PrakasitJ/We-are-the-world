@@ -71,7 +71,7 @@ export default function OrderSummaryScreen() {
     const insets = useSafeAreaInsets();
     const route = useRoute();
 
-    const { cartItems, removeFromCart } = useCart();
+    const { cartItems, removeFromCart, clearCart } = useCart();
     const [riderMessage, setRiderMessage] = useState('');
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -81,7 +81,7 @@ export default function OrderSummaryScreen() {
         if (res.status === 200) setProducts((prevProducts) => [...(prevProducts || []), res.data]);
     }
 
-    
+
     useEffect(() => {
         setProducts([]);
         cartItems.map((item: ICartRequest) => fetchProductByProductID(item.product_id));
@@ -112,7 +112,10 @@ export default function OrderSummaryScreen() {
                 >
                     <View className="flex flex-col w-full mt-5 gap-5">
                         <View className="bg-white w-[364px] rounded-[10px] flex flex-col py-5 px-5">
-                            <Text className="font-regular font-medium text-2xl text-black">รายการของฉัน</Text>
+                            <View className="flex flex-row items-center justify-between">
+                                <Text className="font-regular font-medium text-2xl text-black">รายการของฉัน</Text>
+                                <Text className="font-regular font-medium text-black" onPress={() => clearCart()}>Clear All</Text>
+                            </View>
                             <View className="bg-[#517B5D] rounded-[10px] flex-col mt-4 p-5  ">
                                 {products.length > 0 ? (
                                     products.map((item: IProduct, index: number) => (
