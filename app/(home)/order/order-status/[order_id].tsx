@@ -10,21 +10,7 @@ import { Platform, ScrollView, Text, View, ViewProps } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-interface CardItem {
-    name: string;
-    price: number;
-    amount: number;
-}
-
-const CardItems = [
-    { name: "น้ำพริกปลาทู", price: 30, amount: 1 },
-    { name: "ลาบเปรี้ยวๆ", price: 30, amount: 2 },
-    { name: "ข้าวเหนียว", price: 30, amount: 1 },
-    { name: "ตำไทยใส่พริก", price: 30, amount: 3 },
-];
-
 export default function OrderStatusScreen() {
-    const [cartItems, setCartItems] = useState<CardItem[]>(CardItems);
     const [productList, setProductList] = useState<IProduct[]>([]);
     const insets = useSafeAreaInsets();
     const route = useRoute() as { params: { order_id: string } };
