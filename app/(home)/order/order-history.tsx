@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,29 +6,78 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
+import axios from 'axios';
+import Constants from 'expo-constants';
+
+interface Order {
+  id: number;
+  shopName: string;
+  productName: string;
+  price: string;
+  details: string;
+  orderDate: string;
+  paymentMethod: string;
+}
 
 const OrderHistory = () => {
-  const orders = [
-    {
-      id: 1,
-      shopName: 'ร้านอาหารตามสั่ง',
-      productName: 'ข้าวผัดหมู',
-      price: '45 บาท',
-      details: 'ไม่ใส่ผัก',
-      orderDate: '24/02/2025',
-      paymentMethod: 'เงินสด'
-    },
-    {
-      id: 2,
-      shopName: 'ร้านก๋วยเตี๋ยว',
-      productName: 'ก๋วยเตี๋ยวต้มยำ',
-      price: '50 บาท',
-      details: 'พิเศษ, น้ำน้อย',
-      orderDate: '23/02/2025',
-      paymentMethod: 'พร้อมเพย์'
-    },
-  ];
+  // ใช้ state เพื่อเก็บข้อมูลคำสั่งซื้อและสถานะการโหลด
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // ฟังก์ชันสำหรับดึงข้อมูลประวัติการสั่งซื้อจาก API
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+
+      // ดึงค่า BASE_URL จากตัวแปรสภาพแวดล้อม
+      const apiUrl = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_URL || process.env.EXPO_PUBLIC_API_URL;
+      // ดึงค่า endpoint จากตัวแปรสภาพแวดล้อม หรือกำหนดค่าเริ่มต้น
+      const ordersEndpoint = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_ORDERS_ENDPOINT ||
+        process.env.EXPO_PUBLIC_API_ORDERS_ENDPOINT ||
+        "/api/orders/history";
+
+
+      if (!apiUrl) {
+        throw new Error("API URL ไม่ได้ถูกกำหนด กรุณาตรวจสอบไฟล์ .env หรือ app.config.js");
+      }
+
+      console.log("กำลังดึงข้อมูลจาก:", `${apiUrl}/api/orders/history`);
+
+      // ทำการเรียก API
+      const response = await axios.get(`${apiUrl}/api/orders/history`);
+
+      console.log("การตอบกลับจาก API:", response.data);
+
+      // ตรวจสอบว่าการตอบกลับสำเร็จหรือไม่
+      if (response.status === 200) {
+        // แปลงข้อมูลจาก API ให้ตรงกับโครงสร้างที่ต้องการ (ถ้าจำเป็น)
+        const formattedOrders: Order[] = response.data.map((item: any) => ({
+          id: item.id || item.order_id,
+          shopName: item.shop_name || item.shopName,
+          productName: item.product_name || item.productName,
+          price: `${item.price} บาท`,
+          details: item.details || item.description || "-",
+          orderDate: item.order_date || item.createdAt,
+          paymentMethod: item.payment_method || item.paymentMethod
+        }));
+
+        setOrders(formattedOrders);
+      }
+    } catch (err) {
+      console.error("เกิดข้อผิดพลาดในการดึงข้อมูล:", err);
+      setError(err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการดึงข้อมูล");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // เรียกใช้ฟังก์ชัน fetchOrders เมื่อคอมโพเนนต์ถูกโหลด
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const OrderDetail = ({ label, value }: { label: string; value: string }) => (
     <View style={styles.detailRow}>
@@ -37,28 +86,42 @@ const OrderHistory = () => {
     </View>
   );
 
+  // แสดงตัวโหลดถ้ากำลังโหลดข้อมูล
+  if (loading) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+        <Text style={styles.loadingText}>กำลังโหลดข้อมูล...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  // แสดงข้อความถ้าเกิดข้อผิดพลาด
+  if (error) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <Text style={styles.errorText}>เกิดข้อผิดพลาด: {error}</Text>
+      </SafeAreaView>
+    );
+  }
+
+  // แสดงข้อความถ้าไม่มีประวัติการสั่งซื้อ
+  if (orders.length === 0) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <Text style={styles.emptyText}>ไม่พบประวัติการสั่งซื้อ</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#2d4134" barStyle="light-content" />
 
-      {/* Header */}
-      {/* <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={() => router.back()} 
-          style={styles.backButton}
-        >
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>ประวัติการสั่งซื้อ</Text>
-      </View> */}
-
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
-        <View className="flex flex-row justify-around items-center h-auto pt-8">
-        </View>
         {orders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
-
             {/* Image placeholder */}
             <View style={styles.imagePlaceholder}>
               <Text style={styles.placeholderText}>รูปภาพ</Text>
@@ -85,19 +148,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2d4134',
   },
-  header: {
-    backgroundColor: '#2d4134',
-    flexDirection: 'row',
+  centerContent: {
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '500',
   },
   scrollView: {
     flex: 1,
@@ -135,6 +188,21 @@ const styles = StyleSheet.create({
   value: {
     flex: 1,
   },
+  loadingText: {
+    color: 'white',
+    marginTop: 10,
+  },
+  errorText: {
+    color: '#ff6b6b',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  }
 });
 
 export default OrderHistory;
