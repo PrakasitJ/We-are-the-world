@@ -20,34 +20,47 @@ export default function ShopListScreen() {
   const { cartItems } = useCart();
 
   const fetchProductByShopId = async () => {
-    const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/product/getByShopID/${route.params.shop_id}`);
+    const res = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_URL}/api/product/getByShopID/1`
+    );
     if (res.status === 200) setProducts(res.data);
-  }
+  };
 
   const fetchShopByShopId = async () => {
-    const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/shop/get/${route.params.shop_id}`);
+    const res = await axios.get(
+      `${process.env.EXPO_PUBLIC_API_URL}/api/shop/get/1`
+    );
     if (res.status === 200) setShop(res.data);
-  }
+  };
 
   useEffect(() => {
     fetchShopByShopId();
     fetchProductByShopId();
-  }, [])
+  }, []);
 
   return (
     <ThemedView>
       <View className="flex items-center bg-[#354138] w-full h-full">
         <View className="flex flex-row bg-[#517B5D] h-[52px] w-full items-center px-5 justify-between">
-          {shop ? <Text className="text-base font-regular text-white">{shop?.name}</Text> : <Loading color="white" />}
-          <TouchableOpacity className="w-full flex-1 flex-row justify-end items-center" onPress={() => router.push('/order/order-summary')}>
+          {shop ? (
+            <Text className="text-base font-regular text-white">
+              {shop?.name}
+            </Text>
+          ) : (
+            <Loading color="white" />
+          )}
+          <TouchableOpacity
+            className="w-full flex-1 flex-row justify-end items-center"
+            onPress={() => router.push("/order/order-summary")}
+          >
             <IconSymbol name="cart.fill" size={40} color="#FFFF" />
-            {cartItems.length > 0 && <Text className="font-regular w-[24px] absolute text-sm top-[8px] text-center right-[5px]">
-              {
-                cartItems.reduce((sum, item) => {
-                  return sum + item.quantity
-                }, 0)
-              }
-            </Text>}
+            {cartItems.length > 0 && (
+              <Text className="font-regular w-[24px] absolute text-sm top-[8px] text-center right-[5px]">
+                {cartItems.reduce((sum, item) => {
+                  return sum + item.quantity;
+                }, 0)}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -58,7 +71,11 @@ export default function ShopListScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <View className="mt-5">
-            {products ? <ShopCardList products={products} /> : <Loading color="white" />}
+            {products ? (
+              <ShopCardList products={products} />
+            ) : (
+              <Loading color="white" />
+            )}
           </View>
         </ScrollView>
       </View>

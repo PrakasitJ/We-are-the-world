@@ -174,7 +174,7 @@ function defaultUser() {
 }
 
 async function UpdateUser(uuid : string, user: Partial<User>) {
-  const response = await fetch(`https://pmback.prakasitj.com/api/user/update`, {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/update`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -190,7 +190,7 @@ async function UpdateUser(uuid : string, user: Partial<User>) {
 }
 
 async function Login(usernameOrEmail: string, password: string) {
-  const response = await fetch("https://pmback.prakasitj.com/api/user/login", {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -205,7 +205,7 @@ async function Login(usernameOrEmail: string, password: string) {
 }
 
 async function Register(user: UserRegister) {
-  const response = await fetch("https://pmback.prakasitj.com/api/user/create", {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
