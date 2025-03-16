@@ -38,8 +38,7 @@ export default function HomeScreen() {
     }
   ];
 
-  const { getUser } = useAuth();
-  const user = getUser();
+  const { user } = useAuth();
   return (
     <ThemedView style={{ paddingTop: insets.top }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom }} keyboardShouldPersistTaps="handled">

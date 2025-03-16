@@ -107,26 +107,33 @@ const useAuth = create<Auth>()(
           }
         );
         const data = await response.json();
-        if (data.username){
-            set(() => ({
-                user: data,
-                isLoggedIn: true,
-                error: "",
-            }));
-            router.dismissAll();
-            router.replace("/(home)");
+        if (data.username) {
+          set(() => ({
+            user: data,
+            isLoggedIn: true,
+            error: "",
+          }));
+          router.dismissAll();
+          router.replace("/(home)");
         } else {
-            set(() => ({
-                user: defaultUser(),
-                isLoggedIn: false,
-                error: data.message || data.format || data.maxLength || data.minLength || data.required || data.type || data.unique,
-            }));
+          set(() => ({
+            user: defaultUser(),
+            isLoggedIn: false,
+            error:
+              data.message ||
+              data.format ||
+              data.maxLength ||
+              data.minLength ||
+              data.required ||
+              data.type ||
+              data.unique,
+          }));
         }
       },
       getUser: () => get().user,
       setErrorMessage: (error: string) => {
         set(() => ({
-          error,
+          error: error
         }));
       },
     }),
