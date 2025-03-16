@@ -2,12 +2,14 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import useAuth from "../provider/login";
 
 export default function Profile() {
     const [showEditNames, setShowEditName] = useState<boolean>(false);
     const [name, setName] = useState<string>("ชื่อผู้ใช้");
 
     const router = useRouter();
+    const { logout } = useAuth();
 
     return (
         <View className="flex-1">
@@ -25,7 +27,11 @@ export default function Profile() {
                 </View>
                 <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">เบอร์โทรศัพท์</Text>
             </View>
-            <TouchableOpacity className="flex-1 justify-end items-center pb-[100px]" onPress={() => router.push("/(welcome)/welcome")}>
+            <TouchableOpacity className="flex-1 justify-end items-center pb-[100px]" onPress={() => {
+                logout();
+                router.dismissAll();
+                router.replace("/(welcome)/welcome");
+            }}>
                 <Text className="text-base text-white bg-[#517B5D] py-[16px] px-[120px] rounded-full font-semibold font-regular">ออกจากระบบ</Text>
             </TouchableOpacity>
             {showEditNames && <ModalProfile setShowEditName={setShowEditName} setName={setName} />}
