@@ -40,6 +40,7 @@ type Auth = {
   logout: () => void;
   register: (user: UserRegister) => void;
   getUser: () => User;
+  updateUser: (uuid : string, user: Partial<User>) => void;
   setErrorMessage: (error: string) => void;
 };
 
@@ -115,6 +116,29 @@ const useAuth = create<Auth>()(
         }
       },
       getUser: () => get().user,
+      updateUser: async (uuid, user) => {
+        const data = await UpdateUser(uuid, user);
+        if (data.username) {
+          set(() => ({
+            user: data,
+            isLoggedIn: true,
+            error: "",
+          }));
+        } else {
+          set(() => ({
+            error:
+              (data.message
+                ? `${data.message} ${data.property.replace("/", "")}`
+                : false) ||
+              data.format ||
+              data.maxLength ||
+              data.minLength ||
+              data.required ||
+              data.type ||
+              data.unique,
+          }));
+        }
+      },
       setErrorMessage: (error: string) => {
         set(() => ({
           error: error,
@@ -147,6 +171,22 @@ function defaultUser() {
     createdAt: "",
     updatedAt: "",
   };
+}
+
+async function UpdateUser(uuid : string, user: Partial<User>) {
+  const response = await fetch(`https://pmback.prakasitj.com/api/user/update`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      uuid,
+      ...user,
+    }),
+  });
+  const data = await response.json();
+  console.table(data);
+  return data;
 }
 
 async function Login(usernameOrEmail: string, password: string) {

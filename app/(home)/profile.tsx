@@ -5,13 +5,10 @@ import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 import useAuth from "../provider/auth";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [showEditNames, setShowEditName] = useState<boolean>(false);
   const [name, setName] = useState<string>(user.name);
-
   const router = useRouter();
-  const { logout } = useAuth();
-
   return (
     <View className="flex-1">
       <View className="flex flex-col items-center mt-[100px]">
@@ -63,8 +60,10 @@ const ModalProfile = ({
   setName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
+  const { user, updateUser } = useAuth();
 
   const handleConfirm = () => {
+    updateUser(user.uuid, { name: searchValue });
     setName(searchValue);
     setShowEditName(false);
   };
