@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type User = {
   uuid: string;
@@ -23,6 +24,12 @@ type UserRegister = {
   name: string;
   surname: string;
   tel: string;
+};
+
+export type AuthLocalStorage = {
+  user: User;
+  isLoggedIn: boolean;
+  error: string;
 };
 
 type Auth = {
@@ -51,6 +58,19 @@ function defaultUser() {
     updatedAt: "",
   };
 }
+
+const asyncStorageAdapter = {
+  getItem: async (name: string) => {
+    const value = await AsyncStorage.getItem(name);
+    return value;
+  },
+  setItem: async (name: string, value: string) => {
+    await AsyncStorage.setItem(name, value);
+  },
+  removeItem: async (name: string) => {
+    await AsyncStorage.removeItem(name);
+  },
+};
 
 const useAuth = create<Auth>()(
   persist(
@@ -133,12 +153,18 @@ const useAuth = create<Auth>()(
       getUser: () => get().user,
       setErrorMessage: (error: string) => {
         set(() => ({
-          error: error
+          error: error,
         }));
       },
     }),
     {
       name: "auth-storage",
+      partialize: (state) => ({
+        user: state.user,
+        isLoggedIn: state.isLoggedIn,
+        error: state.error,
+      }),
+      storage: createJSONStorage(() => asyncStorageAdapter),
     }
   )
 );

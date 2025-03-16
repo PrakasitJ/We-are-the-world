@@ -2,7 +2,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
-import useAuth from "../provider/login";
+import useAuth from "../provider/auth";
 
 export default function Profile() {
     const [showEditNames, setShowEditName] = useState<boolean>(false);

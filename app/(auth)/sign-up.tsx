@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import CustomTextInput from "@/components/ui/CustomTextInput";
 import BacktoWelcomeButton from "@/components/ui/BacktoWelcomeButton";
-import useAuth from "../provider/login";
+import useAuth from "../provider/auth";
 
 function SingUpButton({
   username,

@@ -8,7 +8,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import SearchBar from "@/components/ui/SearchBar";
 import React from "react";
 import SearchButton from "@/components/ui/SearchButton";
-import useAuth from "../provider/login";
+import useAuth from "../provider/auth";
 
 interface IIconPage {
   title: string,

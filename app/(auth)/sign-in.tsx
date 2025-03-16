@@ -6,7 +6,7 @@ import { MaterialIcons, Feather } from "@expo/vector-icons";
 import CustomTextInput from "@/components/ui/CustomTextInput";
 import { Link, router } from "expo-router";
 import BacktoWelcomeButton from "@/components/ui/BacktoWelcomeButton";
-import useAuth from "../provider/login";
+import useAuth from "../provider/auth";
 
 interface SignInProps {
   email: string;
