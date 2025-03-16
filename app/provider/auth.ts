@@ -43,22 +43,6 @@ type Auth = {
   setErrorMessage: (error: string) => void;
 };
 
-function defaultUser() {
-  return {
-    uuid: "",
-    username: "",
-    email: "",
-    password: "",
-    name: "",
-    surname: "",
-    tel: "",
-    salt: "",
-    profile_image_url: "",
-    createdAt: "",
-    updatedAt: "",
-  };
-}
-
 const asyncStorageAdapter = {
   getItem: async (name: string) => {
     const value = await AsyncStorage.getItem(name);
@@ -79,20 +63,7 @@ const useAuth = create<Auth>()(
       isLoggedIn: false,
       error: "",
       login: async (usernameOrEmail, password) => {
-        const response = await fetch(
-          "https://pmback.prakasitj.com/api/user/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              usernameOrEmail,
-              password,
-            }),
-          }
-        );
-        const user = await response.json();
+        const user = await Login(usernameOrEmail, password);
         if (user.error) {
           set(() => ({
             user: defaultUser(),
@@ -116,17 +87,7 @@ const useAuth = create<Auth>()(
         }));
       },
       register: async (user) => {
-        const response = await fetch(
-          "https://pmback.prakasitj.com/api/user/create",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
-          }
-        );
-        const data = await response.json();
+        const data = await Register(user);
         if (data.username) {
           set(() => ({
             user: data,
@@ -136,11 +97,14 @@ const useAuth = create<Auth>()(
           router.dismissAll();
           router.replace("/(home)");
         } else {
+          console.table(data);
           set(() => ({
             user: defaultUser(),
             isLoggedIn: false,
             error:
-              data.message ||
+              (data.message
+                ? `${data.message} ${data.property.replace("/", "")}`
+                : false) ||
               data.format ||
               data.maxLength ||
               data.minLength ||
@@ -169,4 +133,46 @@ const useAuth = create<Auth>()(
   )
 );
 
+function defaultUser() {
+  return {
+    uuid: "",
+    username: "",
+    email: "",
+    password: "",
+    name: "",
+    surname: "",
+    tel: "",
+    salt: "",
+    profile_image_url: "",
+    createdAt: "",
+    updatedAt: "",
+  };
+}
+
+async function Login(usernameOrEmail: string, password: string) {
+  const response = await fetch("https://pmback.prakasitj.com/api/user/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      usernameOrEmail,
+      password,
+    }),
+  });
+  const user = await response.json();
+  return user;
+}
+
+async function Register(user: UserRegister) {
+  const response = await fetch("https://pmback.prakasitj.com/api/user/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  const data = await response.json();
+  return data;
+}
 export default useAuth;
