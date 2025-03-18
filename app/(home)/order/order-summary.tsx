@@ -71,7 +71,7 @@ export default function OrderSummaryScreen() {
     const insets = useSafeAreaInsets();
     const route = useRoute();
 
-    const { cartItems, removeFromCart, clearCart } = useCart();
+    const { cartItems, removeFromCart, clearCart, setRiderMsg } = useCart();
     const [riderMessage, setRiderMessage] = useState('');
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -81,6 +81,9 @@ export default function OrderSummaryScreen() {
         if (res.status === 200) setProducts((prevProducts) => [...(prevProducts || []), res.data]);
     }
 
+    useEffect(() => {
+        setRiderMsg(riderMessage);
+    }, [riderMessage])
 
     useEffect(() => {
         setProducts([]);

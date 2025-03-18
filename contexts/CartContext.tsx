@@ -1,3 +1,4 @@
+import useAuth from "@/app/provider/auth";
 import { ICart, ICartRequest } from "@/interfaces/ICart";
 import axios from "axios";
 import { useRouter } from "expo-router";
@@ -9,19 +10,24 @@ const CartContext = createContext<{
     removeFromCart: (id: number) => void;
     clearCart: () => void;
     createOrderAndProductList: () => void;
+    setRiderMsg: (msg: string) => void;
 }>({
     cartItems: [],
     addToCart: () => {},
     removeFromCart: () => {},
     clearCart: () => {},
     createOrderAndProductList: () => {},
+    setRiderMsg: () => {},
 });
 
 export const useCart = () => useContext(CartContext);
 
+
 export default function CartProvider({ children }: { children: ReactNode }) {
     const [cartItems, setCartItems] = useState<ICartRequest[]>([]);
+    const [riderMsg, setRiderMsg] = useState<string>("");
     const router = useRouter();
+    const { user } = useAuth();
 
     const addToCart = (item: ICartRequest) => {
         console.log("Adding to cart", item);
@@ -53,12 +59,12 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
     const createOrderAndProductList = async () => {
         const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/order/create`, {
-            customer_id: "713f020d-8b9e-4048-9dbc-0146df7cb4e7",
+            customer_id: user.uuid,
             rider_id: 1,
             shop_id: 1,
             service_fee: 1,
             pickup_location_id: 1,
-            note: "nono"
+            note: riderMsg,
         });
 
         const order_id = res.data.id;
@@ -78,7 +84,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, createOrderAndProductList }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, createOrderAndProductList, setRiderMsg }}>
             {children}
         </CartContext.Provider>
     );

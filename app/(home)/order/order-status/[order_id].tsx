@@ -89,7 +89,7 @@ export default function OrderStatusScreen() {
                                     {productList.reduce((sum, item) => sum + item.price, 0)} บาท {/* จริงๆตรงนี้ต้องดึง จาก transaction */}
                                 </Text>
                             </View>
-                            <FieldTextInput placeholder="ข้อความเพิ่มเติมถึงไรเดอร์" showMax={false} maxLength={100} editable={false} />
+                            <FieldTextInput placeholder={orderDetail.note} showMax={false} maxLength={100} editable={false} />
                         </View>
                         <View className="flex flex-col">
                             <Text className="font-regular font-medium text-2xl pt-2">สถานะคำสั่งซื้อ</Text>
