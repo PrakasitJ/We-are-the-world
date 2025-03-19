@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { TextInput, View, Text, TextInputProps } from "react-native";
 
-export const FieldTextInput = ({ SetTextCallBack, ...rest }: { SetTextCallBack: React.Dispatch<React.SetStateAction<string>> } & TextInputProps) => {
+export const FieldTextInput = ({ SetTextCallBack, showMax=true, ...rest }: { SetTextCallBack?: React.Dispatch<React.SetStateAction<string>>, showMax?: boolean } & TextInputProps) => {
     const maximumLength = rest.maxLength
     
     const [text, setText] = useState<string>("");
     
     const handleChangeText = (newText: string) => {
         setText(newText);
-        SetTextCallBack(newText);
+        SetTextCallBack?.(newText);
     };
 
     return (
@@ -21,7 +21,7 @@ export const FieldTextInput = ({ SetTextCallBack, ...rest }: { SetTextCallBack: 
                 onChangeText={handleChangeText}
                 placeholderTextColor="black"
             />
-            <Text className="absolute right-4 top-3 text-black opacity-30">{text.length}/{maximumLength}</Text>
+            {showMax && <Text className="absolute right-4 top-3 text-black opacity-30">{text.length}/{maximumLength}</Text>}
         </View>
     );
 };

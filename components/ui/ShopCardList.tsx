@@ -1,23 +1,13 @@
 import { View } from "react-native";
 import ShopCard from "./ShopCard";
+import { IProduct } from "@/interfaces/IProduct";
 
-export default function ShopCardCardList(){
-    const fakeData = [
-        { id: 1, name: "น้ำพริกปลาทู", price: 30, description: "เผ็ดน้อย" },
-        { id: 2, name: "ลาบเปรี้ยวๆ", price: 30, description: "ข้าวเหนียวห่อนึง" },
-        { id: 3, name: "ข้าวเหนียว", price: 30, description: "ปิ้งสดๆ" },
-        { id: 4, name: "ตำไทยใส่พริก", price: 30, description: "พริกสามเม็ด" },
-        { id: 5, name: "Item 5", price: 30, description: "Description for Item 5" },
-        { id: 6, name: "Item 6", price: 30, description: "Description for Item 6" },
-        { id: 7, name: "Item 7", price: 30, description: "Description for Item 7" },
-        { id: 8, name: "Item 8", price: 30, description: "Description for Item 8" },
-        { id: 9, name: "Item 9", price: 30, description: "Description for Item 9" },
-    ];
 
+export default function ShopCardList({ products }: { products: IProduct[] }){
     return(
         <View className="gap-5">
-            {fakeData.map(item => (
-                <ShopCard key={item.id} name={item.name} price={item.price} description={item.description} />
+            {products.map((item: IProduct, index) => (
+                <ShopCard key={index} product={item} />
             ))}
         </View>
     );

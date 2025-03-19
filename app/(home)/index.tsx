@@ -37,8 +37,8 @@ export default function HomeScreen() {
     }
   ];
   return (
-    <ThemedView style={{ paddingTop: insets.top, height: 'auto' }}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom, }} keyboardShouldPersistTaps="handled">
+    <ThemedView style={{ paddingTop: insets.top }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom }} keyboardShouldPersistTaps="handled">
         <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
           <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, Phunyisa</Text>
           <TouchableOpacity onPress={() => router.push('/profile')}>
@@ -55,7 +55,7 @@ export default function HomeScreen() {
               <SearchButton />
             <View className="flex flex-col gap-3 pt-1 ">
               <View className="flex flex-row items-center h-auto gap-2 pt-1">
-                <TouchableOpacity onPress={() => router.push('/(home)/add-address')}>
+                <TouchableOpacity onPress={() => router.push('/add-address')}>
                   <Text className="text-xl font-regular underline">ส่งที่ฉัน</Text>
                 </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
@@ -68,14 +68,14 @@ export default function HomeScreen() {
               </View>
             </View>
             <View className="flex flex-row items-center h-auto gap-2 pt-2 ">
-              <TouchableOpacity onPress={() => router.push('/order-receiving')}>
+              <TouchableOpacity onPress={() => router.push('/order/order-receiving')}>
                 <Text className="text-xl font-regular underline">คำสั่งซื้อที่กำลังจะได้รับ</Text>
               </TouchableOpacity>
               <IconSymbol name='arrow.right' size={26} color="black" />
             </View>
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
-                <TouchableOpacity onPress={() => router.push('/order-history')} className="text-xl font-regular underline">
+                <TouchableOpacity onPress={() => router.push('/order/order-history')} className="text-xl font-regular underline">
                   <Text className="text-xl font-regular underline">ประวัติการซื้อ</Text>
                 </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
@@ -89,7 +89,9 @@ export default function HomeScreen() {
 
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
+              <TouchableOpacity onPress={() => router.push('/foundation-map')} className="text-xl font-regular underline">
                 <Text className="text-xl font-regular underline">บริจาคให้มูลนิธิ</Text>
+                </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
               </View>
               <View className="flex flex-row justify-around items-center h-auto pt-2">
