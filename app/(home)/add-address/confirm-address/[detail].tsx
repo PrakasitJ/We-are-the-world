@@ -6,10 +6,6 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-interface IInformationLocation {
-
-}
-
 export default function ConfirmAddressScreen() {
     const route = useRoute() as { params: { detail: string } };
     const { user } = useAuth();
@@ -19,7 +15,6 @@ export default function ConfirmAddressScreen() {
     const [AdditionInformation, setAddrerssInformation] = useState<string>("");
 
     const locationCreate = async () => {
-        console.log('tes')
         const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/location/create`, {
             user_id: user.uuid,
             address: infomationLocation + " | " + AdditionInformation,
@@ -31,7 +26,7 @@ export default function ConfirmAddressScreen() {
             router.replace('/(home)');
         }
     }
-    
+
     return (
         <View className="bg-backgroud h-full w-full flex items-center justify-center pb-5">
             <View className="bg-white w-[90%] border h-[90%] rounded-2xl p-6 gap-8">

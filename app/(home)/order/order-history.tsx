@@ -1,7 +1,6 @@
 import useAuth from '@/app/provider/auth';
 import { IOrderDetail } from '@/interfaces/IOrder';
 import { formatTime } from '@/libs/formatTime';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -9,8 +8,18 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
 } from 'react-native';
+import axios from 'axios';
+
+interface Order {
+  id: number;
+  shopName: string;
+  productName: string;
+  price: string;
+  details: string;
+  orderDate: string;
+  paymentMethod: string;
+}
 
 const OrderHistory = () => {
   const { user } = useAuth();
@@ -24,16 +33,21 @@ const OrderHistory = () => {
     fetchOrderByUserId();
   }, []);
 
+  if (orders.length === 0) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <Text style={styles.emptyText}>ไม่พบประวัติการสั่งซื้อ</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
-        <View className="flex flex-row justify-around items-center h-auto pt-8">
-        </View>
         {orders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
-
             {/* Image placeholder */}
             <View style={styles.imagePlaceholder}>
               <Text style={styles.placeholderText}>รูปภาพ</Text>
@@ -67,19 +81,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2d4134',
   },
-  header: {
-    backgroundColor: '#2d4134',
-    flexDirection: 'row',
+  centerContent: {
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '500',
   },
   scrollView: {
     flex: 1,
@@ -117,6 +121,21 @@ const styles = StyleSheet.create({
   value: {
     flex: 1,
   },
+  loadingText: {
+    color: 'white',
+    marginTop: 10,
+  },
+  errorText: {
+    color: '#ff6b6b',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  }
 });
 
 export default OrderHistory;
