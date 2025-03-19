@@ -5,5 +5,7 @@ export const formatTime = (time: string) => {
     const year = date.getFullYear();
     const hour = date.getHours();
     const minute = date.getMinutes();
-    return `${day} ${month} ${year} ${hour}:${minute}`;
+    const formattedHour = hour.toString().padStart(2, '0');
+    const formattedMinute = minute.toString().padStart(2, '0');
+    return `${day} ${month} ${year} ${formattedHour}:${formattedMinute}`;
 }

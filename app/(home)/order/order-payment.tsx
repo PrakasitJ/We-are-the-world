@@ -5,9 +5,12 @@ import generatePayload from "promptpay-qr";
 import { router } from "expo-router";
 import { useCart } from "@/contexts/CartContext";
 import Loading from "@/components/Loading";
+import axios from "axios";
+import useAuth from "@/app/provider/auth";
 
 export default function OrderPaymentScreen() {
-    const { cartItems, createOrderAndProductList } = useCart();
+    const { cartItems, clearCart, riderMsg } = useCart();
+    const { user } = useAuth();
     const [elementQRCode, setElementQRCode] = useState<React.ReactNode>(null);
 
     const initPage = async () => {
@@ -17,6 +20,32 @@ export default function OrderPaymentScreen() {
             }, 0)
         });
         setElementQRCode(<QRCode value={promptPayQR} size={250} />);
+    }
+
+    const createOrderAndProductList = async () => {
+        const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/order/create`, {
+            customer_id: user.uuid,
+            rider_id: 1,
+            shop_id: 1,
+            service_fee: 1,
+            pickup_location_id: 1,
+            note: "-"
+        });
+
+        const order_id = res.data.id;
+
+        cartItems.map(async (item) => {
+            const res2 = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/ProductList/create`, {
+                order_id: order_id,
+                product_id: item.product_id,
+                quantity: item.quantity,
+            });
+        });
+
+        console.log(order_id);
+        clearCart();
+        router.dismissTo('/');
+        router.push(`/order/order-status/${order_id}`);
     }
 
     useEffect(() => {

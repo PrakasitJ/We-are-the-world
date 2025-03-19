@@ -9,14 +9,14 @@ const CartContext = createContext<{
     addToCart: (item: ICartRequest) => void;
     removeFromCart: (id: number) => void;
     clearCart: () => void;
-    createOrderAndProductList: () => void;
+    riderMsg: string;
     setRiderMsg: (msg: string) => void;
 }>({
     cartItems: [],
     addToCart: () => {},
     removeFromCart: () => {},
     clearCart: () => {},
-    createOrderAndProductList: () => {},
+    riderMsg: "",
     setRiderMsg: () => {},
 });
 
@@ -57,34 +57,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         setCartItems(cartItems.filter((item) => item.product_id !== product_id));
     }
 
-    const createOrderAndProductList = async () => {
-        const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/order/create`, {
-            customer_id: user.uuid,
-            rider_id: 1,
-            shop_id: 1,
-            service_fee: 1,
-            pickup_location_id: 1,
-            note: riderMsg,
-        });
-
-        const order_id = res.data.id;
-
-        cartItems.map(async (item) => {
-            const res2 = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/ProductList/create`, {
-                order_id: order_id,
-                product_id: item.product_id,
-                quantity: item.quantity,
-            });
-        });
-        
-        console.log(order_id);
-        clearCart();
-        router.dismissTo('/');
-        router.push(`/order/order-status/${order_id}`);
-    }
-
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, createOrderAndProductList, setRiderMsg }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, setRiderMsg, riderMsg }}>
             {children}
         </CartContext.Provider>
     );

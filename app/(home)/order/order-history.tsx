@@ -1,4 +1,8 @@
-import React from 'react';
+import useAuth from '@/app/provider/auth';
+import { IOrderDetail } from '@/interfaces/IOrder';
+import { formatTime } from '@/libs/formatTime';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,48 +13,19 @@ import {
 } from 'react-native';
 
 const OrderHistory = () => {
-  const orders = [
-    {
-      id: 1,
-      shopName: 'ร้านอาหารตามสั่ง',
-      productName: 'ข้าวผัดหมู',
-      price: '45 บาท',
-      details: 'ไม่ใส่ผัก',
-      orderDate: '24/02/2025',
-      paymentMethod: 'เงินสด'
-    },
-    {
-      id: 2,
-      shopName: 'ร้านก๋วยเตี๋ยว',
-      productName: 'ก๋วยเตี๋ยวต้มยำ',
-      price: '50 บาท',
-      details: 'พิเศษ, น้ำน้อย',
-      orderDate: '23/02/2025',
-      paymentMethod: 'พร้อมเพย์'
-    },
-  ];
+  const { user } = useAuth();
+  const [orders, setOrders] = useState<IOrderDetail[]>([]);
+  const fetchOrderByUserId = async () => {
+    const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/order/getByUserId/${user.uuid}`);
+    if (res.status === 200) setOrders(res.data);
+  }
 
-  const OrderDetail = ({ label, value }: { label: string; value: string }) => (
-    <View style={styles.detailRow}>
-      <Text style={styles.label}>{label}: </Text>
-      <Text style={styles.value}>{value}</Text>
-    </View>
-  );
+  useEffect(() => {
+    fetchOrderByUserId();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#2d4134" barStyle="light-content" />
-
-      {/* Header */}
-      {/* <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={() => router.back()} 
-          style={styles.backButton}
-        >
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>ประวัติการสั่งซื้อ</Text>
-      </View> */}
 
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
@@ -66,12 +41,12 @@ const OrderHistory = () => {
 
             {/* Order details */}
             <View style={styles.orderDetails}>
-              <OrderDetail label="ชื่อร้านค้า" value={order.shopName} />
-              <OrderDetail label="ชื่อสินค้า" value={order.productName} />
-              <OrderDetail label="ราคา" value={order.price} />
-              <OrderDetail label="รายละเอียด" value={order.details} />
-              <OrderDetail label="วันที่สั่งซื้อ" value={order.orderDate} />
-              <OrderDetail label="วิธีการชำระเงิน" value={order.paymentMethod} />
+              <OrderDetail label="ชื่อร้านค้า" value={order.shop.name} />
+              <OrderDetail label="ชื่อสินค้า" value="ไม่มี" />
+              <OrderDetail label="ราคา" value="999" />
+              <OrderDetail label="รายละเอียด" value={order.note} />
+              <OrderDetail label="วันที่สั่งซื้อ" value={formatTime(order.created_at)} />
+              <OrderDetail label="วิธีการชำระเงิน" value="ไม่มี" />
             </View>
           </View>
         ))}
@@ -79,6 +54,13 @@ const OrderHistory = () => {
     </SafeAreaView>
   );
 };
+
+const OrderDetail = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.detailRow}>
+    <Text style={styles.label}>{label}: </Text>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
