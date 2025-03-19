@@ -32,28 +32,18 @@ const OrderHistory = () => {
     try {
       setLoading(true);
 
-      // ดึงค่า BASE_URL จากตัวแปรสภาพแวดล้อม
-      const apiUrl = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_URL || process.env.EXPO_PUBLIC_API_URL;
-      // ดึงค่า endpoint จากตัวแปรสภาพแวดล้อม หรือกำหนดค่าเริ่มต้น
-      const ordersEndpoint = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_ORDERS_ENDPOINT ||
-        process.env.EXPO_PUBLIC_API_ORDERS_ENDPOINT ||
-        "/api/orders/history";
+      // ฮาร์ดโค้ด API URL ตรงนี้
+      const apiUrl = "http://localhost:3000";  
+      const ordersEndpoint = "/api/order/getAll";
 
-
-      if (!apiUrl) {
-        throw new Error("API URL ไม่ได้ถูกกำหนด กรุณาตรวจสอบไฟล์ .env หรือ app.config.js");
-      }
-
-      console.log("กำลังดึงข้อมูลจาก:", `${apiUrl}/api/orders/history`);
+      console.log("กำลังดึงข้อมูลจาก:", `${apiUrl}${ordersEndpoint}`);
 
       // ทำการเรียก API
-      const response = await axios.get(`${apiUrl}/api/orders/history`);
+      const response = await axios.get(`${apiUrl}${ordersEndpoint}`);
 
       console.log("การตอบกลับจาก API:", response.data);
 
-      // ตรวจสอบว่าการตอบกลับสำเร็จหรือไม่
       if (response.status === 200) {
-        // แปลงข้อมูลจาก API ให้ตรงกับโครงสร้างที่ต้องการ (ถ้าจำเป็น)
         const formattedOrders: Order[] = response.data.map((item: any) => ({
           id: item.id || item.order_id,
           shopName: item.shop_name || item.shopName,
@@ -72,7 +62,8 @@ const OrderHistory = () => {
     } finally {
       setLoading(false);
     }
-  };
+};
+
 
   // เรียกใช้ฟังก์ชัน fetchOrders เมื่อคอมโพเนนต์ถูกโหลด
   useEffect(() => {

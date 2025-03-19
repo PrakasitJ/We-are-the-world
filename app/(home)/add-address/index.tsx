@@ -59,6 +59,7 @@ export default function AddAddressScreen() {
         })();
     }, [])
 
+    
 
     const handleMapPress = (event: IMapEvent) => {
         console.log(event.nativeEvent);
@@ -146,6 +147,7 @@ export default function AddAddressScreen() {
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {
