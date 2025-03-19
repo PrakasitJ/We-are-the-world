@@ -29,7 +29,7 @@ export default function OrderPaymentScreen() {
             shop_id: 1,
             service_fee: 1,
             pickup_location_id: 1,
-            note: "-"
+            note: riderMsg || "-"
         });
 
         const order_id = res.data.id;
