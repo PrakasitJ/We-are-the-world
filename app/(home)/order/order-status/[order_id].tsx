@@ -61,11 +61,11 @@ export default function OrderStatusScreen() {
                             <Text className="font-regular text-gray-500">{orderDetail.customer.tel}</Text>
                             <View className="flex flex-row items-center gap-2">
                                 <FontAwesome name="map-marker" size={20} color="#A90E0E" />
-                                <Text className="font-regular text-gray-500">ที่อยู่ร้านค้า</Text>
+                                <Text className="font-regular text-gray-500">{orderDetail.shop.address}</Text>
                             </View>
                             <View className="flex flex-row items-center gap-2">
                                 <FontAwesome name="map-marker" size={20} color="#517B5D" />
-                                <Text className="font-regular text-gray-500">ที่อยู่ผู้รับ</Text>
+                                <Text className="font-regular text-gray-500">{orderDetail.customer.name} {orderDetail.customer.surname}</Text>
                             </View>
                         </View>
                         <View className="flex flex-col">
