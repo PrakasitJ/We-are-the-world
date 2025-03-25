@@ -8,6 +8,7 @@ export default function Profile() {
   const { user, logout } = useAuth();
   const [showEditNames, setShowEditName] = useState<boolean>(false);
   const [name, setName] = useState<string>(user.name);
+  const [phone, setPhone] = useState<string>(user.tel);
   const router = useRouter();
   return (
     <View className="flex-1">
@@ -46,7 +47,7 @@ export default function Profile() {
         </Text>
       </TouchableOpacity>
       {showEditNames && (
-        <ModalProfile setShowEditName={setShowEditName} setName={setName} />
+        <ModalProfile setShowEditName={setShowEditName} setName={setName} setPhone={setPhone} />
       )}
     </View>
   );
@@ -55,9 +56,11 @@ export default function Profile() {
 const ModalProfile = ({
   setShowEditName,
   setName,
+  setPhone,
 }: {
   setShowEditName: React.Dispatch<React.SetStateAction<boolean>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { user, updateUser } = useAuth();
   const [searchValue, setSearchValue] = useState<string>(user.name);
@@ -67,7 +70,7 @@ const ModalProfile = ({
     updateUser(user.uuid, { name: searchValue, tel: phoneValue });
     
     setName(searchValue);
-    setPhoneValue(phoneValue);
+    setPhone(phoneValue);
     setShowEditName(false);
   };
 
