@@ -8,8 +8,12 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 interface Order {
   id: number;
@@ -24,6 +28,7 @@ interface Order {
 const OrderHistory = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState<IOrderDetail[]>([]);
+  const router = useRouter();
   const fetchOrderByUserId = async () => {
     const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/order/getByUserId/${user.uuid}`);
     if (res.status === 200) setOrders(res.data);
@@ -47,22 +52,21 @@ const OrderHistory = () => {
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
         {orders.map((order) => (
-          <View key={order.id} style={styles.orderCard}>
-            {/* Image placeholder */}
-            <View style={styles.imagePlaceholder}>
-              <Text style={styles.placeholderText}>รูปภาพ</Text>
+          <TouchableOpacity onPress={() => router.push(`/(home)/order/order-status/${order.id}`)} key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
+            <View className='flex flex-1 flex-row justify-between'>
+              <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
+              <Text className="font-regular">xxx บาท</Text>
             </View>
-
-            {/* Order details */}
-            <View style={styles.orderDetails}>
-              <OrderDetail label="ชื่อร้านค้า" value={order.shop.name} />
-              <OrderDetail label="ชื่อสินค้า" value="ไม่มี" />
-              <OrderDetail label="ราคา" value="999" />
-              <OrderDetail label="รายละเอียด" value={order.note} />
-              <OrderDetail label="วันที่สั่งซื้อ" value={formatTime(order.created_at)} />
-              <OrderDetail label="วิธีการชำระเงิน" value="ไม่มี" />
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#A90E0E" />
+              <Text className="font-regular">{order.shop.address}</Text>
             </View>
-          </View>
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#517B5D" />
+              <Text className="font-regular">{order.customer.name} {order.customer.surname}</Text>
+            </View>
+            <Text className="font-regular">{order.status}</Text>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
