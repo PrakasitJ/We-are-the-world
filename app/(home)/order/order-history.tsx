@@ -8,8 +8,13 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import axios from 'axios';
+import Constants from 'expo-constants';
+import { router } from 'expo-router';
 
 interface Order {
   id: number;
@@ -19,6 +24,9 @@ interface Order {
   details: string;
   orderDate: string;
   paymentMethod: string;
+  userLocation: string;
+  shopLocation: string;
+  orderStatus: string;
 }
 
 const OrderHistory = () => {
@@ -47,10 +55,24 @@ const OrderHistory = () => {
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
         {orders.map((order) => (
+          <TouchableOpacity
+          key={order.id}
+          style={styles.orderCard}
+          onPress={() => router.push('/order/order-summary')}
+        >
           <View key={order.id} style={styles.orderCard}>
-            {/* Image placeholder */}
-            <View style={styles.imagePlaceholder}>
-              <Text style={styles.placeholderText}>รูปภาพ</Text>
+            <Text style={styles.dateTimeText}>วันที่สั่งซื้อ, เวลา : {order.orderDate}</Text>
+
+            <View style={styles.locationContainer}>
+              <View style={styles.locationRow}>
+                <Text style={styles.locationIconRed}>●</Text>
+                <Text style={styles.locationText}>ที่อยู่ร้านค้า : {order.shopLocation}</Text>
+              </View>
+
+              <View style={styles.locationRow}>
+                <Text style={styles.locationIconGreen}>●</Text>
+                <Text style={styles.locationText}>ที่อยู่ผู้รับ : {order.userLocation}</Text>
+              </View>
             </View>
 
             {/* Order details */}
@@ -63,6 +85,7 @@ const OrderHistory = () => {
               <OrderDetail label="วิธีการชำระเงิน" value="ไม่มี" />
             </View>
           </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -81,9 +104,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2d4134',
   },
-  centerContent: {
-    justifyContent: 'center',
+  header: {
+    backgroundColor: '#2d4134',
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 16,
+  },
+  backButton: {
+    paddingRight: 10,
+  },
+  backButtonText: {
+    color: 'white',
+    fontSize: 24,
+  },
+  headerTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   scrollView: {
     flex: 1,
@@ -93,49 +131,79 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
-    marginBottom: 16,
-    flexDirection: 'row',
+    marginBottom: 10,
   },
-  imagePlaceholder: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-    marginRight: 16,
+  dateTimeText: {
+    fontSize: 12,
+    color: '#888',
+    marginBottom: 8,
+  },
+  locationContainer: {
+    marginVertical: 6,
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  locationIconRed: {
+    color: 'red',
+    fontSize: 16,
+    marginRight: 8,
+  },
+  locationIconGreen: {
+    color: 'green',
+    fontSize: 16,
+    marginRight: 8,
+  },
+  locationText: {
+    fontSize: 14,
+  },
+  orderStatus: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 8,
+  },
+  priceContainer: {
+    alignItems: 'flex-end',
+  },
+  priceText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  centerContent: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  placeholderText: {
-    color: '#666',
-  },
-  orderDetails: {
-    flex: 1,
-  },
-  detailRow: {
-    flexDirection: 'row',
-    marginBottom: 4,
-  },
-  label: {
-    color: '#666',
-  },
-  value: {
-    flex: 1,
-  },
-  loadingText: {
-    color: 'white',
-    marginTop: 10,
-  },
-  errorText: {
-    color: '#ff6b6b',
-    fontSize: 16,
-    textAlign: 'center',
-    padding: 20,
   },
   emptyText: {
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
-  }
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#ddd',
+    fontSize: 14,
+  },
+  value: {
+    color: '#fff',
+    fontSize: 14,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#ddd',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });
-
 export default OrderHistory;
