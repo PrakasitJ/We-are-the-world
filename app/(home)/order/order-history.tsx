@@ -8,10 +8,12 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 interface Order {
   id: number;
@@ -26,6 +28,7 @@ interface Order {
 const OrderHistory = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState<IOrderDetail[]>([]);
+  const router = useRouter();
   const fetchOrderByUserId = async () => {
     const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/order/getByUserId/${user.uuid}`);
     if (res.status === 200) setOrders(res.data);
@@ -49,7 +52,7 @@ const OrderHistory = () => {
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
         {orders.map((order) => (
-          <View key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
+          <TouchableOpacity onPress={() => router.push(`/(home)/order/order-status/${order.id}`)} key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
             <View className='flex flex-1 flex-row justify-between'>
               <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
               <Text className="font-regular">xxx บาท</Text>
@@ -63,7 +66,7 @@ const OrderHistory = () => {
               <Text className="font-regular">{order.customer.name} {order.customer.surname}</Text>
             </View>
             <Text className="font-regular">{order.status}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
