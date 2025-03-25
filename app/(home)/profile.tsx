@@ -31,7 +31,7 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
         <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">
-           {user.tel}
+           {phone}
         </Text>
       </View>
       <TouchableOpacity
