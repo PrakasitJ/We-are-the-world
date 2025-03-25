@@ -7,8 +7,8 @@ export default function Layout() {
             screenOptions={{
                 headerShown: false,
             }}>
-            <Stack.Screen name="shops" options={{ title: "Shop List" }} />
-            <Stack.Screen name="(owner)" options={{ title: "Owner" }} />
+            <Stack.Screen name="unauthorized_page" options={{ title: "Unauthorized" }} />
+            <Stack.Screen name="register" options={{ title: "Register" }} />
         </Stack>
     );
 }

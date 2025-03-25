@@ -7,6 +7,10 @@ export default function SetUpFonts() {
     "SpaceMono": require("../assets/fonts/SpaceMono-Regular.ttf"),
     "Poppins": require("../assets/fonts/Poppins-Regular.ttf"),
     "Sarabun": require("../assets/fonts/Sarabun/Sarabun-Regular.ttf"),
+    "Sarabun-Regular": require("../assets/fonts/Sarabun/Sarabun-Regular.ttf"),
+    "Sarabun-Bold": require("../assets/fonts/Sarabun/Sarabun-Bold.ttf"),
+    "Sarabun-SemiBold": require("../assets/fonts/Sarabun/Sarabun-SemiBold.ttf"),
   });
   return loaded;
 }
+  

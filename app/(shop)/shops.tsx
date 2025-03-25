@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from "react";
 import useShops from "../provider/shops";
 import SetUpFonts from "../fonts";
-
+import { router } from "expo-router";
 const { width, height } = Dimensions.get('window');
 const os = Platform.OS;
 
@@ -47,9 +47,10 @@ const shops = [
 
 export default function Shops() {
     SetUpFonts();
-    const { shops, fetchShops } = useShops();
+    const { fetchShops, filterShops } = useShops();
     useEffect(() => {
         fetchShops();
+        filterShops('');
     }, []);
     return (
         <View style={styles.container}>
@@ -65,6 +66,9 @@ const Header = () => {
     return (
         <View style={styles.header}>
             <View style={styles.headerTop}>
+                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                    <Ionicons name="arrow-back-outline" size={24} color="#00B900" />
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.locationButton}>
                     <View style={styles.locationContainer}>
                         <Ionicons name="location" size={22} color="#00B900" />
@@ -82,6 +86,7 @@ const Header = () => {
 }
 
 const SearchBar = () => {
+    const { filterShops } = useShops();
     return (
         <View style={styles.searchContainer}>
             <View style={styles.searchBarContent}>
@@ -90,6 +95,7 @@ const SearchBar = () => {
                     style={styles.searchInput}
                     placeholder="ค้นหาร้านอาหาร หรือร้านค้า"
                     placeholderTextColor="#666"
+                    onChangeText={(text) => filterShops(text)}
                 />
                 <TouchableOpacity style={styles.filterButton}>
                     <Ionicons name="options-outline" size={20} color="#666" />
@@ -125,7 +131,7 @@ const ShopList = () => {
         <View style={styles.shopListContainer}>
             <ScrollView style={styles.shopList}>
                 {shops.map((shop) => (
-                    <TouchableOpacity key={shop.id} style={styles.shopItem}>
+                    <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(home)/order/order-list/${shop.id}`)}>
                         <Image
                             source={{ uri: shop.Shop_images.length > 0 ? shop.Shop_images[0].image_url : 'https://picsum.photos/200' }}
                             style={styles.shopImage}
@@ -187,6 +193,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 5,
+    },
+    backButton: {
+        padding: 5,
     },
     locationButton: {
         padding: 5,

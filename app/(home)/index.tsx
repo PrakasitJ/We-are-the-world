@@ -34,7 +34,7 @@ export default function HomeScreen() {
     {
       title: 'ร้านค้า',
       iconName: 'cart.fill',
-      onPress: () => router.push('/(shop)/shops')
+      onPress: () => router.push('/(shop)/(owner)/unauthorized_page')
     }
   ];
 

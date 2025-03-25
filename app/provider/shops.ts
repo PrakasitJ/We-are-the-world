@@ -36,9 +36,11 @@ interface Category {
 
 interface ShopsState {
     shops: Shop[];
+    fullShops: Shop[];
     setShops: (shops: Shop[]) => void;
     getShop: (shopId: number) => Shop | null;
     fetchShops: () => void;
+    filterShops: (search: string) => void;
 }
 
 interface ShopState {
@@ -48,6 +50,7 @@ interface ShopState {
 
 const useShops = create<ShopsState>((set) => ({
     shops: [],
+    fullShops: [],
     setShops: (shops: Shop[]) => set({ shops }),
     getShop: (shopId: number): Shop | null => {
         const state = useShops.getState();
@@ -56,7 +59,11 @@ const useShops = create<ShopsState>((set) => ({
     fetchShops: async () => {
         const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/shop/getAllWithImagesAndCategory`);
         const data = await response.json();
-        set({ shops: data });
+        set({ shops: data, fullShops: data });
+    },
+    filterShops: (search: string) => {
+        const state = useShops.getState();
+        set({ shops: state.fullShops.filter((shop: Shop) => shop.name.toLowerCase().includes(search.toLowerCase())) });
     },
 }));
 
