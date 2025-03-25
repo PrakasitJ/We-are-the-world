@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from "react-native";
 
 export default function UnauthorizedPage() {
     return (
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#ffffff', 
-        fontSize: 16,
+        fontSize: Platform.OS === 'ios' ? 14 : 16,
         fontWeight: '600',
     },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Platform } from "react-native";
 import { router } from "expo-router";
 import * as DocumentPicker from 'expo-document-picker';
 import { useState } from 'react';
@@ -84,40 +84,40 @@ export default function Register() {
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>ข้อมูลร้านค้า</Text>
                     <TextInput style={styles.input} placeholder="ชื่อร้านค้า" placeholderTextColor="#666" />
-                    
+
                     <Text style={styles.timeLabel}>เวลาเปิด</Text>
                     <View style={styles.timePickerContainer}>
                         <TouchableOpacity style={styles.timePickerButton} onPress={() => setShowOpenTimePicker(true)}>
                             <Text style={styles.timePickerText}>{openTime ? openTime.toLocaleTimeString() : 'เลือกเวลาเปิด'}</Text>
                         </TouchableOpacity>
                     </View>
-                    
+                    {showOpenTimePicker && (
+                        <DateTimePicker
+                            value={openTime || new Date()}
+                            mode="time"
+                            is24Hour={true}
+                            display="spinner"
+                            onChange={handleOpenTimeChange}
+                        />
+                    )}
+
                     <Text style={styles.timeLabel}>เวลาปิด</Text>
                     <View style={styles.timePickerContainer}>
                         <TouchableOpacity style={styles.timePickerButton} onPress={() => setShowCloseTimePicker(true)}>
                             <Text style={styles.timePickerText}>{closeTime ? closeTime.toLocaleTimeString() : 'เลือกเวลาปิด'}</Text>
                         </TouchableOpacity>
                     </View>
-                    
-                    {showOpenTimePicker && (
-                        <DateTimePicker
-                            value={openTime || new Date()}
-                            mode="time"
-                            is24Hour={true}
-                            display="default"
-                            onChange={handleOpenTimeChange}
-                        />
-                    )}
+
                     {showCloseTimePicker && (
                         <DateTimePicker
                             value={closeTime || new Date()}
                             mode="time"
                             is24Hour={true}
-                            display="default"
+                            display="spinner"
                             onChange={handleCloseTimeChange}
                         />
                     )}
-                    
+
                     <TextInput
                         style={styles.input}
                         placeholder="คำอธิบายเพิ่มเติม"
@@ -189,6 +189,8 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 40,
         fontFamily: 'Sarabun-Bold',
+        marginTop: Platform.OS === 'ios' ? 40 : 0,
+        marginBottom: 20
     },
     title: {
         fontSize: 28,
