@@ -30,7 +30,7 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
         <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">
-          เบอร์โทรศัพท์ {user.tel}
+           {user.tel}
         </Text>
       </View>
       <TouchableOpacity
@@ -59,31 +59,58 @@ const ModalProfile = ({
   setShowEditName: React.Dispatch<React.SetStateAction<boolean>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [searchValue, setSearchValue] = useState<string>("");
   const { user, updateUser } = useAuth();
+  const [searchValue, setSearchValue] = useState<string>(user.name);
+  const [phoneValue, setPhoneValue] = useState<string>(user.tel);
 
   const handleConfirm = () => {
-    updateUser(user.uuid, { name: searchValue });
+    updateUser(user.uuid, { name: searchValue, tel: phoneValue });
+    
     setName(searchValue);
+    setPhoneValue(phoneValue);
     setShowEditName(false);
   };
 
   return (
     <View className="absolute items-center justify-center h-full w-full bg-black/50 ">
-      <View className="flex  p-7 justify-center w-[350px] h-[250px] bg-gray-100 rounded-lg shadow-lg">
+      <View className="flex  p-7 justify-center w-[350px] h-[350px] bg-gray-100 rounded-lg shadow-lg">
         <Text className="font-medium mb-4 text-xl font-regular">
           แก้ไขชื่อผู้ใช้
         </Text>
-        <TextInput
-          editable
-          value={searchValue}
-          placeholder="ชื่อผู้ใช้"
-          placeholderTextColor="#354138 opacity-50"
-          className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9]  pl-[20px]"
-          onChangeText={setSearchValue}
-        />
-        <TouchableOpacity onPress={() => handleConfirm()} className="mt-4">
-          <Text className="text-base text-white bg-[#68Ba7f] py-[15px] text-center rounded-full font-semibol font-regular">
+        <View className="flex flex-col gap-3">
+          <TextInput
+            editable
+            value={searchValue}
+            placeholder={user.name}
+            placeholderTextColor="#354138 opacity-50"
+            className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9]  pl-[20px]"
+            onChangeText={setSearchValue}
+          />
+          {searchValue.trim() === "" && (
+            <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกชื่อผู้ใช้</Text>
+          )}
+          <TextInput
+            editable
+            value={phoneValue}
+            placeholder={user.tel}
+            placeholderTextColor="#354138 opacity-50"
+            className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9]  pl-[20px]"
+            onChangeText={setPhoneValue}
+            keyboardType="phone-pad"
+          />
+            {phoneValue.trim() === "" && (
+            <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกเบอร์โทรศัพท์</Text>
+            )}
+            {phoneValue.trim() !== "" && (!/^\d{10}$/.test(phoneValue)) && (
+            <Text className="text-[##EB4236] text-sm font-regular">เบอร์โทรศัพท์ต้องประกอบด้วย 10 ตัวเลข</Text>
+            )}
+        </View>
+        <TouchableOpacity
+          onPress={() => handleConfirm()}
+          className={`mt-4 rounded-full ${searchValue.trim() === "" || phoneValue.trim() === "" || !/^\d{10}$/.test(phoneValue) ? "bg-[#b3c9ba]" : "bg-[#68Ba7f]"}`}
+          disabled={searchValue.trim() === "" || phoneValue.trim() === "" || !/^\d{10}$/.test(phoneValue)}
+        >
+          <Text className="text-base text-white py-[15px] text-center rounded-full font-semibol font-regular">
             ยืนยัน
           </Text>
         </TouchableOpacity>
