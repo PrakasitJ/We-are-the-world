@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Platform } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Platform, Alert } from "react-native";
 import { router } from "expo-router";
 import * as DocumentPicker from 'expo-document-picker';
 import { useState } from 'react';
 import SetUpFonts from "@/app/fonts";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import useAuth from '@/app/provider/auth';
 
 export default function Register() {
     SetUpFonts();
+    const { user, error, registerToBeShop } = useAuth();
     const [selectedCase, setSelectedCase] = useState<1 | 2>(1);
     const [files, setFiles] = useState<{ [key: string]: string }>({});
     const [openTime, setOpenTime] = useState<Date | undefined>(undefined);
@@ -160,9 +162,11 @@ export default function Register() {
                             <>
                                 {renderFileUploadSection('idCard', '• สำเนาบัตรประชาชน')}
                                 {renderFileUploadSection('bankReg', '• สำเนาบัญชีธนาคาร')}
+                                {renderFileUploadSection('vatNormalReg', 'ใบทะเบียนภาษีมูลค่าเพิ่ม')}
                             </>
                         )}
                     </View>
+                    <Text style={styles.errorText}>{error}</Text>
                 </View>
 
                 <View style={styles.buttonRow}>
@@ -170,7 +174,12 @@ export default function Register() {
                         <Text style={styles.backButtonText}>กลับไปหน้าหลัก</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.submitButton} onPress={() => console.log('Submit form')}>
+                    <TouchableOpacity style={styles.submitButton} onPress={() => {
+                        Alert.alert("ยืนยันการส่งข้อมูล", "หากส่งข้อมูลแล้วจะไม่สามารถแก้ไขข้อมูลได้", [
+                            { text: "ยกเลิก", onPress: () => { } },
+                            { text: "ยืนยัน", onPress: () => registerToBeShop(user.uuid) }
+                        ])
+                    }}>
                         <Text style={styles.buttonText}>ส่งข้อมูลการลงทะเบียน</Text>
                     </TouchableOpacity>
                 </View>
@@ -431,6 +440,11 @@ const styles = StyleSheet.create({
         color: '#2E7D32',
         marginBottom: 5,
         fontFamily: 'Sarabun-SemiBold',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 16,
+        fontFamily: 'Sarabun-Regular',
     },
 });
 

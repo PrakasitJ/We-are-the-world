@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 
 import { ThemedView } from "@/components/ThemedView";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,13 +6,14 @@ import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import SearchBar from "@/components/ui/SearchBar";
-import React from "react";
+import React, { useEffect } from "react";
 import SearchButton from "@/components/ui/SearchButton";
 import useAuth from "../provider/auth";
+import { Ionicons } from "@expo/vector-icons";
 
 interface IIconPage {
   title: string,
-  iconName: IconSymbolName,
+  iconName: string,
   onPress: () => void
 }
 
@@ -23,18 +24,18 @@ export default function HomeScreen() {
   const ICONPAGE: IIconPage[] = [
     {
       title: 'มูลนิธิ',
-      iconName: 'building.fill',
+      iconName: Platform.OS === 'ios' ? 'building.fill' : 'home',
       onPress: () => router.push('/')
     },
     {
       title: 'ไรเดอร์',
-      iconName: 'truck.box.fill',
+      iconName: Platform.OS === 'ios' ? 'truck.box.fill' : 'car',
       onPress: () => router.push('/')
     },
     {
       title: 'ร้านค้า',
-      iconName: 'cart.fill',
-      onPress: () => router.push('/(shop)/(owner)/unauthorized_page')
+      iconName: Platform.OS === 'ios' ? 'cart.fill' : 'cart',
+      onPress: () => router.push('/(shop)/(owner)/shops')
     }
   ];
 
@@ -45,17 +46,25 @@ export default function HomeScreen() {
         <View className="flex flex-row justify-between p-4 px-6 bg-[#253D2C] h-[150px] items-end">
           <Text className="flex-1 text-4xl font-bold text-white pt-3" >สวัสดี, {user.name}</Text>
           <TouchableOpacity onPress={() => router.push('/profile')}>
-            <IconSymbol name='person.fill' size={45} color="white" />
+            {Platform.OS === 'ios' ? (
+              <IconSymbol name='person.fill' size={45} color="white" />
+            ) : (
+              <Ionicons name="person-circle-outline" size={45} color="white" />
+            )}
           </TouchableOpacity>
         </View>
         <View className="flex flex-col flex-1">
           <View className="flex flex-row justify-around items-center h-auto pt-5">
             {ICONPAGE.map((item, index) => (
-              <IconForTouch key={index} title={item.title} iconName={item.iconName} onPress={item.onPress} />
+              Platform.OS === 'ios' ? (
+                <IconForTouch key={index} title={item.title} iconName={item.iconName as IconSymbolName} onPress={item.onPress} />
+              ) : (
+                <IconForTouchAndroid key={index} title={item.title} iconName={item.iconName as IconSymbolName} onPress={item.onPress} />
+              )
             ))}
           </View>
           <View className="gap-2 pt-7 px-10 ">
-              <SearchButton />
+            <SearchButton />
             <View className="flex flex-col gap-3 pt-1 ">
               <View className="flex flex-row items-center h-auto gap-2 pt-1">
                 <TouchableOpacity onPress={() => router.push('/add-address')}>
@@ -92,8 +101,8 @@ export default function HomeScreen() {
 
             <View className="flex flex-col gap-1">
               <View className="flex flex-row items-center h-auto gap-2 ">
-              <TouchableOpacity onPress={() => router.push('/foundation-map')} className="text-xl font-regular underline">
-                <Text className="text-xl font-regular underline">บริจาคให้มูลนิธิ</Text>
+                <TouchableOpacity onPress={() => router.push('/foundation-map')} className="text-xl font-regular underline">
+                  <Text className="text-xl font-regular underline">บริจาคให้มูลนิธิ</Text>
                 </TouchableOpacity>
                 <IconSymbol name='arrow.right' size={26} color="black" />
               </View>
@@ -116,6 +125,17 @@ const IconForTouch = ({ title, iconName, onPress }: { title: string, iconName: I
     <View className="gap-2">
       <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
         <IconSymbol name={iconName} size={32} color="white" />
+      </TouchableOpacity>
+      <Text className="text-[#517B5D] font-regular text-center">{title}</Text>
+    </View>
+  );
+};
+
+const IconForTouchAndroid = ({ title, iconName, onPress }: { title: string, iconName: string, onPress: () => void }) => {
+  return (
+    <View className="gap-2">
+      <TouchableOpacity className="flex flex-col rounded-xl items-center w-16 h-16 bg-[#92bb9e] justify-center" onPress={() => onPress()}>
+        <Ionicons name={iconName as any} size={32} color="white" />
       </TouchableOpacity>
       <Text className="text-[#517B5D] font-regular text-center">{title}</Text>
     </View>

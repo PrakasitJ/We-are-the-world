@@ -14,7 +14,7 @@ export default function UnauthorizedPage() {
                 <TouchableOpacity style={styles.button} onPress={() => router.back()}>
                     <Text style={styles.buttonText}>กลับไปหน้าหลัก</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => router.push('/register')}>
+                <TouchableOpacity style={styles.button} onPress={() => router.replace('/register')}>
                     <Text style={styles.buttonText}>สมัครเป็นเจ้าของร้าน</Text>
                 </TouchableOpacity>
             </View>

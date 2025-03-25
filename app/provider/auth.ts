@@ -15,6 +15,7 @@ type User = {
   profile_image_url: string;
   createdAt: string;
   updatedAt: string;
+  shop_verified: "NOT_REGISTERED" | "PENDING" | "APPROVED" | "REJECTED";
 };
 
 type UserRegister = {
@@ -40,8 +41,11 @@ type Auth = {
   logout: () => void;
   register: (user: UserRegister) => void;
   getUser: () => User;
-  updateUser: (uuid : string, user: Partial<User>) => void;
+  updateUser: (uuid: string, user: Partial<User>) => void;
   setErrorMessage: (error: string) => void;
+  registerToBeShop: (uuid: string) => void;
+  refresh: () => void;
+  validateShopState: () => void;
 };
 
 const asyncStorageAdapter = {
@@ -144,6 +148,41 @@ const useAuth = create<Auth>()(
           error: error,
         }));
       },
+      registerToBeShop: async (uuid) => {
+        const data = await RegisterToBeShop(uuid);
+        console.log(data);
+        if (!data.errors) {
+          set(() => ({
+            user: { ...get().user, shop_verified: "PENDING" },
+          }));
+          router.replace('/(shop)/(owner)/shops')
+        } else {
+          set(() => ({
+            error: data.message + " " + data.property,
+          }));
+        }
+      },
+      refresh: async () => {
+        const data = await Refresh(get().user.uuid);
+        set(() => ({
+          user: data,
+        }));
+      },
+      validateShopState: async () => {
+        const data = await Refresh(get().user.uuid);
+        set(() => ({
+          user: data,
+        }));
+        if (get().user.shop_verified == "PENDING") {
+          router.replace('/(shop)/(owner)/verify_pending');
+        } else if (get().user.shop_verified == "REJECTED") {
+          router.replace('/(shop)/(owner)/verify_reject');
+        } else if (get().user.shop_verified == "APPROVED") {
+          
+        } else if (get().user.shop_verified == "NOT_REGISTERED") {
+          router.replace('/(shop)/(owner)/unauthorized_page');
+        }
+      },
     }),
     {
       name: "auth-storage",
@@ -170,10 +209,11 @@ function defaultUser() {
     profile_image_url: "",
     createdAt: "",
     updatedAt: "",
+    shop_verified: "NOT_REGISTERED" as "NOT_REGISTERED" | "PENDING" | "APPROVED" | "REJECTED",
   };
 }
 
-async function UpdateUser(uuid : string, user: Partial<User>) {
+async function UpdateUser(uuid: string, user: Partial<User>) {
   const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/update`, {
     method: "PUT",
     headers: {
@@ -215,4 +255,23 @@ async function Register(user: UserRegister) {
   const data = await response.json();
   return data;
 }
+
+async function RegisterToBeShop(uuid: string) {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/registerToBeShop`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id: uuid }),
+  });
+  const data = await response.json();
+  return data;
+}
+
+async function Refresh(uuid: string) {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/user/${uuid}/detail`);
+  const data = await response.json();
+  return data;
+}
+
 export default useAuth;

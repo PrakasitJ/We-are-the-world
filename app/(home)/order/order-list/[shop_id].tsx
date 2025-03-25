@@ -21,14 +21,14 @@ export default function ShopListScreen() {
 
   const fetchProductByShopId = async () => {
     const res = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_URL}/api/product/getByShopID/1`
+      `${process.env.EXPO_PUBLIC_API_URL}/api/product/getByShopID/${route.params.shop_id}`
     );
     if (res.status === 200) setProducts(res.data);
   };
 
   const fetchShopByShopId = async () => {
     const res = await axios.get(
-      `${process.env.EXPO_PUBLIC_API_URL}/api/shop/get/1`
+      `${process.env.EXPO_PUBLIC_API_URL}/api/shop/get/${route.params.shop_id}`
     );
     if (res.status === 200) setShop(res.data);
   };
