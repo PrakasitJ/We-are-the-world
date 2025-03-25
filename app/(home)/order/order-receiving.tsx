@@ -1,3 +1,6 @@
+import useAuth from '@/app/provider/auth';
+import { IOrderDetail } from '@/interfaces/IOrder';
+import { formatTime } from '@/libs/formatTime';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -5,123 +8,74 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
-  ActivityIndicator,
-  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import { router } from 'expo-router';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
 
-interface Order {
-  id: number;
-  shopName: string;
-  productName: string;
-  price: string;
-  details: string;
-  orderDate: string;
-  paymentMethod: string;
-  userLocation: string;
-  shopLocation: string;
-  orderStatus: string;
-}
 
 const OrderReceiving = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // ดึงข้อมูลจาก API
-  const fetchOrders = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('http://localhost:3000/api/order/getAll');
-
-      if (response.status === 200) {  
-        const formattedOrders: Order[] = response.data.map((item: any) => ({
-          id: item.id,
-          shopName: item.shop_name,
-          productName: item.product_name,
-          price: `${item.price} บาท`,
-          details: item.details || "-",
-          orderDate: item.order_date || item.createdAt,
-          paymentMethod: item.payment_method,
-          userLocation: item.user_location || "ไม่ระบุ",
-          shopLocation: item.shop_location || "ไม่ระบุ",
-          orderStatus: item.order_status || "รอดำเนินการ",
-        }));
-
-        setOrders(formattedOrders);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการดึงข้อมูล");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { user } = useAuth();
+  const [orders, setOrders] = useState<IOrderDetail[]>([]);
+  const fetchOrderByUserId = async () => {
+    const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/order/getByUserId/${user.uuid}`);
+    if (res.status === 200) setOrders(res.data);
+  }
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrderByUserId();
   }, []);
+
+  if (orders.length === 0) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <Text style={styles.emptyText}>ไม่พบประวัติการสั่งซื้อ</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#2d4134" barStyle="light-content" />
 
-      {loading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#FFFFFF" />
-          <Text style={styles.loadingText}>กำลังโหลดข้อมูล...</Text>
-        </View>
-      ) : error ? (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.errorText}>เกิดข้อผิดพลาด: {error}</Text>
-        </View>
-      ) : orders.length === 0 ? (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.emptyText}>ไม่พบประวัติการสั่งซื้อ</Text>
-        </View>
-      ) : (
-        <ScrollView style={styles.scrollView}>
-          {orders.map((order) => (
-            <TouchableOpacity
-                      key={order.id}
-                      style={styles.orderCard}
-                      onPress={() => router.push('/order/order-summary')}
-                    >
-            
-            <View key={order.id} style={styles.orderCard}>
-              <Text style={styles.orderDate}>วันที่สั่งซื้อ, เวลา : {order.orderDate}</Text>
-
-              <View style={styles.locationContainer}>
-                <View style={styles.locationRow}>
-                  <Text style={styles.locationIconRed}>●</Text>
-                  <Text style={styles.locationText}>ที่อยู่ร้านค้า : {order.shopLocation}</Text>
-                </View>
-
-                <View style={styles.locationRow}>
-                  <Text style={styles.locationIconGreen}>●</Text>
-                  <Text style={styles.locationText}>ที่อยู่ผู้รับ : {order.userLocation}</Text>
-                </View>
-              </View>
-
-              <Text style={styles.statusText}>สถานะการสั่งซื้อ : {order.orderStatus}</Text>
-
-              <View style={styles.priceContainer}>
-                <Text style={styles.priceText}>ราคาสินค้า : {order.price}</Text>
-              </View>
+      {/* Orders List */}
+      <ScrollView style={styles.scrollView}>
+        {orders.map((order) => (
+          <View key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
+            <View className='flex flex-1 flex-row justify-between'>
+              <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
+              <Text className="font-regular">xxx บาท</Text>
             </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      )}
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#A90E0E" />
+              <Text className="font-regular">{order.shop.address}</Text>
+            </View>
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#517B5D" />
+              <Text className="font-regular">{order.customer.name} {order.customer.surname}</Text>
+            </View>
+            <Text className="font-regular">{order.status}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
+const OrderDetail = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.detailRow}>
+    <Text style={styles.label}>{label}: </Text>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2d4134',
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollView: {
     flex: 1,
@@ -131,67 +85,49 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
-    marginBottom: 10,
-  },
-  orderDate: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 8,
-  },
-  locationContainer: {
-    marginBottom: 8,
-  },
-  locationRow: {
+    marginBottom: 16,
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
   },
-  locationIconRed: {
-    color: 'red',
-    fontSize: 16,
-    marginRight: 8,
-  },
-  locationIconGreen: {
-    color: 'green',
-    fontSize: 16,
-    marginRight: 8,
-  },
-  locationText: {
-    fontSize: 14,
-  },
-  statusText: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 4,
-  },
-  priceContainer: {
-    alignItems: 'flex-end',
-  },
-  priceText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  loadingContainer: {
-    flex: 1,
+  imagePlaceholder: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    marginRight: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  placeholderText: {
+    color: '#666',
+  },
+  orderDetails: {
+    flex: 1,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  label: {
+    color: '#666',
+  },
+  value: {
+    flex: 1,
+  },
   loadingText: {
+    color: 'white',
     marginTop: 10,
-    fontSize: 16,
-    color: '#ddd',
   },
   errorText: {
-    color: 'red',
+    color: '#ff6b6b',
     fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
+    padding: 20,
   },
   emptyText: {
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
-  },
+  }
 });
 
 export default OrderReceiving;

@@ -8,13 +8,10 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
-  ActivityIndicator,
-  StatusBar,
 } from 'react-native';
 import axios from 'axios';
-import Constants from 'expo-constants';
-import { router } from 'expo-router';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
 
 interface Order {
   id: number;
@@ -24,9 +21,6 @@ interface Order {
   details: string;
   orderDate: string;
   paymentMethod: string;
-  userLocation: string;
-  shopLocation: string;
-  orderStatus: string;
 }
 
 const OrderHistory = () => {
@@ -55,37 +49,21 @@ const OrderHistory = () => {
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
         {orders.map((order) => (
-          <TouchableOpacity
-          key={order.id}
-          style={styles.orderCard}
-          onPress={() => router.push('/order/order-summary')}
-        >
-          <View key={order.id} style={styles.orderCard}>
-            <Text style={styles.dateTimeText}>วันที่สั่งซื้อ, เวลา : {order.orderDate}</Text>
-
-            <View style={styles.locationContainer}>
-              <View style={styles.locationRow}>
-                <Text style={styles.locationIconRed}>●</Text>
-                <Text style={styles.locationText}>ที่อยู่ร้านค้า : {order.shopLocation}</Text>
-              </View>
-
-              <View style={styles.locationRow}>
-                <Text style={styles.locationIconGreen}>●</Text>
-                <Text style={styles.locationText}>ที่อยู่ผู้รับ : {order.userLocation}</Text>
-              </View>
+          <View key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
+            <View className='flex flex-1 flex-row justify-between'>
+              <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
+              <Text className="font-regular">xxx บาท</Text>
             </View>
-
-            {/* Order details */}
-            <View style={styles.orderDetails}>
-              <OrderDetail label="ชื่อร้านค้า" value={order.shop.name} />
-              <OrderDetail label="ชื่อสินค้า" value="ไม่มี" />
-              <OrderDetail label="ราคา" value="999" />
-              <OrderDetail label="รายละเอียด" value={order.note} />
-              <OrderDetail label="วันที่สั่งซื้อ" value={formatTime(order.created_at)} />
-              <OrderDetail label="วิธีการชำระเงิน" value="ไม่มี" />
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#A90E0E" />
+              <Text className="font-regular">{order.shop.address}</Text>
             </View>
+            <View className='flex flex-1 flex-row gap-2'>
+              <FontAwesome name="map-marker" size={20} color="#517B5D" />
+              <Text className="font-regular">{order.customer.name} {order.customer.surname}</Text>
+            </View>
+            <Text className="font-regular">{order.status}</Text>
           </View>
-          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -104,24 +82,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2d4134',
   },
-  header: {
-    backgroundColor: '#2d4134',
-    flexDirection: 'row',
+  centerContent: {
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 16,
-  },
-  backButton: {
-    paddingRight: 10,
-  },
-  backButtonText: {
-    color: 'white',
-    fontSize: 24,
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   scrollView: {
     flex: 1,
@@ -131,79 +94,49 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
-    marginBottom: 10,
-  },
-  dateTimeText: {
-    fontSize: 12,
-    color: '#888',
-    marginBottom: 8,
-  },
-  locationContainer: {
-    marginVertical: 6,
-  },
-  locationRow: {
+    marginBottom: 16,
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
   },
-  locationIconRed: {
-    color: 'red',
-    fontSize: 16,
-    marginRight: 8,
-  },
-  locationIconGreen: {
-    color: 'green',
-    fontSize: 16,
-    marginRight: 8,
-  },
-  locationText: {
-    fontSize: 14,
-  },
-  orderStatus: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 8,
-  },
-  priceContainer: {
-    alignItems: 'flex-end',
-  },
-  priceText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  centerContent: {
+  imagePlaceholder: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    marginRight: 16,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  placeholderText: {
+    color: '#666',
+  },
+  orderDetails: {
+    flex: 1,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  label: {
+    color: '#666',
+  },
+  value: {
+    flex: 1,
+  },
+  loadingText: {
+    color: 'white',
+    marginTop: 10,
+  },
+  errorText: {
+    color: '#ff6b6b',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 20,
   },
   emptyText: {
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
-  },
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-  },
-  label: {
-    fontWeight: 'bold',
-    color: '#ddd',
-    fontSize: 14,
-  },
-  value: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#ddd',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  }
 });
+
 export default OrderHistory;
