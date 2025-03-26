@@ -221,12 +221,13 @@ async function UpdateUser(uuid: string, user: Partial<User>) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      uuid,
-      ...user,
+      uuid: uuid,
+      name: user.name,
+      surname: user.surname,
+      tel: user.tel,
     }),
   });
   const data = await response.json();
-  console.table(data);
   return data;
 }
 

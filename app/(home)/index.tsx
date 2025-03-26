@@ -41,7 +41,6 @@ export default function HomeScreen() {
   const { user, refresh } = useAuth();
 
   useEffect(() => {
-    
     refresh();
   }, []);
 

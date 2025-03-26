@@ -8,6 +8,7 @@ export default function Profile() {
   const { user, logout } = useAuth();
   const [showEditNames, setShowEditName] = useState<boolean>(false);
   const [name, setName] = useState<string>(user.name);
+  const [surname, setSurname] = useState<string>(user.surname);
   const [phone, setPhone] = useState<string>(user.tel);
   const router = useRouter();
   return (
@@ -24,7 +25,7 @@ export default function Profile() {
         />
         <View className="flex-row items-center mt-6 gap-2">
           <Text className="text-xl text-black font-medium font-regular">
-            {name}
+            {name} {surname}
           </Text>
           <TouchableOpacity onPress={() => setShowEditName(true)}>
             <IconSymbol name="pencil" size={20} color="black" />
@@ -47,7 +48,7 @@ export default function Profile() {
         </Text>
       </TouchableOpacity>
       {showEditNames && (
-        <ModalProfile setShowEditName={setShowEditName} setName={setName} setPhone={setPhone} />
+        <ModalProfile setShowEditName={setShowEditName} setName={setName} setSurname={setSurname} setPhone={setPhone} />
       )}
     </View>
   );
@@ -56,29 +57,33 @@ export default function Profile() {
 const ModalProfile = ({
   setShowEditName,
   setName,
+  setSurname,
   setPhone,
 }: {
   setShowEditName: React.Dispatch<React.SetStateAction<boolean>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
+  setSurname: React.Dispatch<React.SetStateAction<string>>;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { user, updateUser } = useAuth();
   const [searchValue, setSearchValue] = useState<string>(user.name);
+  const [surnameValue, setSurnameValue] = useState<string>(user.surname);
   const [phoneValue, setPhoneValue] = useState<string>(user.tel);
 
   const handleConfirm = () => {
-    updateUser(user.uuid, { name: searchValue, tel: phoneValue });
+    updateUser(user.uuid, { name: searchValue, surname: surnameValue, tel: phoneValue });
     
     setName(searchValue);
+    setSurname(surnameValue);
     setPhone(phoneValue);
     setShowEditName(false);
   };
 
   return (
     <View className="absolute items-center justify-center h-full w-full bg-black/50 ">
-      <View className="flex  p-7 justify-center w-[350px] h-[350px] bg-gray-100 rounded-lg shadow-lg">
+      <View className="flex p-7 justify-center w-[350px] h-[400px] bg-gray-100 rounded-lg shadow-lg">
         <Text className="font-medium mb-4 text-xl font-regular">
-          แก้ไขชื่อผู้ใช้
+          แก้ไขข้อมูลผู้ใช้
         </Text>
         <View className="flex flex-col gap-3">
           <TextInput
@@ -86,11 +91,22 @@ const ModalProfile = ({
             value={searchValue}
             placeholder={user.name}
             placeholderTextColor="#354138 opacity-50"
-            className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9]  pl-[20px]"
+            className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9] pl-[20px]"
             onChangeText={setSearchValue}
           />
           {searchValue.trim() === "" && (
             <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกชื่อผู้ใช้</Text>
+          )}
+          <TextInput
+            editable
+            value={surnameValue}
+            placeholder={user.surname}
+            placeholderTextColor="#354138 opacity-50"
+            className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9] pl-[20px]"
+            onChangeText={setSurnameValue}
+          />
+          {surnameValue.trim() === "" && (
+            <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกนามสกุล</Text>
           )}
           <TextInput
             editable
@@ -110,8 +126,20 @@ const ModalProfile = ({
         </View>
         <TouchableOpacity
           onPress={() => handleConfirm()}
-          className={`mt-4 rounded-full ${searchValue.trim() === "" || phoneValue.trim() === "" || !/^\d{10}$/.test(phoneValue) ? "bg-[#b3c9ba]" : "bg-[#68Ba7f]"}`}
-          disabled={searchValue.trim() === "" || phoneValue.trim() === "" || !/^\d{10}$/.test(phoneValue)}
+          className={`mt-4 rounded-full ${
+            searchValue.trim() === "" || 
+            surnameValue.trim() === "" || 
+            phoneValue.trim() === "" || 
+            !/^\d{10}$/.test(phoneValue) 
+              ? "bg-[#b3c9ba]" 
+              : "bg-[#68Ba7f]"
+          }`}
+          disabled={
+            searchValue.trim() === "" || 
+            surnameValue.trim() === "" || 
+            phoneValue.trim() === "" || 
+            !/^\d{10}$/.test(phoneValue)
+          }
         >
           <Text className="text-base text-white py-[15px] text-center rounded-full font-semibol font-regular">
             ยืนยัน
