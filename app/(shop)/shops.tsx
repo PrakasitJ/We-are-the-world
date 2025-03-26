@@ -133,7 +133,7 @@ const ShopList = () => {
                 {shops.map((shop) => (
                     <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(home)/order/order-list/${shop.id}`)}>
                         <Image
-                            source={{ uri: shop.Shop_images.length > 0 ? shop.Shop_images[0].image_url : 'https://picsum.photos/200' }}
+                            source={{ uri: shop && shop.Shop_images && shop?.Shop_images?.length > 0 ? shop.Shop_images[0].image_url : 'https://picsum.photos/200' }}
                             style={styles.shopImage}
                             resizeMode="cover"
                             defaultSource={require('@/assets/images/profile.png')}

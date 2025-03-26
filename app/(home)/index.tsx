@@ -38,8 +38,12 @@ export default function HomeScreen() {
       onPress: () => router.push('/(shop)/(owner)/shops')
     }
   ];
+  const { user, refresh } = useAuth();
 
-  const { user } = useAuth();
+  useEffect(() => {
+    refresh();
+  }, []);
+
   return (
     <ThemedView style={{ paddingTop: insets.top }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom }} keyboardShouldPersistTaps="handled">

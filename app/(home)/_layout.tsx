@@ -1,3 +1,4 @@
+import CustomBackButton from "@/components/CustomBackButton";
 import CartProvider from "@/contexts/CartContext";
 import { Stack } from "expo-router";
 import React from "react";
@@ -44,7 +45,9 @@ export default function TabLayout() {
           options={{
             title: "ร้านค้า",
             headerShown: true,
-            contentStyle: { backgroundColor: "#354138" }
+            contentStyle: { backgroundColor: "#354138" },
+            headerLeft: () => <CustomBackButton />
+
           }}
         />
 

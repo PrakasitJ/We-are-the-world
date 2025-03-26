@@ -128,6 +128,7 @@ const useAuth = create<Auth>()(
             isLoggedIn: true,
             error: "",
           }));
+          router.reload();
         } else {
           set(() => ({
             error:
