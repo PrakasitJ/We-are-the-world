@@ -32,7 +32,7 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
         <Text className="text-xl text-black font-medium mt-3 justify-center items-center font-regular">
-           {phone}
+          {phone}
         </Text>
       </View>
       <TouchableOpacity
@@ -70,9 +70,25 @@ const ModalProfile = ({
   const [surnameValue, setSurnameValue] = useState<string>(user.surname);
   const [phoneValue, setPhoneValue] = useState<string>(user.tel);
 
+  const pattern = (setter: (setterStr: string) => void, str: string, type: string) => {
+    switch (type) {
+      case "phone":
+      if (/^\d{0,10}$/.test(str)) {
+        setter(str);
+      }
+      break;
+
+      default:
+      if (/^[A-Za-zก-๛]*$/.test(str)) {
+        setter(str);
+      }
+      break;
+    }
+  }
+
   const handleConfirm = () => {
     updateUser(user.uuid, { name: searchValue, surname: surnameValue, tel: phoneValue });
-    
+
     setName(searchValue);
     setSurname(surnameValue);
     setPhone(phoneValue);
@@ -92,7 +108,7 @@ const ModalProfile = ({
             placeholder={user.name}
             placeholderTextColor="#354138 opacity-50"
             className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9] pl-[20px]"
-            onChangeText={setSearchValue}
+            onChangeText={(e) => pattern(setSearchValue, e, "name")}
           />
           {searchValue.trim() === "" && (
             <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกชื่อผู้ใช้</Text>
@@ -103,7 +119,7 @@ const ModalProfile = ({
             placeholder={user.surname}
             placeholderTextColor="#354138 opacity-50"
             className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9] pl-[20px]"
-            onChangeText={setSurnameValue}
+            onChangeText={(e) => pattern(setSurnameValue, e, "name")}
           />
           {surnameValue.trim() === "" && (
             <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกนามสกุล</Text>
@@ -114,30 +130,29 @@ const ModalProfile = ({
             placeholder={user.tel}
             placeholderTextColor="#354138 opacity-50"
             className="w-full h-[40px] rounded-[10px] bg-[#D9D9D9]  pl-[20px]"
-            onChangeText={setPhoneValue}
+            onChangeText={(e) => pattern(setPhoneValue, e, "phone")}
             keyboardType="phone-pad"
           />
-            {phoneValue.trim() === "" && (
+          {phoneValue.trim() === "" && (
             <Text className="text-[##EB4236] text-sm font-regular">กรุณากรอกเบอร์โทรศัพท์</Text>
-            )}
-            {phoneValue.trim() !== "" && (!/^\d{10}$/.test(phoneValue)) && (
+          )}
+          {phoneValue.trim() !== "" && (!/^\d{10}$/.test(phoneValue)) && (
             <Text className="text-[##EB4236] text-sm font-regular">เบอร์โทรศัพท์ต้องประกอบด้วย 10 ตัวเลข</Text>
-            )}
+          )}
         </View>
         <TouchableOpacity
           onPress={() => handleConfirm()}
-          className={`mt-4 rounded-full ${
-            searchValue.trim() === "" || 
-            surnameValue.trim() === "" || 
-            phoneValue.trim() === "" || 
-            !/^\d{10}$/.test(phoneValue) 
-              ? "bg-[#b3c9ba]" 
-              : "bg-[#68Ba7f]"
-          }`}
+          className={`mt-4 rounded-full ${searchValue.trim() === "" ||
+            surnameValue.trim() === "" ||
+            phoneValue.trim() === "" ||
+            !/^\d{10}$/.test(phoneValue)
+            ? "bg-[#b3c9ba]"
+            : "bg-[#68Ba7f]"
+            }`}
           disabled={
-            searchValue.trim() === "" || 
-            surnameValue.trim() === "" || 
-            phoneValue.trim() === "" || 
+            searchValue.trim() === "" ||
+            surnameValue.trim() === "" ||
+            phoneValue.trim() === "" ||
             !/^\d{10}$/.test(phoneValue)
           }
         >

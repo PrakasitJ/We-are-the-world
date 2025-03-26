@@ -51,7 +51,7 @@ export default function ShopListScreen() {
           )}
           <TouchableOpacity
             className="w-full flex-1 flex-row justify-end items-center"
-            onPress={() => router.push("/order/order-summary")}
+            onPress={() => cartItems.length > 0 && router.push("/order/order-summary")}
           >
             <IconSymbol name="cart.fill" size={40} color="#FFFF" />
             {cartItems.length > 0 && (
