@@ -11,7 +11,7 @@ export default function ShopDetail() {
     const route = useRoute() as { params: { shop_id: string } };
     const shopId = route.params.shop_id;
     const { getShopWithProductByID, myShop } = useShops();
-    const { setShopId } = useProductForm();
+    const { setShopId,setEditProduct } = useProductForm();
 
     useEffect(() => {
         getShopWithProductByID(Number(shopId));
@@ -23,7 +23,13 @@ export default function ShopDetail() {
     };
 
     const handleEditProduct = (productId: number) => {
-        router.push(`/(shop)/(owner)/edit-product/${productId}`);
+        const product = myShop?.Product.find(product => product.id === productId);
+        if (product) {
+            setEditProduct({
+                ...product,
+                category_id: product.product_category.id
+            });
+        }
     };
 
     const handleDeleteProduct = (productId: number) => {

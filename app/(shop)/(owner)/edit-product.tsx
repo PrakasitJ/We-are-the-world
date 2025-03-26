@@ -5,32 +5,22 @@ import useProductForm from '@/app/provider/productForm';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 
-const AddProduct = () => {
+const EditProduct = () => {
     const router = useRouter();
-    const { categories, fetchCategories, createProduct } = useShops();
+    const { categories, fetchCategories } = useShops();
     const {
         shopId,
-        product,
-        setShopId,
-        setProduct
+        editProduct,
+        setEditProduct,
+        setUpdateProduct
     } = useProductForm();
 
     useEffect(() => {
         fetchCategories(Number(shopId));
-        setProduct({
-            name: '',
-            price: 0,
-            amount: 0,
-            description: '',
-            image_url: '',
-            category_id: 0,
-            shop_id: Number(shopId) || 0
-        })
     }, []);
 
     const handleSubmit = () => {
-        createProduct(product);
-        // router.back(); // Navigate back after creating the product
+        setUpdateProduct(editProduct);
     };
 
     const handleConfirm = () => {
@@ -49,43 +39,43 @@ const AddProduct = () => {
 
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>เพิ่มผลิตภัณฑ์</Text>
+            <Text style={styles.title}>แก้ไขผลิตภัณฑ์</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>ชื่อผลิตภัณฑ์</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="ชื่อผลิตภัณฑ์"
-                    value={product?.name}
-                    onChangeText={(text) => setProduct({ ...product, name: text })}
+                    value={editProduct?.name}
+                    onChangeText={(text) => setEditProduct({ ...editProduct, name: text })}
                 />
                 <Text style={styles.label}>ราคา</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="ราคา"
-                    value={product?.price.toString()}
-                    onChangeText={(text) => setProduct({ ...product, price: Number(text) })}
+                    value={editProduct?.price.toString()}
+                    onChangeText={(text) => setEditProduct({ ...editProduct, price: Number(text) })}
                     keyboardType="numeric"
                 />
                 <Text style={styles.label}>คำอธิบาย</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="คำอธิบาย"
-                    value={product?.description}
-                    onChangeText={(text) => setProduct({ ...product, description: text })}
+                    value={editProduct?.description}
+                    onChangeText={(text) => setEditProduct({ ...editProduct, description: text })}
                 />
                 <Text style={styles.label}>URL รูปภาพผลิตภัณฑ์</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="URL รูปภาพผลิตภัณฑ์"
-                    value={product?.image_url}
-                    onChangeText={(text) => setProduct({ ...product, image_url: text })}
+                    value={editProduct?.image_url}
+                    onChangeText={(text) => setEditProduct({ ...editProduct, image_url: text })}
                 />
                 <Text style={styles.label}>จำนวน</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="จำนวน"
-                    value={product?.amount.toString()}
-                    onChangeText={(text) => setProduct({ ...product, amount: Number(text) })}
+                    value={editProduct?.amount.toString()}
+                    onChangeText={(text) => setEditProduct({ ...editProduct, amount: Number(text) })}
                     keyboardType="numeric"
                 />
                 <View style={styles.categoryContainer}>
@@ -95,8 +85,8 @@ const AddProduct = () => {
                     </TouchableOpacity>
                 </View>
                 <Picker
-                    selectedValue={product?.category_id}
-                    onValueChange={(value) => setProduct({ ...product, category_id: value })}
+                    selectedValue={editProduct?.category_id}
+                    onValueChange={(value) => setEditProduct({ ...editProduct, category_id: value })}
                     style={styles.picker}
                 >
                     <Picker.Item label="เลือกหมวดหมู่" value={-1} />
@@ -212,4 +202,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddProduct; 
+export default EditProduct; 

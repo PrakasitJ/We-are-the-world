@@ -16,6 +16,7 @@ export default function Layout() {
             <Stack.Screen name="[shop_id]" options={{ title: "Shop Detail" }} />
             <Stack.Screen name="add-product" options={{ title: "Add Product" }} />
             <Stack.Screen name="add-category" options={{ title: "Add Category" }} />
+            <Stack.Screen name="edit-product" options={{ title: "Edit Product" }} />
         </Stack>
     );
 }
