@@ -73,7 +73,6 @@ export default function OrderSummaryScreen() {
 
     const { cartItems, removeFromCart, clearCart, setRiderMsg } = useCart();
     const [riderMessage, setRiderMessage] = useState('');
-    const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState<IProduct[]>([]);
 
     const fetchProductByProductID = async (id: number) => {
