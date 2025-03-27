@@ -113,7 +113,7 @@ const Categories = () => {
             style={styles.categoriesContainer}
             contentContainerStyle={styles.categoriesContent}
         >
-            {categories.map((category) => (
+            {categories?.map((category) => (
                 <TouchableOpacity key={category.id} style={styles.categoryItem}>
                     <View style={styles.categoryIconContainer}>
                         <Ionicons name={category.icon} size={24} color="#00B900" />
@@ -130,7 +130,7 @@ const ShopList = () => {
     return (
         <View style={styles.shopListContainer}>
             <ScrollView style={styles.shopList}>
-                {shops.map((shop) => (
+                {shops?.map((shop) => (
                     <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(home)/order/order-list/${shop.id}`)}>
                         <Image
                             source={{ uri: shop && shop.Shop_images && shop?.Shop_images?.length > 0 ? shop.Shop_images[0].image_url : 'https://picsum.photos/200' }}
@@ -143,7 +143,7 @@ const ShopList = () => {
                                 <View style={styles.shopNameContainer}>
                                     <Text style={styles.shopName}>{shop.name}</Text>
                                     <View style={styles.tagContainer}>
-                                        {shop.Product.map((category, index) => (
+                                        {shop?.Product?.map((category, index) => (
                                             <View key={index} style={styles.tag}>
                                                 <Text style={styles.tagText}>{category.product_category?.category_name}</Text>
                                             </View>

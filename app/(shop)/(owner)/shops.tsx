@@ -50,7 +50,7 @@ export default function Shops() {
                 </View>
             ) : (
                 <ScrollView style={styles.shopList}>
-                    {myShops.map((shop) => (
+                    {myShops?.map((shop) => (
                         <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(shop)/(owner)/${shop.id}`)}>
                             <Image
                                 source={{ uri: shop.Shop_images[0]?.image_url || 'https://picsum.photos/200' }} // Fallback image
