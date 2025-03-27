@@ -11,6 +11,8 @@ const CartContext = createContext<{
     clearCart: () => void;
     riderMsg: string;
     setRiderMsg: (msg: string) => void;
+    shopId: number;
+    setShopId: (id: number) => void;
 }>({
     cartItems: [],
     addToCart: () => {},
@@ -18,6 +20,8 @@ const CartContext = createContext<{
     clearCart: () => {},
     riderMsg: "",
     setRiderMsg: () => {},
+    shopId: 0,
+    setShopId: ()=>{}
 });
 
 export const useCart = () => useContext(CartContext);
@@ -26,8 +30,7 @@ export const useCart = () => useContext(CartContext);
 export default function CartProvider({ children }: { children: ReactNode }) {
     const [cartItems, setCartItems] = useState<ICartRequest[]>([]);
     const [riderMsg, setRiderMsg] = useState<string>("");
-    const router = useRouter();
-    const { user } = useAuth();
+    const [shopId, setShopId] = useState<number>(0);
 
     const addToCart = (item: ICartRequest) => {
         console.log("Adding to cart", item);
@@ -58,7 +61,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, setRiderMsg, riderMsg }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, setRiderMsg, riderMsg, shopId, setShopId }}>
             {children}
         </CartContext.Provider>
     );

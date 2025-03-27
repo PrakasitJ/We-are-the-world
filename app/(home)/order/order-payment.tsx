@@ -9,7 +9,7 @@ import axios from "axios";
 import useAuth from "@/app/provider/auth";
 
 export default function OrderPaymentScreen() {
-    const { cartItems, clearCart, riderMsg } = useCart();
+    const { cartItems, clearCart, riderMsg, shopId } = useCart();
     const { user } = useAuth();
     const [elementQRCode, setElementQRCode] = useState<React.ReactNode>(null);
 
@@ -23,10 +23,11 @@ export default function OrderPaymentScreen() {
     }
 
     const createOrderAndProductList = async () => {
+        console.log(shopId);
         const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/order/create`, {
             customer_id: user.uuid,
             rider_id: 1,
-            shop_id: 1,
+            shop_id: shopId,
             service_fee: 1,
             pickup_location_id: 1,
             note: riderMsg || "None"

@@ -5,7 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import { ICart } from "@/interfaces/ICart";
 
 export default function ShopCard({ product }: { product: IProduct }) {
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems, setShopId } = useCart();
 
   const onButtonPress = (product: IProduct) => {
     addToCart({
@@ -14,6 +14,8 @@ export default function ShopCard({ product }: { product: IProduct }) {
       price: product.price,
       name: product.name,
     });
+
+    setShopId(product.shop_id);
   };
 
   return (
