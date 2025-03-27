@@ -14,6 +14,7 @@ import axios from 'axios';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { IProduct } from '@/interfaces/IProduct';
 
 interface Order {
   id: number;
@@ -28,14 +29,25 @@ interface Order {
 const OrderHistory = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState<IOrderDetail[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const router = useRouter();
   const fetchOrderByUserId = async () => {
     const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/order/getByUserId/${user.uuid}`);
     if (res.status === 200) setOrders(res.data);
   }
 
+  const fetchProduct = async () => {
+    const res = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/product/getAll`);
+    if (res.status === 200) setProducts(res.data);
+  }
+
+  const fetchProductByProductID = (id: number) => {
+    return products.find((product) => product.id === id);
+  };
+
   useEffect(() => {
     fetchOrderByUserId();
+    fetchProduct();
   }, []);
 
   if (orders.length === 0) {
@@ -55,7 +67,11 @@ const OrderHistory = () => {
           <TouchableOpacity onPress={() => router.push(`/(home)/order/order-status/${order.id}`)} key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
             <View className='flex flex-1 flex-row justify-between'>
               <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
-              <Text className="font-regular">xxx บาท</Text>
+              <Text className="font-regular">{
+                order.Product_list.reduce((sum, item) => {
+                  return sum + (fetchProductByProductID(item.product_id)?.price ?? 0) * item.quantity
+                }, 0)
+                } บาท</Text>
             </View>
             <View className='flex flex-1 flex-row gap-2'>
               <FontAwesome name="map-marker" size={20} color="#A90E0E" />
@@ -72,13 +88,6 @@ const OrderHistory = () => {
     </SafeAreaView>
   );
 };
-
-const OrderDetail = ({ label, value }: { label: string; value: string }) => (
-  <View style={styles.detailRow}>
-    <Text style={styles.label}>{label}: </Text>
-    <Text style={styles.value}>{value}</Text>
-  </View>
-);
 
 const styles = StyleSheet.create({
   container: {

@@ -72,13 +72,16 @@ export default function OrderStatusScreen() {
                             <Text className="font-regular font-medium text-2xl text-black">รายการของฉัน</Text>
                             <View className="bg-[#517B5D] rounded-[10px] flex-col mt-4 p-5  ">
                                 {orderDetail.Product_list.length > 0 ? (
-                                    productList.map((item: IProduct, index: number) => (
-                                        <View key={index} className="flex flex-row  justify-between pr-5">
-                                            <Text className="font-regular text-lg text-white  w-3/6"> {item.name}</Text>
-                                            <Text className="font-regular text-lg text-white w-2/6 text-right"> {item.price} บาท</Text>
-                                            <Text className="font-regular text-lg text-white w-1/6 pl-3"> {item.amount}</Text>
-                                        </View>
-                                    ))
+                                    orderDetail.Product_list.map((item: any, index: number) => {
+                                        const product = productList.find((product) => product.id === item.product_id);
+                                        return (
+                                            <View key={index} className="flex flex-row  justify-between pr-5">
+                                                <Text className="font-regular text-lg text-white  w-3/6">{product?.name}</Text>
+                                                <Text className="font-regular text-lg text-white w-2/6 text-right"> {product?.price} บาท</Text>
+                                                <Text className="font-regular text-lg text-white w-1/6 pl-3"> {item.quantity}</Text>
+                                            </View>
+                                        )
+                                    })
                                 ) : (
                                     <Text className="text-gray-500 mt-4 text-center">ไม่มีสินค้าในตะกร้า</Text>
                                 )}
@@ -86,7 +89,10 @@ export default function OrderStatusScreen() {
                             <View className="flex flex-row items-end justify-between w-full mt-4 mb-4">
                                 <Text className="font-regular text-xl text-[#517B5D] mr-2">รวมทั้งหมด</Text>
                                 <Text className="font-regular text-lg text-black">
-                                    {productList.reduce((sum, item) => sum + item.price, 0)} บาท {/* จริงๆตรงนี้ต้องดึง จาก transaction */}
+                                    {orderDetail.Product_list.reduce((sum: any, item: any) => {
+                                        const product = productList.find((product) => product.id === item.product_id);
+                                        return sum + ((product?.price ?? 0) * item.quantity);
+                                    }, 0)} บาท {/* จริงๆตรงนี้ต้องดึง จาก transaction */}
                                 </Text>
                             </View>
                             <FieldTextInput placeholder={orderDetail.note} showMax={false} maxLength={100} editable={false} />
@@ -110,10 +116,10 @@ export default function OrderStatusScreen() {
 
 const StepProgressBarItem = ({ className, aka }: { className?: string, aka: string }) => {
     const steps = [
-        { step: 0, title: "ร้านค้ารับออเดอร์", aka:"PLACED", status: "" },
-        { step: 1, title: "ไรเดอร์รับออเดอร์", aka:"ACCEPTED", status: "" },
-        { step: 2, title: "กำลังจัดส่ง", aka:"PICKED_UP", status: "" },
-        { step: 3, title: "จัดส่งเสร็จสิ้น", aka:"DELIVERED", status: "" },
+        { step: 0, title: "ร้านค้ารับออเดอร์", aka: "PLACED", status: "" },
+        { step: 1, title: "ไรเดอร์รับออเดอร์", aka: "ACCEPTED", status: "" },
+        { step: 2, title: "กำลังจัดส่ง", aka: "PICKED_UP", status: "" },
+        { step: 3, title: "จัดส่งเสร็จสิ้น", aka: "DELIVERED", status: "" },
     ]
 
     const currentStepIndex = steps.findIndex(step => step.aka === aka);
