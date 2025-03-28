@@ -32,12 +32,12 @@ export default function Shops() {
 
     return (
         <View className="bg-[#2A312C] w-full h-full">
-            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5"> </View>
+            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5" />
             <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5">
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name="chevron-back-outline" size={24} color="white" />
                 </TouchableOpacity>
-                <Text className = " font-regular text-white text-center items-center  text-xl" >จัดการร้านค้า</Text>
+                <Text className="font-regular text-white text-center items-center text-xl">จัดการร้านค้า</Text>
                 <TouchableOpacity onPress={handleCreateShop}>
                     <Ionicons name="add-outline" size={24} color="white" />
                 </TouchableOpacity>
@@ -54,7 +54,7 @@ export default function Shops() {
                     {myShops?.map((shop) => (
                         <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(shop)/(owner)/${shop.id}`)}>
                             <Image
-                                source={{ uri: shop.Shop_images[0]?.image_url || 'https://picsum.photos/200' }} // Fallback image
+                                source={{ uri: shop.Shop_images[0]?.image_url || 'https://picsum.photos/200' }}
                                 style={styles.shopImage}
                                 resizeMode="cover"
                                 defaultSource={require('@/assets/images/profile.png')}
@@ -81,7 +81,7 @@ export default function Shops() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#253D2C', // Light background for better contrast
+        backgroundColor: '#253D2C',
         paddingTop: os === 'ios' ? 40 : 5,
     },
     header: {
