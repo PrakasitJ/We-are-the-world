@@ -11,7 +11,7 @@ export default function ShopDetail() {
     const route = useRoute() as { params: { shop_id: string } };
     const shopId = route.params.shop_id;
     const { getShopWithProductByID, myShop } = useShops();
-    const { setShopId,setEditProduct } = useProductForm();
+    const { setShopId, setEditProduct } = useProductForm();
 
     useEffect(() => {
         getShopWithProductByID(Number(shopId));
@@ -44,14 +44,15 @@ export default function ShopDetail() {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
+        <View className="bg-[#2A312C] w-full h-full">
+            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5" />
+            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5">
                 <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={24} color="black" />
+                    <Ionicons name="chevron-back-outline" size={24} color="white" />
                 </TouchableOpacity>
-                <Text style={styles.shopName}>{myShop?.name}</Text>
-                <TouchableOpacity style={styles.addButton} onPress={handleAddProduct}>
-                    <Ionicons name="add" size={24} color="black" />
+                <Text className="font-regular text-white text-center items-center text-xl">{myShop?.name}</Text>
+                <TouchableOpacity onPress={handleAddProduct}>
+                    <Ionicons name="add-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.productList}>
@@ -67,10 +68,10 @@ export default function ShopDetail() {
                                 <Text style={styles.productName}>{product.name}</Text>
                                 <View style={styles.buttonContainer}>
                                     <TouchableOpacity onPress={() => handleEditProduct(product.id)}>
-                                        <Ionicons name="pencil" size={20} color="#00B900" />
+                                        <Ionicons name="pencil" size={20} color="#517B5D" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => handleDeleteProduct(product.id)}>
-                                        <Ionicons name="trash" size={20} color="#FF0000" />
+                                        <Ionicons name="trash" size={20} color="#A90E0E" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -124,6 +125,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     productList: {
+        paddingHorizontal: 20,
+        paddingTop: 15,
         width: '100%',
     },
     productCard: {
