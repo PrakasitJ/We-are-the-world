@@ -10,39 +10,11 @@ const os = Platform.OS;
 type IconName = keyof typeof Ionicons.glyphMap;
 
 const categories: { id: number; name: string; icon: IconName }[] = [
-    { id: 1, name: 'ร้านอาหาร', icon: 'restaurant-outline' },
-    { id: 2, name: 'ร้านค้า', icon: 'cart-outline' },
-    { id: 3, name: 'ร้านสุขภาพ', icon: 'medical-outline' },
-    { id: 4, name: 'ร้านสินค้า', icon: 'cart-outline' },
-    { id: 5, name: 'ร้านอื่นๆ', icon: 'ellipsis-horizontal-outline' },
-];
-
-const shops = [
-    {
-        id: 1,
-        name: 'Burger House',
-        rating: 4.5,
-        deliveryTime: '20-30 min',
-        minOrder: '$10',
-        image: 'https://picsum.photos/200',
-        category: 'Food',
-        isExpress: true,
-        deliveryFee: '$2.99',
-        tags: ['Popular', 'New']
-    },
-    {
-        id: 2,
-        name: 'Pizza Palace',
-        rating: 4.8,
-        deliveryTime: '30-40 min',
-        minOrder: '$15',
-        image: 'https://picsum.photos/201',
-        category: 'Food',
-        isExpress: false,
-        deliveryFee: '$3.99',
-        tags: ['Best Seller']
-    },
-    // Add more shops as needed
+    { id: 1, name: 'ร้านอาหาร', icon: 'restaurant' },
+    { id: 2, name: 'ร้านค้า', icon: 'cart' },
+    { id: 3, name: 'ร้านสุขภาพ', icon: 'medical' },
+    { id: 4, name: 'ร้านสินค้า', icon: 'cart' },
+    { id: 5, name: 'ร้านอื่นๆ', icon: 'ellipsis-horizontal' },
 ];
 
 export default function Shops() {
@@ -64,23 +36,23 @@ export default function Shops() {
 
 const Header = () => {
     return (
-        <View style={styles.header}>
-            <View style={styles.headerTop}>
+        <View style={styles.header} >
+            <View style={styles.headerTop} >
                 <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                    <Ionicons name="arrow-back-outline" size={24} color="#00B900" />
+                    <Ionicons name="arrow-back-outline" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.locationButton}>
                     <View style={styles.locationContainer}>
-                        <Ionicons name="location" size={22} color="#00B900" />
-                        <Text style={styles.locationText}>สถานที่จัดส่ง</Text>
-                        <Ionicons name="chevron-down-outline" size={22} color="#00B900" />
+                        <Ionicons name="location" size={22} color="#FFFFFF" />
+                        <Text style={styles.locationText} className="font-regular">สถานที่จัดส่ง</Text>
+                        <Ionicons name="chevron-down-outline" size={22} color="#FFFFFF" />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.notificationButton}>
-                    <Ionicons name="notifications-outline" size={24} color="#333" />
+                    <Ionicons name="notifications" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.headerTitle}>หิวท้องร้องทานอะไรดีน้าา</Text>
+            <Text style={styles.headerTitle} className="font-regular">หิวท้องร้องทานอะไรดี</Text>
         </View>
     );
 }
@@ -90,16 +62,14 @@ const SearchBar = () => {
     return (
         <View style={styles.searchContainer}>
             <View style={styles.searchBarContent}>
-                <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+                <Ionicons name="search" size={25} color="#253D2C" style={styles.searchIcon} />
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="ค้นหาร้านอาหาร หรือร้านค้า"
+                    className="font-regular"
+                    placeholder="ค้นหาร้านค้า"
                     placeholderTextColor="#666"
                     onChangeText={(text) => filterShops(text)}
                 />
-                <TouchableOpacity style={styles.filterButton}>
-                    <Ionicons name="options-outline" size={20} color="#666" />
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -116,9 +86,9 @@ const Categories = () => {
             {categories.map((category) => (
                 <TouchableOpacity key={category.id} style={styles.categoryItem}>
                     <View style={styles.categoryIconContainer}>
-                        <Ionicons name={category.icon} size={24} color="#00B900" />
+                        <Ionicons name={category.icon} size={24} color="#253D2C" />
                     </View>
-                    <Text style={styles.categoryText}>{category.name}</Text>
+                    <Text style={styles.categoryText} className="font-regular">{category.name}</Text>
                 </TouchableOpacity>
             ))}
         </ScrollView>
@@ -180,13 +150,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: os === 'ios' ? 40 : 5,
     },
     header: {
         padding: 15,
-        backgroundColor: '#fff',
+        backgroundColor: '#253D2C',
         borderBottomWidth: 1,
         borderBottomColor: '#f0f0f0',
+        paddingTop: os === 'ios' ? 40 : 5,
     },
     headerTop: {
         flexDirection: 'row',
@@ -207,20 +177,20 @@ const styles = StyleSheet.create({
     locationText: {
         marginLeft: 5,
         fontSize: 15,
-        color: '#333',
+        color: '#FFFFFF',
         fontWeight: '500',
     },
     notificationButton: {
         padding: 8,
-        backgroundColor: '#f0f9f0',
+        backgroundColor: '#253D2C',
         borderRadius: 20,
     },
     headerTitle: {
         fontSize: 22,
         fontWeight: 'bold',
-        fontFamily: 'Sarabun-bold',
-        color: '#333',
-        marginTop: 5,
+        color: '#FFFFFF',
+        marginTop: 25,
+        marginLeft: 10
     },
     searchContainer: {
         padding: 15,
@@ -229,8 +199,8 @@ const styles = StyleSheet.create({
     searchBarContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-        borderRadius: 15,
+        backgroundColor: '#D9D9D9',
+        borderRadius: 999,
         padding: 12,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -244,6 +214,7 @@ const styles = StyleSheet.create({
     searchInput: {
         flex: 1,
         fontSize: 15,
+        marginLeft: 5,
         color: '#333',
     },
     filterButton: {
@@ -267,7 +238,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: '#f0f9f0',
+        backgroundColor: '#E7F0E9',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 8,
@@ -279,7 +250,7 @@ const styles = StyleSheet.create({
     },
     categoryText: {
         fontSize: 13,
-        color: '#333',
+        color: '#000000',
         fontWeight: '500',
     },
     shopListContainer: {
