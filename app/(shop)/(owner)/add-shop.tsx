@@ -51,10 +51,10 @@ export default function AddShop() {
     return (
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
-                <Text style={styles.title}>เพิ่มร้านค้า</Text>
+                <Text style={styles.title} className='font-regular'>เพิ่มร้านค้า</Text>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label}>ข้อมูลร้านค้า</Text>
+                    <Text style={styles.label} className='font-regular'>ข้อมูลร้านค้า</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="ชื่อร้านค้า"
@@ -154,10 +154,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: '#253D2C',
         marginBottom: 30,
         textAlign: 'center',
-        fontFamily: 'Sarabun-Bold',
     },
     inputContainer: {
         marginBottom: 30,
@@ -165,19 +164,17 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#4CAF50',
+        color: '#253D2C',
         marginBottom: 10,
-        fontFamily: 'Sarabun-SemiBold',
     },
     input: {
         backgroundColor: '#ffffff',
         borderWidth: 1,
-        borderColor: '#E0E0E0',
-        borderRadius: 12,
+        borderColor: '#C2C6C3',
+        borderRadius: 10,
         padding: 15,
         marginBottom: 15,
         fontSize: 16,
-        fontFamily: 'Sarabun-Regular',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
@@ -195,26 +192,24 @@ const styles = StyleSheet.create({
     },
     timePickerButton: {
         flex: 1,
-        backgroundColor: '#E8F5E9',
+        backgroundColor: '#E7F0E9',
         borderRadius: 8,
         padding: 15,
         marginHorizontal: 5,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#2E7D32',
+        borderColor: '#517B5D',
     },
     timePickerText: {
         fontSize: 16,
-        color: '#424242',
-        fontFamily: 'Sarabun-Regular',
+        color: '#517B5D',
     },
     timeLabel: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#2E7D32',
+        color: '#517B5D',
         marginBottom: 5,
-        fontFamily: 'Sarabun-SemiBold',
     },
     buttonRow: {
         flexDirection: 'row',
@@ -228,11 +223,11 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#4CAF50',
+        borderColor: '#517B5D',
     },
     submitButton: {
         flex: 1,
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#517B5D',
         padding: 15,
         borderRadius: 12,
         alignItems: 'center',
@@ -246,18 +241,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
     backButtonText: {
-        color: '#4CAF50',
+        color: '#517B5D',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
     error: {
         color: 'red',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
 });
