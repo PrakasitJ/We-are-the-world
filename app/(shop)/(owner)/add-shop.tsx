@@ -54,22 +54,25 @@ export default function AddShop() {
                 <Text style={styles.title} className='font-regular'>เพิ่มร้านค้า</Text>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label} className='font-regular'>ข้อมูลร้านค้า</Text>
+                    <Text style={styles.label} className='font-regular text-[#517B5D]'>ข้อมูลร้านค้า</Text>
                     <TextInput
                         style={styles.input}
+                        className='font-regular'
                         placeholder="ชื่อร้านค้า"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#D9D9D9"
                         value={shopName}
                         onChangeText={setShopName}
                     />
 
-                    <Text style={styles.timeLabel}>เวลาเปิด</Text>
-                    <View style={styles.timePickerContainer}>
+                    <Text style={styles.timeLabel} className='font-regular'>เวลาเปิด</Text>
+                    <View style={styles.timePickerContainer} className='font-regular'>
                         <TouchableOpacity
                             style={styles.timePickerButton}
+                            className='font-regular time-picker-button'
                             onPress={() => setShowOpenTimePicker(true)}
                         >
-                            <Text style={styles.timePickerText}>
+                            <Text style={styles.timePickerText} className='font-regular'>
+                                
                                 {openTime ? openTime.toLocaleTimeString() : 'เลือกเวลาเปิด'}
                             </Text>
                         </TouchableOpacity>
@@ -84,13 +87,15 @@ export default function AddShop() {
                         />
                     )}
 
-                    <Text style={styles.timeLabel}>เวลาปิด</Text>
+                    <Text style={styles.timeLabel} className='font-regular'>เวลาปิด</Text>
                     <View style={styles.timePickerContainer}>
                         <TouchableOpacity
                             style={styles.timePickerButton}
+                            
                             onPress={() => setShowCloseTimePicker(true)}
                         >
-                            <Text style={styles.timePickerText}>
+                            <Text style={styles.timePickerText} className='font-regular'>
+                                
                                 {closeTime ? closeTime.toLocaleTimeString() : 'เลือกเวลาปิด'}
                             </Text>
                         </TouchableOpacity>
@@ -107,8 +112,9 @@ export default function AddShop() {
 
                     <TextInput
                         style={[styles.input, styles.textArea]}
+                        className='font-regular'
                         placeholder="คำอธิบายเพิ่มเติม"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#D9D9D9"
                         multiline={true}
                         numberOfLines={4}
                         value={description}
@@ -123,14 +129,14 @@ export default function AddShop() {
                         style={styles.backButton}
                         onPress={() => router.back()}
                     >
-                        <Text style={styles.backButtonText}>กลับ</Text>
+                        <Text style={styles.backButtonText} className='font-regular'>กลับ</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.submitButton}
                         onPress={handleSubmit}
                     >
-                        <Text style={styles.buttonText}>เพิ่มร้านค้า</Text>
+                        <Text style={styles.buttonText} className='font-regular'>เพิ่มร้านค้า</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -147,9 +153,9 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 40,
-        fontFamily: 'Sarabun-Bold',
         marginTop: Platform.OS === 'ios' ? 40 : 0,
-        marginBottom: 20
+        marginBottom: 20,
+        fontStyle: 'normal',
     },
     title: {
         fontSize: 28,
@@ -164,7 +170,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#253D2C',
+        color: '#517B5D',
         marginBottom: 10,
     },
     input: {
