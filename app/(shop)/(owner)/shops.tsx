@@ -31,26 +31,27 @@ export default function Shops() {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
+        <View className="bg-[#2A312C] w-full h-full">
+            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5"> </View>
+            <View className="bg-[#253D2C] w-full h-[60px] flex-row justify-between items-center px-5">
                 <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={24} color="black" />
+                    <Ionicons name="chevron-back-outline" size={24} color="white" />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Manage Shops</Text>
+                <Text className = " font-regular text-white text-center items-center  text-xl" >จัดการร้านค้า</Text>
                 <TouchableOpacity onPress={handleCreateShop}>
-                    <Ionicons name="add" size={24} color="black" />
+                    <Ionicons name="add-outline" size={24} color="white" />
                 </TouchableOpacity>
             </View>
             {myShops.length === 0 ? (
-                <View style={styles.noShopsContainer}>
-                    <Text style={styles.noShopsText}>No shops available.</Text>
+                <View className="flex-1 justify-center items-center mt-5">
+                    <Text style={styles.noShopsText} className="font-regular">ไม่มีร้านค้า</Text>
                     <TouchableOpacity style={styles.createShopButton} onPress={handleCreateShop}>
-                        <Text style={styles.createShopButtonText}>Create Shop</Text>
+                        <Text style={styles.createShopButtonText}>สร้างร้านค้า</Text>
                     </TouchableOpacity>
                 </View>
             ) : (
-                <ScrollView style={styles.shopList}>
-                    {myShops.map((shop) => (
+                <ScrollView style={[styles.shopList, { marginTop: 10 }]}>
+                    {myShops?.map((shop) => (
                         <TouchableOpacity key={shop.id} style={styles.shopItem} onPress={() => router.push(`/(shop)/(owner)/${shop.id}`)}>
                             <Image
                                 source={{ uri: shop.Shop_images[0]?.image_url || 'https://picsum.photos/200' }} // Fallback image
@@ -59,13 +60,13 @@ export default function Shops() {
                                 defaultSource={require('@/assets/images/profile.png')}
                             />
                             <View style={styles.shopDetails}>
-                                <Text style={styles.shopName}>{shop.name}</Text>
+                                <Text style={styles.shopName} className="font-regular text-lg font-medium">{shop.name}</Text>
                                 <View style={styles.shopActions}>
                                     <TouchableOpacity onPress={() => router.push(`/(shop)/(owner)/${shop.id}`)}>
-                                        <Ionicons name="pencil" size={20} color="#00B900" />
+                                        <Ionicons name="pencil" size={20} color="#517B5D" />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => handleDelete(shop.id)}>
-                                        <Ionicons name="trash" size={20} color="#FF0000" />
+                                        <Ionicons name="trash" size={20} color="#A90E0E" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -80,7 +81,7 @@ export default function Shops() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8', // Light background for better contrast
+        backgroundColor: '#253D2C', // Light background for better contrast
         paddingTop: os === 'ios' ? 40 : 5,
     },
     header: {
@@ -90,9 +91,9 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     headerTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#333',
+        fontSize: 18,
+        fontWeight: 'medium',
+        color: '#ffff',
         margin: 15,
     },
     noShopsContainer: {
@@ -125,14 +126,14 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
         backgroundColor: '#fff',
-        borderRadius: 8,
+        borderRadius: 10,
         margin: 10,
         elevation: 2,
     },
     shopImage: {
         width: 80,
         height: 80,
-        borderRadius: 8,
+        borderRadius: 10,
         marginRight: 15,
     },
     shopDetails: {

@@ -115,7 +115,8 @@ const useAuth = create<Auth>()(
               data.minLength ||
               data.required ||
               data.type ||
-              data.unique,
+              data.unique ||
+              data.error
           }));
         }
       },

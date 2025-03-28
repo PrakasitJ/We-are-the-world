@@ -51,25 +51,28 @@ export default function AddShop() {
     return (
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
-                <Text style={styles.title}>เพิ่มร้านค้า</Text>
+                <Text style={styles.title} className='font-regular'>เพิ่มร้านค้า</Text>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label}>ข้อมูลร้านค้า</Text>
+                    <Text style={styles.label} className='font-regular text-[#517B5D]'>ข้อมูลร้านค้า</Text>
                     <TextInput
                         style={styles.input}
+                        className='font-regular'
                         placeholder="ชื่อร้านค้า"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#D9D9D9"
                         value={shopName}
                         onChangeText={setShopName}
                     />
 
-                    <Text style={styles.timeLabel}>เวลาเปิด</Text>
-                    <View style={styles.timePickerContainer}>
+                    <Text style={styles.timeLabel} className='font-regular'>เวลาเปิด</Text>
+                    <View style={styles.timePickerContainer} className='font-regular'>
                         <TouchableOpacity
                             style={styles.timePickerButton}
+                            className='font-regular time-picker-button'
                             onPress={() => setShowOpenTimePicker(true)}
                         >
-                            <Text style={styles.timePickerText}>
+                            <Text style={styles.timePickerText} className='font-regular'>
+                                
                                 {openTime ? openTime.toLocaleTimeString() : 'เลือกเวลาเปิด'}
                             </Text>
                         </TouchableOpacity>
@@ -84,13 +87,15 @@ export default function AddShop() {
                         />
                     )}
 
-                    <Text style={styles.timeLabel}>เวลาปิด</Text>
+                    <Text style={styles.timeLabel} className='font-regular'>เวลาปิด</Text>
                     <View style={styles.timePickerContainer}>
                         <TouchableOpacity
                             style={styles.timePickerButton}
+                            
                             onPress={() => setShowCloseTimePicker(true)}
                         >
-                            <Text style={styles.timePickerText}>
+                            <Text style={styles.timePickerText} className='font-regular'>
+                                
                                 {closeTime ? closeTime.toLocaleTimeString() : 'เลือกเวลาปิด'}
                             </Text>
                         </TouchableOpacity>
@@ -107,8 +112,9 @@ export default function AddShop() {
 
                     <TextInput
                         style={[styles.input, styles.textArea]}
+                        className='font-regular'
                         placeholder="คำอธิบายเพิ่มเติม"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#D9D9D9"
                         multiline={true}
                         numberOfLines={4}
                         value={description}
@@ -123,14 +129,14 @@ export default function AddShop() {
                         style={styles.backButton}
                         onPress={() => router.back()}
                     >
-                        <Text style={styles.backButtonText}>กลับ</Text>
+                        <Text style={styles.backButtonText} className='font-regular'>กลับ</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.submitButton}
                         onPress={handleSubmit}
                     >
-                        <Text style={styles.buttonText}>เพิ่มร้านค้า</Text>
+                        <Text style={styles.buttonText} className='font-regular'>เพิ่มร้านค้า</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -147,17 +153,16 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 40,
-        fontFamily: 'Sarabun-Bold',
         marginTop: Platform.OS === 'ios' ? 40 : 0,
-        marginBottom: 20
+        marginBottom: 20,
+        fontStyle: 'normal',
     },
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: '#253D2C',
         marginBottom: 30,
         textAlign: 'center',
-        fontFamily: 'Sarabun-Bold',
     },
     inputContainer: {
         marginBottom: 30,
@@ -165,19 +170,17 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#4CAF50',
+        color: '#517B5D',
         marginBottom: 10,
-        fontFamily: 'Sarabun-SemiBold',
     },
     input: {
         backgroundColor: '#ffffff',
         borderWidth: 1,
-        borderColor: '#E0E0E0',
-        borderRadius: 12,
+        borderColor: '#C2C6C3',
+        borderRadius: 10,
         padding: 15,
         marginBottom: 15,
         fontSize: 16,
-        fontFamily: 'Sarabun-Regular',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
@@ -195,26 +198,24 @@ const styles = StyleSheet.create({
     },
     timePickerButton: {
         flex: 1,
-        backgroundColor: '#E8F5E9',
+        backgroundColor: '#E7F0E9',
         borderRadius: 8,
         padding: 15,
         marginHorizontal: 5,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#2E7D32',
+        borderColor: '#517B5D',
     },
     timePickerText: {
         fontSize: 16,
-        color: '#424242',
-        fontFamily: 'Sarabun-Regular',
+        color: '#517B5D',
     },
     timeLabel: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#2E7D32',
+        color: '#517B5D',
         marginBottom: 5,
-        fontFamily: 'Sarabun-SemiBold',
     },
     buttonRow: {
         flexDirection: 'row',
@@ -228,11 +229,11 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#4CAF50',
+        borderColor: '#517B5D',
     },
     submitButton: {
         flex: 1,
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#517B5D',
         padding: 15,
         borderRadius: 12,
         alignItems: 'center',
@@ -246,18 +247,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
     backButtonText: {
-        color: '#4CAF50',
+        color: '#517B5D',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
     error: {
         color: 'red',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
     },
 });
