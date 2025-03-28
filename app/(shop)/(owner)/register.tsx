@@ -84,8 +84,8 @@ export default function Register() {
                 <Text style={styles.title}>ลงทะเบียนร้านค้า</Text>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label}>ข้อมูลร้านค้า</Text>
-                    <TextInput style={styles.input} placeholder="ชื่อร้านค้า" placeholderTextColor="#666" />
+                    <Text style={styles.label}>ชื่อร้านค้า</Text>
+                    <TextInput style={styles.inputShopName} placeholder="ชื่อร้านค้า" placeholderTextColor="#666" />
 
                     <Text style={styles.timeLabel}>เวลาเปิด</Text>
                     <View style={styles.timePickerContainer}>
@@ -197,17 +197,17 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         paddingTop: 40,
-        fontFamily: 'Sarabun-Bold',
+        fontFamily: "notoSansThai-Regular",
         marginTop: Platform.OS === 'ios' ? 40 : 0,
         marginBottom: 20
     },
     title: {
-        fontSize: 28,
+        fontSize: 36,
         fontWeight: 'bold',
         color: '#4CAF50',
         marginBottom: 30,
         textAlign: 'center',
-        fontFamily: 'Sarabun-Bold',
+        fontFamily: "notoSansThai-Regular",
     },
     inputContainer: {
         marginBottom: 30,
@@ -215,9 +215,9 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#4CAF50',
+        color: '#2E7D32',
         marginBottom: 10,
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     input: {
         backgroundColor: '#ffffff',
@@ -227,13 +227,29 @@ const styles = StyleSheet.create({
         padding: 15,
         marginBottom: 15,
         fontSize: 16,
-        fontFamily: 'Sarabun-Regular',
+        fontFamily: 'notoSansThai-Regular',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
         elevation: 2,
         minHeight: 100,
+        textAlignVertical: 'top',
+    },
+    inputShopName: {
+        backgroundColor: '#ffffff',
+        borderWidth: 1,
+        borderColor: '#E0E0E0',
+        borderRadius: 12,
+        padding: 15,
+        marginBottom: 15,
+        fontSize: 16,
+        fontFamily: 'notoSansThai-Regular',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 2,
         textAlignVertical: 'top',
     },
     documentSection: {
@@ -244,7 +260,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4CAF50',
         marginBottom: 15,
-        fontFamily: 'Sarabun-Bold',
+        fontFamily: 'notoSansThai-Regular',
     },
     documentBox: {
         backgroundColor: '#ffffff',
@@ -265,7 +281,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#E8F5E9',
         paddingBottom: 10,
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     uploadSection: {
         marginBottom: 20,
@@ -329,13 +345,13 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     backButtonText: {
         color: '#4CAF50',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     radioContainer: {
         marginBottom: 20,
@@ -371,7 +387,7 @@ const styles = StyleSheet.create({
     radioText: {
         fontSize: 16,
         color: '#424242',
-        fontFamily: 'Sarabun-Regular',
+        fontFamily: 'notoSansThai-Regular',
     },
     filePreview: {
         backgroundColor: '#E8F5E9',
@@ -390,7 +406,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         flex: 1,
         marginRight: 10,
-        fontFamily: 'Sarabun-Regular',
+        fontFamily: 'notoSansThai-Regular',
     },
     removeButton: {
         width: 20,
@@ -411,7 +427,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         flex: 1,
         lineHeight: 20,
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     timePickerContainer: {
         flexDirection: 'row',
@@ -432,19 +448,19 @@ const styles = StyleSheet.create({
     timePickerText: {
         fontSize: 16,
         color: '#424242',
-        fontFamily: 'Sarabun-Regular',
+        fontFamily: 'notoSansThai-Regular',
     },
     timeLabel: {
         fontSize: 16,
         fontWeight: '600',
         color: '#2E7D32',
         marginBottom: 5,
-        fontFamily: 'Sarabun-SemiBold',
+        fontFamily: 'notoSansThai-Regular',
     },
     errorText: {
         color: 'red',
         fontSize: 16,
-        fontFamily: 'Sarabun-Regular',
+        fontFamily: 'notoSansThai-Regular',
     },
 });
 
