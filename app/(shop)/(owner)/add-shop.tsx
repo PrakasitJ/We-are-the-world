@@ -18,18 +18,25 @@ export default function AddShop() {
     const { createShop, error } = useShops();
 
     const handleOpenTimeChange = (event: any, selectedTime: Date | undefined) => {
-        setShowOpenTimePicker(false);
         if (selectedTime) {
-            setOpenTime(selectedTime);
+            setOpenTime(formatTime(selectedTime));
         }
     };
 
     const handleCloseTimeChange = (event: any, selectedTime: Date | undefined) => {
-        setShowCloseTimePicker(false);
         if (selectedTime) {
-            setCloseTime(selectedTime);
+            setCloseTime(formatTime(selectedTime));
         }
     };
+
+    const formatTime = (selectedTime: Date | undefined) => {
+        if (selectedTime) {
+            const hours = selectedTime.getHours();
+            const minutes = selectedTime.getMinutes();
+            return new Date(selectedTime.setHours(hours, minutes, 0));
+        }
+        return undefined;
+    }
 
     const handleSubmit = () => {
         Alert.alert('ยืนยันการเพิ่มร้านค้า', 'คุณยืนยันการเพิ่มร้านค้าใช่หรือไม่', [
@@ -64,51 +71,52 @@ export default function AddShop() {
                         onChangeText={setShopName}
                     />
 
-                    <Text style={styles.timeLabel} className='font-regular'>เวลาเปิด</Text>
-                    <View style={styles.timePickerContainer} className='font-regular'>
-                        <TouchableOpacity
-                            style={styles.timePickerButton}
-                            className='font-regular time-picker-button'
-                            onPress={() => setShowOpenTimePicker(true)}
-                        >
-                            <Text style={styles.timePickerText} className='font-regular'>
-                                
-                                {openTime ? openTime.toLocaleTimeString() : 'เลือกเวลาเปิด'}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    {showOpenTimePicker && (
-                        <DateTimePicker
-                            value={openTime || new Date()}
-                            mode="time"
-                            is24Hour={true}
-                            display="spinner"
-                            onChange={handleOpenTimeChange}
-                        />
-                    )}
+<Text style={styles.timeLabel}>เวลาเปิด</Text>
+                        <View style={styles.timePickerContainer}>
+                            <TouchableOpacity style={styles.timePickerButton} onPress={() => {
+                                if (showOpenTimePicker) {
+                                    setShowOpenTimePicker(false);
+                                } else {
+                                    setShowCloseTimePicker(false)
+                                    setShowOpenTimePicker(true);
+                                }
+                            }}>
+                                <Text style={styles.timePickerText}>{openTime ? openTime.toLocaleTimeString().slice(0, 5) : 'เลือกเวลาเปิด'}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {showOpenTimePicker && (
+                            <DateTimePicker
+                                value={openTime || new Date()}
+                                mode="time"
+                                is24Hour={true}
+                                display="spinner"
+                                onChange={handleOpenTimeChange}
+                            />
+                        )}
 
-                    <Text style={styles.timeLabel} className='font-regular'>เวลาปิด</Text>
-                    <View style={styles.timePickerContainer}>
-                        <TouchableOpacity
-                            style={styles.timePickerButton}
-                            
-                            onPress={() => setShowCloseTimePicker(true)}
-                        >
-                            <Text style={styles.timePickerText} className='font-regular'>
-                                
-                                {closeTime ? closeTime.toLocaleTimeString() : 'เลือกเวลาปิด'}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    {showCloseTimePicker && (
-                        <DateTimePicker
-                            value={closeTime || new Date()}
-                            mode="time"
-                            is24Hour={true}
-                            display="spinner"
-                            onChange={handleCloseTimeChange}
-                        />
-                    )}
+                        <Text style={styles.timeLabel}>เวลาปิด</Text>
+                        <View style={styles.timePickerContainer}>
+                            <TouchableOpacity style={styles.timePickerButton} onPress={() => {
+                                if (showCloseTimePicker) {
+                                    setShowCloseTimePicker(false);
+                                } else {
+                                    setShowCloseTimePicker(true)
+                                    setShowOpenTimePicker(false);
+                                }
+                            }}>
+                                <Text style={styles.timePickerText}>{closeTime ? closeTime.toLocaleTimeString().slice(0, 5) : 'เลือกเวลาปิด'}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {showCloseTimePicker && (
+                            <DateTimePicker
+                                value={closeTime || new Date()}
+                                mode="time"
+                                is24Hour={true}
+                                display="spinner"
+                                onChange={handleCloseTimeChange}
+                            />
+                        )}
 
                     <TextInput
                         style={[styles.input, styles.textArea]}
