@@ -9,13 +9,16 @@ export default function UnauthorizedPage() {
                 style={styles.vectorImage}
                 resizeMode="contain"
             />
-            <Text style={styles.title}>คุณยังไม่ได้เป็นเจ้าของร้าน</Text>
+            <Text style={styles.title} className="font-regular">คุณยังไม่ได้เป็นเจ้าของร้าน</Text>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-                    <Text style={styles.buttonText}>กลับไปหน้าหลัก</Text>
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#517B5D' }]}
+                    onPress={() => router.back()}
+                >
+                    <Text className="text-[#517B5D] font-regular font-semibold">กลับไปหน้าหลัก</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => router.replace('/register')}>
-                    <Text style={styles.buttonText}>สมัครเป็นเจ้าของร้าน</Text>
+                    <Text style={styles.buttonText} className="font-regular">สมัครเป็นเจ้าของร้าน</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: '#e8f5e9', 
+        backgroundColor: '#FFFFFF', 
     },
     vectorImage: {
         width: 200,
@@ -38,9 +41,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#2e7d32', 
+        color: '#253D2C', 
         marginBottom: 20,
         textAlign: 'center',
+        
     },
     buttonContainer: {
         flexDirection: 'row', 
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
         width: '100%', 
     },
     button: {
-        backgroundColor: '#4caf50', 
+        backgroundColor: '#517B5D', 
         padding: 15,
         borderRadius: 10, 
         marginVertical: 10,
