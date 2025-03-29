@@ -36,18 +36,25 @@ export default function Register() {
     };
 
     const handleOpenTimeChange = (event: any, selectedTime: Date | undefined) => {
-        setShowOpenTimePicker(false);
         if (selectedTime) {
-            setOpenTime(selectedTime);
+            setOpenTime(formatTime(selectedTime));
         }
     };
 
     const handleCloseTimeChange = (event: any, selectedTime: Date | undefined) => {
-        setShowCloseTimePicker(false);
         if (selectedTime) {
-            setCloseTime(selectedTime);
+            setCloseTime(formatTime(selectedTime));
         }
     };
+
+    const formatTime = (selectedTime: Date | undefined) => {
+        if (selectedTime) {
+            const hours = selectedTime.getHours();
+            const minutes = selectedTime.getMinutes();
+            return new Date(selectedTime.setHours(hours, minutes, 0));
+        }
+        return undefined;
+    }
 
     const renderFileUploadSection = (documentType: string, label: string) => (
         <View style={styles.uploadSection}>
@@ -79,112 +86,127 @@ export default function Register() {
     );
 
     return (
-        <ScrollView style={styles.scrollView}>
-            <View style={styles.container}>
-                <Text style={styles.title}>ลงทะเบียนร้านค้า</Text>
+        <>
+            <ScrollView style={styles.scrollView}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>ลงทะเบียนร้านค้า</Text>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>ชื่อร้านค้า</Text>
+                        <TextInput style={styles.inputShopName} placeholder="ชื่อร้านค้า" placeholderTextColor="#D9D9D9" />
 
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>ชื่อร้านค้า</Text>
-                    <TextInput style={styles.inputShopName} placeholder="ชื่อร้านค้า" placeholderTextColor="#666" />
-
-                    <Text style={styles.timeLabel}>เวลาเปิด</Text>
-                    <View style={styles.timePickerContainer}>
-                        <TouchableOpacity style={styles.timePickerButton} onPress={() => setShowOpenTimePicker(true)}>
-                            <Text style={styles.timePickerText}>{openTime ? openTime.toLocaleTimeString() : 'เลือกเวลาเปิด'}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {showOpenTimePicker && (
-                        <DateTimePicker
-                            value={openTime || new Date()}
-                            mode="time"
-                            is24Hour={true}
-                            display="spinner"
-                            onChange={handleOpenTimeChange}
-                        />
-                    )}
-
-                    <Text style={styles.timeLabel}>เวลาปิด</Text>
-                    <View style={styles.timePickerContainer}>
-                        <TouchableOpacity style={styles.timePickerButton} onPress={() => setShowCloseTimePicker(true)}>
-                            <Text style={styles.timePickerText}>{closeTime ? closeTime.toLocaleTimeString() : 'เลือกเวลาปิด'}</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {showCloseTimePicker && (
-                        <DateTimePicker
-                            value={closeTime || new Date()}
-                            mode="time"
-                            is24Hour={true}
-                            display="spinner"
-                            onChange={handleCloseTimeChange}
-                        />
-                    )}
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="คำอธิบายเพิ่มเติม"
-                        placeholderTextColor="#666"
-                        multiline={true}
-                        numberOfLines={4}
-                    />
-                </View>
-
-                <View style={styles.radioContainer}>
-                    <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedCase(1)}>
-                        <View style={styles.radioButton}>
-                            <View style={[styles.radioInner, selectedCase === 1 && styles.radioSelected]} />
+                        <Text style={styles.timeLabel}>เวลาเปิด</Text>
+                        <View style={styles.timePickerContainer}>
+                            <TouchableOpacity style={styles.timePickerButton} onPress={() => {
+                                if (showOpenTimePicker) {
+                                    setShowOpenTimePicker(false);
+                                } else {
+                                    setShowCloseTimePicker(false)
+                                    setShowOpenTimePicker(true);
+                                }
+                            }}>
+                                <Text style={styles.timePickerText}>{openTime ? openTime.toLocaleTimeString().slice(0, 5) : 'เลือกเวลาเปิด'}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <Text style={styles.radioText}>กรณี 1 นิติบุคคล</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedCase(2)}>
-                        <View style={styles.radioButton}>
-                            <View style={[styles.radioInner, selectedCase === 2 && styles.radioSelected]} />
-                        </View>
-                        <Text style={styles.radioText}>กรณี 2 บุคคลธรรมดา</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.documentSection}>
-                    <Text style={styles.subtitle}>อัพโหลดเอกสาร</Text>
-                    <View style={styles.documentBox}>
-                        <Text style={styles.documentTitle}>
-                            {selectedCase === 1 ? 'เอกสารสำหรับนิติบุคคล' : 'เอกสารสำหรับบุคคลธรรมดา'}
-                        </Text>
-                        {selectedCase === 1 ? (
-                            <>
-                                {renderFileUploadSection('companyReg', '• หนังสือรับรองบริษัท')}
-                                {renderFileUploadSection('vatReg', '• ใบทะเบียนภาษีมูลค่าเพิ่ม')}
-                                {renderFileUploadSection('companyBoardReg', '• เอกสารรับรองจากคณะกรรมการบริษัท')}
-                                {renderFileUploadSection('bankCompanyReg', '• สำเนาบัญชีธนาคารบริษัท')}
-                            </>
-                        ) : (
-                            <>
-                                {renderFileUploadSection('idCard', '• สำเนาบัตรประชาชน')}
-                                {renderFileUploadSection('bankReg', '• สำเนาบัญชีธนาคาร')}
-                                {renderFileUploadSection('vatNormalReg', 'ใบทะเบียนภาษีมูลค่าเพิ่ม')}
-                            </>
+                        {showOpenTimePicker && (
+                            <DateTimePicker
+                                value={openTime || new Date()}
+                                mode="time"
+                                is24Hour={true}
+                                display="spinner"
+                                onChange={handleOpenTimeChange}
+                            />
                         )}
+
+                        <Text style={styles.timeLabel}>เวลาปิด</Text>
+                        <View style={styles.timePickerContainer}>
+                            <TouchableOpacity style={styles.timePickerButton} onPress={() => {
+                                if (showCloseTimePicker) {
+                                    setShowCloseTimePicker(false);
+                                } else {
+                                    setShowCloseTimePicker(true)
+                                    setShowOpenTimePicker(false);
+                                }
+                            }}>
+                                <Text style={styles.timePickerText}>{closeTime ? closeTime.toLocaleTimeString().slice(0, 5) : 'เลือกเวลาปิด'}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {showCloseTimePicker && (
+                            <DateTimePicker
+                                value={closeTime || new Date()}
+                                mode="time"
+                                is24Hour={true}
+                                display="spinner"
+                                onChange={handleCloseTimeChange}
+                            />
+                        )}
+
+                        <TextInput
+                            style={styles.input}
+                            placeholder="คำอธิบายเพิ่มเติม"
+                            placeholderTextColor="#D9D9D9"
+                            multiline={true}
+                            numberOfLines={4}
+                        />
                     </View>
-                    <Text style={styles.errorText}>{error}</Text>
-                </View>
 
-                <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                        <Text style={styles.backButtonText}>กลับไปหน้าหลัก</Text>
-                    </TouchableOpacity>
+                    <View style={styles.radioContainer}>
+                        <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedCase(1)}>
+                            <View style={styles.radioButton}>
+                                <View style={[styles.radioInner, selectedCase === 1 && styles.radioSelected]} />
+                            </View>
+                            <Text style={styles.radioText}>กรณี 1 นิติบุคคล</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.submitButton} onPress={() => {
-                        Alert.alert("ยืนยันการส่งข้อมูล", "หากส่งข้อมูลแล้วจะไม่สามารถแก้ไขข้อมูลได้", [
-                            { text: "ยกเลิก", onPress: () => { } },
-                            { text: "ยืนยัน", onPress: () => registerToBeShop(user.uuid) }
-                        ])
-                    }}>
-                        <Text style={styles.buttonText}>ส่งข้อมูลการลงทะเบียน</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.radioOption} onPress={() => setSelectedCase(2)}>
+                            <View style={styles.radioButton}>
+                                <View style={[styles.radioInner, selectedCase === 2 && styles.radioSelected]} />
+                            </View>
+                            <Text style={styles.radioText}>กรณี 2 บุคคลธรรมดา</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.documentSection}>
+                        <Text style={styles.subtitle}>อัพโหลดเอกสาร</Text>
+                        <View style={styles.documentBox}>
+                            <Text style={styles.documentTitle}>
+                                {selectedCase === 1 ? 'เอกสารสำหรับนิติบุคคล' : 'เอกสารสำหรับบุคคลธรรมดา'}
+                            </Text>
+                            {selectedCase === 1 ? (
+                                <>
+                                    {renderFileUploadSection('companyReg', '• หนังสือรับรองบริษัท')}
+                                    {renderFileUploadSection('vatReg', '• ใบทะเบียนภาษีมูลค่าเพิ่ม')}
+                                    {renderFileUploadSection('companyBoardReg', '• เอกสารรับรองจากคณะกรรมการบริษัท')}
+                                    {renderFileUploadSection('bankCompanyReg', '• สำเนาบัญชีธนาคารบริษัท')}
+                                </>
+                            ) : (
+                                <>
+                                    {renderFileUploadSection('idCard', '• สำเนาบัตรประชาชน')}
+                                    {renderFileUploadSection('bankReg', '• สำเนาบัญชีธนาคาร')}
+                                    {renderFileUploadSection('vatNormalReg', 'ใบทะเบียนภาษีมูลค่าเพิ่ม')}
+                                </>
+                            )}
+                        </View>
+                        <Text style={styles.errorText}>{error}</Text>
+                    </View>
+
+                    <View style={styles.buttonRow}>
+                        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                            <Text style={styles.backButtonText}>กลับไปหน้าหลัก</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.submitButton} onPress={() => {
+                            Alert.alert("ยืนยันการส่งข้อมูล", "หากส่งข้อมูลแล้วจะไม่สามารถแก้ไขข้อมูลได้", [
+                                { text: "ยกเลิก", onPress: () => { } },
+                                { text: "ยืนยัน", onPress: () => registerToBeShop(user.uuid) }
+                            ])
+                        }}>
+                            <Text style={styles.buttonText}>ส่งข้อมูลการลงทะเบียน</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </>
     );
 }
 
@@ -204,7 +226,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: '#253D2C',
         marginBottom: 30,
         textAlign: 'center',
         fontFamily: "notoSansThai-Regular",
@@ -258,7 +280,7 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: '#2E7D32',
         marginBottom: 15,
         fontFamily: 'notoSansThai-Regular',
     },
@@ -305,7 +327,7 @@ const styles = StyleSheet.create({
         marginLeft: 4,
     },
     uploadButton: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#517B5D',
         padding: 10,
         borderRadius: 12,
         alignItems: 'center',
@@ -327,11 +349,11 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#4CAF50',
+        borderColor: '#517B5D',
     },
     submitButton: {
         flex: 1,
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#517B5D',
         padding: 15,
         borderRadius: 12,
         alignItems: 'center',
@@ -348,7 +370,7 @@ const styles = StyleSheet.create({
         fontFamily: 'notoSansThai-Regular',
     },
     backButtonText: {
-        color: '#4CAF50',
+        color: '#517B5D',
         fontSize: 14,
         fontWeight: '600',
         fontFamily: 'notoSansThai-Regular',

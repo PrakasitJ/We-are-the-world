@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     backButton: {
         width: 100,
         borderWidth: 1,
-        borderColor: '#4CAF50',
+        borderColor: '#68BA7F',
         padding: 10,
         borderRadius: 12,
         alignItems: 'center',
@@ -203,13 +203,13 @@ const styles = StyleSheet.create({
     },
     confirmButton: {
         width: 100,
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#68BA7F',
         padding: 10,
         borderRadius: 12,
         alignItems: 'center',
     },
     backButtonText: {
-        color: '#4CAF50',
+        color: '#68BA7F',
         fontSize: 14,
         fontWeight: '600',
     },
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     categoryButton: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: '#68BA7F',
         padding: 5,
         borderRadius: 12,
         alignItems: 'center',
