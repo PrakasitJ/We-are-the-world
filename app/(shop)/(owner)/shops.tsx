@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
     },
     noShopsText: {
         fontSize: 18,
-        color: '#666',
+        color: '#D9D9D9',
         marginBottom: 10,
     },
     createShopButton: {
-        backgroundColor: '#00B900',
+        backgroundColor: '#517B5D',
         padding: 10,
         borderRadius: 5,
     },
