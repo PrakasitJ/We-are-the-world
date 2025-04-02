@@ -63,7 +63,7 @@ const OrderHistory = () => {
 
       {/* Orders List */}
       <ScrollView style={styles.scrollView}>
-        {orders.map((order) => (
+        {orders.filter((order) => order.status === "DELIVERED" || order.status === "CANCELLED").map((order) => (
           <TouchableOpacity onPress={() => router.push(`/(home)/order/order-status/${order.id}`)} key={order.id} className="flex flex-col gap-1 bg-white rounded-lg p-4 mb-4">
             <View className='flex flex-1 flex-row justify-between'>
               <Text className="font-regular text-gray-500">{formatTime(order.created_at)}</Text>
